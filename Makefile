@@ -5,7 +5,7 @@ CXXFLAGS := -Wall -Wextra -std=c++17 -Iinclude
 # Directories
 SRC_DIR := src
 BUILD_DIR := build
-
+P_DIR := -p
 # Find all .cpp files using wildcard (Works in Windows)
 SOURCES := $(wildcard $(SRC_DIR)/**/*.cpp) $(wildcard $(SRC_DIR)/*.cpp)
 
@@ -32,7 +32,9 @@ $(BUILD_DIR):
 
 # Clean build files
 clean:
-	rm -rf $(BUILD_DIR) $(TARGET)
+	@if exist $(BUILD_DIR) ( rmdir /s /q $(BUILD_DIR) ) || rm -rf $(BUILD_DIR)
+	@if exist $(P_DIR) ( rmdir /s /q $(P_DIR) ) || rm -rf $(P_DIR)
+	@if exist $(TARGET).exe ( del /f /q $(TARGET).exe ) || rm -f $(TARGET)
 
 # Run the program
 run: $(TARGET)

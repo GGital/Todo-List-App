@@ -1,14 +1,14 @@
 #pragma once
 #include <iostream>
-
+#include <string>
 using namespace std;
 
 class Task
 {
 public:
-    char title[100];
-    char description[1000];
-    char dueDate[20];
+    string title;
+    string description;
+    string dueDate;
     int status;
     int priority;
 };
