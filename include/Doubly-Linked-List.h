@@ -16,10 +16,7 @@ class DoublyLinkedList
 {
 public:
     Node<T> *head;
-    DoublyLinkedList<T>()
-    {
-        head = NULL;
-    }
+    DoublyLinkedList<T>() : head(NULL) {}
 
     void insertAtEnd(T data)
     {
