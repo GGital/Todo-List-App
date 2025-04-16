@@ -28,7 +28,7 @@ int main()
     maxQueue.insert(20, 2);
     maxQueue.insert(30, 3);
 
-    Task task1("Task 1", "Description 1", "In Progress", "High", "2023-10-01");
+    Task task1("Task 1", "Description 1", "In Progress", "High");
     WriteFile("./output/output.txt");
     dll.display();
     dll2.display();
@@ -36,6 +36,8 @@ int main()
     cout << maxQueue.pop() << endl;
     cout << task1 << endl;
     CloseFile();
+
+    cout << task1 << endl;
 
     return 0;
 }

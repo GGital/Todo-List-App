@@ -23,6 +23,7 @@ public:
     // Constructor to initialize the queue
     MinPriorityQueue() : head(nullptr), tail(nullptr) {}
 
+    // Insert a new element with a given priority
     void insert(T data, int priority)
     {
         Node *newNode = new Node(data, priority);
@@ -51,6 +52,7 @@ public:
                 tail = newNode;
         }
     }
+    // Pop the element with the lowest priority
     T pop()
     {
         if (head == nullptr)
@@ -69,6 +71,7 @@ public:
         delete minNode;
         return minData;
     }
+    // Check if the queue is empty
     bool isEmpty()
     {
         return head == nullptr;
