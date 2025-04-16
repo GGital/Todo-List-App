@@ -4,23 +4,23 @@
 using namespace std;
 
 template <typename T>
-class Node
-{
-public:
-    T data;
-    Node<T> *next;
-    Node<T> *prev;
-};
-template <typename T>
 class DoublyLinkedList
 {
 public:
-    Node<T> *head;
+    class Node
+    {
+    public:
+        T data;
+        Node *next;
+        Node *prev;
+    };
+
+    Node *head;
     DoublyLinkedList<T>() : head(NULL) {}
 
     void insertAtEnd(T data)
     {
-        Node<T> *newNode = new Node<T>();
+        Node *newNode = new Node();
         newNode->data = data;
         newNode->next = NULL;
         if (head == NULL)
@@ -30,7 +30,7 @@ public:
         }
         else
         {
-            Node<T> *last = head;
+            Node *last = head;
             while (last->next != NULL)
             {
                 last = last->next;
@@ -42,7 +42,7 @@ public:
 
     void insertAtBeginning(T data)
     {
-        Node<T> *newNode = new Node<T>();
+        Node *newNode = new Node();
         newNode->data = data;
         newNode->prev = NULL;
         if (head == NULL)
@@ -65,7 +65,7 @@ public:
             cout << "List is empty" << endl;
             return;
         }
-        Node<T> *last = head;
+        Node *last = head;
         while (last->next != NULL)
         {
             last = last->next;
@@ -88,7 +88,7 @@ public:
             cout << "List is empty" << endl;
             return;
         }
-        Node<T> *temp = head;
+        Node *temp = head;
         head = head->next;
         head->prev = NULL;
         delete temp;
@@ -101,7 +101,7 @@ public:
             cout << "List is empty" << endl;
             return;
         }
-        Node<T> *current = head;
+        Node *current = head;
         while (current != NULL)
         {
             cout << current->data << " ";

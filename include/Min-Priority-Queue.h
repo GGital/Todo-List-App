@@ -19,7 +19,10 @@ public:
     };
     Node *head;
     Node *tail;
+
+    // Constructor to initialize the queue
     MinPriorityQueue() : head(nullptr), tail(nullptr) {}
+
     void insert(T data, int priority)
     {
         Node *newNode = new Node(data, priority);
