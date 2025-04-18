@@ -35,20 +35,13 @@ int main()
     maxQueue.insert(20, 2);
     maxQueue.insert(30, 3);
 
-    Task task1("Task 1", "Description 1", "In Progress", "High");
-    fileManager.WriteFile("./output/output.txt");
-    dll.display();
-    dll2.display();
-    cout << minQueue.pop() << endl;
-    cout << maxQueue.pop() << endl;
-    cout << task1 << endl;
-    fileManager.CloseFile();
-    fileManager.WriteFile("./output/output2.txt");
-    dll.display();
-    dll2.display();
-    fileManager.CloseFile();
+    DoublyLinkedList<Task> taskList;
+    taskList.insertAtEnd(Task("Task 1", "Description 1", "In Progress", "High"));
+    taskList.insertAtEnd(Task("Task 2", "Description 2", "Completed", "Medium"));
 
-    cout << task1 << endl;
+    fileManager.WriteFile("./output/output.txt");
+    taskList.display();
+    fileManager.CloseFile();
 
     LoginSystem loginSystem;
     loginSystem.RegisterUser("Gital", "Madiwa");

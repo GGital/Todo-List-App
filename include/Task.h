@@ -19,6 +19,12 @@ struct Task
         dueDate = *localtime(&now); // Initialize dueDate to current date and time
     }
 
+    Task() : name(""), description(""), status(""), priority("")
+    {
+        time_t now = time(0);
+        dueDate = *localtime(&now); // Initialize dueDate to current date and time
+    }
+
     Task(string n, string d, string s, string p, struct tm dd) : name(n), description(d), status(s), priority(p), dueDate(dd) {}
 
     // Overloading the << operator for easy printing of Task objects
