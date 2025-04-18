@@ -37,10 +37,11 @@ public:
             int userID = stoi(line.substr(0, pos));
             string username = line.substr(pos + 1, line.find(',', pos + 1) - pos - 1);
             string password = line.substr(line.find(',', pos + 1) + 1);
+            password = decryptPassword(password);
             users[userCount++] = new User(userID, username, password);
         }
         fileManager.CloseFile();
-        cout << "User data loaded successfully." << userCount << endl;
+        // cout << "User data loaded successfully." << userCount << endl;
     }
     LoginSystem()
     {
@@ -48,6 +49,8 @@ public:
     }
     void RegisterUser(string username, string password);
     bool LoginUser(string username, string password);
+    string hashPassword(string password);
+    string decryptPassword(string hashedPassword);
     bool checkduplicate(string username);
     void LogoutUser(int userID);
 };

@@ -2,6 +2,32 @@
 #include <LoginSystem.h>
 using namespace std;
 
+string LoginSystem::hashPassword(string password)
+{
+    string hashedPassword = password;
+    for (char &c : hashedPassword)
+    {
+        c *= 2;
+        c += 5;
+        c %= 26;
+        c += 'a';
+    }
+    return hashedPassword;
+}
+
+string LoginSystem::decryptPassword(string password)
+{
+    string decryptedPassword = password;
+    for (char &c : decryptedPassword)
+    {
+        c -= 'a';
+        c %= 26;
+        c -= 5;
+        c /= 2;
+    }
+    return decryptedPassword;
+}
+
 bool LoginSystem::checkduplicate(string username)
 {
     for (int i = 0; i < userCount; i++)
@@ -23,7 +49,7 @@ void LoginSystem::RegisterUser(string username, string password)
         return;
     }
     User *newUser = new User(username, password);
-    cout << newUser->userID << "," << username << "," << password << endl;
+    cout << newUser->userID << "," << username << "," << hashPassword(password) << endl;
     fileManager.CloseFile();
     users[userCount++] = newUser;
 }
