@@ -1,0 +1,72 @@
+#include <File_Management.h>
+#include <LoginSystem.h>
+using namespace std;
+
+string LoginSystem::hashPassword(string password)
+{
+    string hashedPassword = password;
+    for (char &c : hashedPassword)
+    {
+        c *= 2;
+        c += 5;
+        c %= 26;
+        c += 'a';
+    }
+    return hashedPassword;
+}
+
+string LoginSystem::decryptPassword(string password)
+{
+    string decryptedPassword = password;
+    for (char &c : decryptedPassword)
+    {
+        c -= 'a';
+        c %= 26;
+        c -= 5;
+        c /= 2;
+    }
+    return decryptedPassword;
+}
+
+bool LoginSystem::checkduplicate(string username)
+{
+    for (int i = 0; i < userCount; i++)
+    {
+        if (users[i]->username == username)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void LoginSystem::RegisterUser(string username, string password)
+{
+    fileManager.AppendFile("./UserCollections/users.csv");
+    if (checkduplicate(username))
+    {
+        cout << "Username already exists." << endl;
+        return;
+    }
+    User *newUser = new User(username, password);
+    cout << newUser->userID << "," << username << "," << hashPassword(password) << endl;
+    fileManager.CloseFile();
+    users[userCount++] = newUser;
+}
+
+bool LoginSystem::LoginUser(string username, string password)
+{
+    for (int i = 0; i < userCount; i++)
+    {
+        if (users[i]->username == username && users[i]->password == password)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void LoginSystem::LogoutUser(int userID)
+{
+    cout << "User with ID " << userID << " logged out." << endl;
+}
