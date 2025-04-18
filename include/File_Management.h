@@ -32,3 +32,5 @@ void CloseFile()
     freopen("CON", "w", stdout);
     freopen("CON", "r", stdin);
 }
+
+void WriteFile(string fileName);

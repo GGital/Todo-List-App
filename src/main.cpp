@@ -1,4 +1,5 @@
 #include <iostream>
+#include <example.h>
 #include "Doubly-Linked-List.h"
 #include "Min-Priority-Queue.h"
 #include "Max-Priority-Queue.h"
@@ -8,6 +9,10 @@ using namespace std;
 
 int main()
 {
+    Example example;
+    example.Greet();
+    example.Farewell();
+
     DoublyLinkedList<int> dll;
     dll.insertAtEnd(10);
     dll.insertAtEnd(30);
