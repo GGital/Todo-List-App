@@ -2,6 +2,19 @@
 #include <LoginSystem.h>
 using namespace std;
 
+int User::hashUsername(string username)
+{
+    int hash = 0;
+    for (char c : username)
+    {
+        hash += c;
+        hash *= 31;
+        hash -= 7;
+        hash %= 10005;
+    }
+    return hash % 10005;
+}
+
 string LoginSystem::hashPassword(string password)
 {
     string hashedPassword = password;

@@ -14,9 +14,10 @@ public:
 
     User(string u, string p) : username(u), password(p)
     {
-        userID = rand() % 1005;
+        userID = hashUsername(u);
     }
     User(int id, string u, string p) : userID(id), username(u), password(p) {}
+    int hashUsername(string username);
 };
 
 class LoginSystem

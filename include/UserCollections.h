@@ -15,7 +15,7 @@ private:
     int taskCount;
 
 public:
-    UserCollections(int userId, string u, string p) : userId(userId) username(u), password(p), tasks(nullptr), categories(nullptr), categoryCount(0), taskCount(0)
+    UserCollections(int userId, string u, string p) : userId(userId), username(u), password(p), tasks(nullptr), categories(nullptr), categoryCount(0), taskCount(0)
     {
         tasks = new Task[0];        // Initialize tasks to an empty array
         categories = new string[0]; // Initialize categories to an empty array
