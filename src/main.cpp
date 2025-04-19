@@ -6,6 +6,7 @@
 #include "Max-Priority-Queue.h"
 #include "Task.h"
 #include "LoginSystem.h"
+#include "HashMapWithDLL.h"
 using namespace std;
 
 int main()
@@ -15,7 +16,7 @@ int main()
     example.Greet();
     example.Farewell();
 
-    DoublyLinkedList<int> dll;
+    /*DoublyLinkedList<int> dll;
     dll.insertAtEnd(10);
     dll.insertAtEnd(30);
     dll.display();
@@ -46,5 +47,16 @@ int main()
     LoginSystem loginSystem;
     loginSystem.RegisterUser("Gital", "Madiwa");
     cout << loginSystem.LoginUser("Gital", "Madiwa") << endl;
+    */
+
+    HashMapDLL<string, Task> hashMap(1000);
+    Task task1("Task 1", "Description 1", "In Progress", "High");
+    Task task2("Task 2", "Description 2", "Completed", "Medium");
+    hashMap.insert("Daily Work", task1);
+    hashMap.insert("Career", task2);
+    DoublyLinkedList<Task> *list = hashMap.getList("Career");
+    fileManager.WriteFile("./output/output.txt");
+    list->display();
+    fileManager.CloseFile();
     return 0;
 }
