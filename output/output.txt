@@ -1,13 +1,7 @@
-Task Name: Task 1
-Description: Description 1
-Status: In Progress
-Priority: High
-Due Date: Sat Apr 19 17:31:18 2025
-
- Task Name: Task 2
+Task Name: Task 2
 Description: Description 2
 Status: Completed
 Priority: Medium
-Due Date: Sat Apr 19 17:31:18 2025
+Due Date: Sat Apr 19 19:41:55 2025
 
  
