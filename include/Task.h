@@ -6,6 +6,7 @@ using namespace std;
 
 struct Task
 {
+    int taskID;
     string name;
     string description;
     string status;
@@ -13,13 +14,19 @@ struct Task
     struct tm dueDate;
 
     // Constructor to initialize a task
+    Task(int id, string n, string d, string s, string p) : taskID(id), name(n), description(d), status(s), priority(p)
+    {
+        time_t now = time(0);
+        dueDate = *localtime(&now); // Initialize dueDate to current date and time
+    }
+
     Task(string n, string d, string s, string p) : name(n), description(d), status(s), priority(p)
     {
         time_t now = time(0);
         dueDate = *localtime(&now); // Initialize dueDate to current date and time
     }
 
-    Task() : name(""), description(""), status(""), priority("")
+    Task() : taskID(0), name(""), description(""), status(""), priority("")
     {
         time_t now = time(0);
         dueDate = *localtime(&now); // Initialize dueDate to current date and time
@@ -27,6 +34,7 @@ struct Task
 
     Task(string n, string d, string s, string p, struct tm dd) : name(n), description(d), status(s), priority(p), dueDate(dd) {}
 
+    Task(int id, string n, string d, string s, string p, struct tm dd) : taskID(id), name(n), description(d), status(s), priority(p), dueDate(dd) {}
     // Overloading the << operator for easy printing of Task objects
     friend ostream &operator<<(ostream &os, const Task &task)
     {
