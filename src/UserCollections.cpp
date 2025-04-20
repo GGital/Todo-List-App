@@ -1,14 +1,9 @@
 #include <UserCollections.h>
 #include <Task.h>
 #include <ctime>
+#include <iomanip>
+#include <sstream>
 using namespace std;
-
-time_t parseDateTime(const char *datetimeString, const char *format)
-{
-    struct tm tmStruct;
-    strptime(datetimeString, format, &tmStruct);
-    return mktime(&tmStruct);
-}
 
 void UserCollections::ReadTasksFromFile()
 {
@@ -33,7 +28,10 @@ void UserCollections::ReadTasksFromFile()
         line = line.substr(pos + 1);
         pos = line.find(',');
         string taskDueDate = line.substr(0, pos);
-        time_t dueDate = parseDateTime(taskDueDate.c_str(), "%Y-%m-%d");
+        tm tm = {};
+        istringstream ss(taskDueDate);
+        ss >> get_time(&tm, "%Y-%m-%d");
+        time_t dueDate = mktime(&tm);
         tasks[taskCount++] = new Task(taskID, taskName, taskDescription, taskStatus, taskPriority, *localtime(&dueDate));
     }
     fileManager.CloseFile();
