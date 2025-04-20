@@ -63,6 +63,8 @@ void LoginSystem::RegisterUser(string username, string password)
     }
     User *newUser = new User(username, password);
     cout << newUser->userID << "," << username << "," << hashPassword(password) << endl;
+    fileManager.WriteFile("./UserCollections/Tasks/" + to_string(newUser->userID) + ".csv");
+    fileManager.WriteFile("./UserCollections/Categories/" + to_string(newUser->userID) + ".csv");
     fileManager.CloseFile();
     users[userCount++] = newUser;
 }

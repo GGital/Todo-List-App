@@ -58,5 +58,9 @@ int main()
     fileManager.WriteFile("./output/output.txt");
     list->display();
     fileManager.CloseFile();
+
+    LoginSystem loginSystem;
+    loginSystem.RegisterUser("Test", "GG");
+    cout << loginSystem.LoginUser("Test", "GG") << endl;
     return 0;
 }
