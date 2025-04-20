@@ -1,4 +1,5 @@
 #include <iostream>
+#include <File_Management.h>
 #include <string>
 #include <Task.h>
 using namespace std;
@@ -9,20 +10,23 @@ private:
     int userId;
     string username;
     string password;
-    Task *tasks;
-    string *categories;
+    Task *tasks[1005];
+    string *categories[1005];
     int categoryCount;
     int taskCount;
+    FileManagement fileManager;
 
 public:
-    UserCollections(int userId, string u, string p) : userId(userId), username(u), password(p), tasks(nullptr), categories(nullptr), categoryCount(0), taskCount(0)
+    UserCollections(int id, string u, string p) : userId(id), username(u), password(p), categoryCount(0), taskCount(0)
     {
-        tasks = new Task[0];        // Initialize tasks to an empty array
-        categories = new string[0]; // Initialize categories to an empty array
-        ReadTasksFromFile();        // Read tasks from file
-        ReadCategoriesFromFile();   // Read categories from file
+        for (int i = 0; i < 1005; ++i)
+        {
+            tasks[i] = nullptr;
+            categories[i] = nullptr;
+        }
+        ReadTasksFromFile();
+        ReadCategoriesFromFile();
     }
-
     // Destructor to clean up dynamically allocated memory
     ~UserCollections()
     {
@@ -30,7 +34,7 @@ public:
         delete[] categories;
     }
 
-    ReadTasksFromFile();
-    ReadCategoriesFromFile();
-    AddTask(Task task);
+    void ReadTasksFromFile();
+    void ReadCategoriesFromFile();
+    void AddTask(Task task);
 };
