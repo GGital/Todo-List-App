@@ -7,6 +7,7 @@
 #include "Task.h"
 #include "LoginSystem.h"
 #include "HashMapWithDLL.h"
+#include "UserCollections.h"
 using namespace std;
 
 int main()
@@ -62,5 +63,7 @@ int main()
     LoginSystem loginSystem;
     loginSystem.RegisterUser("Test", "GG");
     cout << loginSystem.LoginUser("Test", "GG") << endl;
+
+    UserCollections userCollection(1, "Test", "GG");
     return 0;
 }

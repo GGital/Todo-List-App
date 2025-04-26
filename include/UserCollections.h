@@ -33,8 +33,19 @@ public:
         delete[] tasks;
         delete[] categories;
     }
-
+    /* ReadTasksFromFile
+    Parameter : None
+    Description : This function reads tasks from the tasks.csv file and populates the tasks array.
+    */
     void ReadTasksFromFile();
+    /* ReadCategoriesFromFile
+    Parameter : None
+    Description : This function reads categories from the categories.csv file and populates the categories array.
+    */
     void ReadCategoriesFromFile();
+    /* AddTask
+    Parameter : (Task task)
+    Description : This function adds a new task to the tasks array and appends it to the tasks.csv file.
+    */
     void AddTask(Task task);
 };
