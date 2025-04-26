@@ -48,10 +48,46 @@ public:
     {
         ReadUserData();
     }
+
+    /* RegisterUser
+    Parameter : (string username, string password)
+    Description : This function registers a new user by appending the username and password to the users.csv file.
+    */
     void RegisterUser(string username, string password);
+
+    /* LoginUser
+    Parameter : (string username, string password)
+    Description : This function checks if the username and password match any existing user in the users.csv file.
+    Returns true if the user is found, false otherwise.
+    */
     bool LoginUser(string username, string password);
+
+    /* hashPassword
+    Parameter : (string password)
+    Description : This function hashes the password using a simple algorithm.
+    Returns the hashed password as a string.
+    */
     string hashPassword(string password);
+
+    /* decryptPassword
+    Parameter : (string hashedPassword)
+    Description : This function decrypts the hashed password using a simple algorithm.
+    Returns the original password as a string.
+    */
     string decryptPassword(string hashedPassword);
+
+    /* checkduplicate
+    Parameter : (string username)
+    Description : This function checks if the username already exists in the users.csv file.
+    Returns true if the username is found, false otherwise.
+    If the username is found, it will not register the user again.
+    */
     bool checkduplicate(string username);
+
+    /* LogoutUser
+    Parameter : (int userID)
+    Description : This function logs out the user by removing their session data.
+    Returns nothing.
+    */
     void LogoutUser(int userID);
 };
