@@ -19,7 +19,7 @@ private:
 public:
     UserCollections(int id, string u, string p) : userId(id), username(u), password(p), categoryCount(0), taskCount(0)
     {
-        for (int i = 0; i < 1005; ++i)
+        for (int i = 0; i < 1005; i++)
         {
             tasks[i] = nullptr;
             categories[i] = nullptr;
@@ -30,8 +30,14 @@ public:
     // Destructor to clean up dynamically allocated memory
     ~UserCollections()
     {
-        delete[] tasks;
-        delete[] categories;
+        for (int i = 0; i < taskCount; i++)
+        {
+            delete tasks[i];
+        }
+        for (int i = 0; i < categoryCount; i++)
+        {
+            delete categories[i];
+        }
     }
     /* ReadTasksFromFile
     Parameter : None
