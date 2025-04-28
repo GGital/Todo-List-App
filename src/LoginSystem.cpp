@@ -20,25 +20,10 @@ string LoginSystem::hashPassword(string password)
     string hashedPassword = password;
     for (char &c : hashedPassword)
     {
-        c *= 2;
-        c += 5;
         c %= 26;
         c += 'a';
     }
     return hashedPassword;
-}
-
-string LoginSystem::decryptPassword(string password)
-{
-    string decryptedPassword = password;
-    for (char &c : decryptedPassword)
-    {
-        c -= 'a';
-        c %= 26;
-        c -= 5;
-        c /= 2;
-    }
-    return decryptedPassword;
 }
 
 bool LoginSystem::checkduplicate(string username)
@@ -58,7 +43,7 @@ void LoginSystem::RegisterUser(string username, string password)
     fileManager.AppendFile("./UserCollections/users.csv");
     if (checkduplicate(username))
     {
-        cout << "Username already exists." << endl;
+        fileManager.CloseFile();
         return;
     }
     User *newUser = new User(username, password);
@@ -76,6 +61,7 @@ void LoginSystem::RegisterUser(string username, string password)
 
 bool LoginSystem::LoginUser(string username, string password)
 {
+    password = hashPassword(password);
     for (int i = 0; i < userCount; i++)
     {
         if (users[i]->username == username && users[i]->password == password)

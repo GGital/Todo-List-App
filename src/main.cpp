@@ -8,12 +8,14 @@
 #include "LoginSystem.h"
 #include "HashMapWithDLL.h"
 #include "UserCollections.h"
+#include <UI.h>
 using namespace std;
 
 int main()
 {
     FileManagement fileManager;
     Example example;
+    // enable_ansi_colors();
     example.Greet();
     example.Farewell();
 
@@ -65,5 +67,7 @@ int main()
     cout << loginSystem.LoginUser("Test", "GG") << endl;
 
     UserCollections userCollection(1, "Test", "GG");
+
+    cout << ANSI_COLOR_RED << "Hello World!" << ANSI_COLOR_RESET << endl;
     return 0;
 }
