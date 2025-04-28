@@ -30,19 +30,23 @@ public:
     FileManagement fileManager;
     void ReadUserData()
     {
-        fileManager.ReadFile("./UserCollection/users.csv");
+        fileManager.ReadFile("./UserCollections/users.csv");
         string line;
+        if (!fileManager.isFileExist("./UserCollections/users.csv"))
+        {
+            cout << "File does not exist." << endl;
+            return;
+        }
         while (getline(cin, line))
         {
+            // cout << line << endl;
             int pos = line.find(',');
             int userID = stoi(line.substr(0, pos));
             string username = line.substr(pos + 1, line.find(',', pos + 1) - pos - 1);
             string password = line.substr(line.find(',', pos + 1) + 1);
-            password = decryptPassword(password);
             users[userCount++] = new User(userID, username, password);
         }
         fileManager.CloseFile();
-        // cout << "User data loaded successfully." << userCount << endl;
     }
     LoginSystem()
     {
@@ -68,13 +72,6 @@ public:
     Returns the hashed password as a string.
     */
     string hashPassword(string password);
-
-    /* decryptPassword
-    Parameter : (string hashedPassword)
-    Description : This function decrypts the hashed password using a simple algorithm.
-    Returns the original password as a string.
-    */
-    string decryptPassword(string hashedPassword);
 
     /* checkduplicate
     Parameter : (string username)
