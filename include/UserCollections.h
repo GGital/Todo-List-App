@@ -110,6 +110,8 @@ public:
         AddTask(Task(1, "Test Task", "Test Description", "In Progress", "High"));
         AddCategory("Test Category");
         EditTask(1, Task(1, "Updated Task", "Updated Description", "Completed", "Low"));
+        AddTask(Task("Test Task 2", "Test Description 2", "In Progress", "Medium"));
+        AddTask(Task("Test Task 3", "Test Description 3", "In Progress", "High"));
     }
 
     /*TestRemoveFunction
