@@ -70,7 +70,7 @@ int main()
 
     cout << ANSI_COLOR_RED << "Hello World!" << ANSI_COLOR_RESET << endl;
 
-    userCollection.TestRemoveFunction();
+    // userCollection.TestRemoveFunction();
 
     userCollection.TestAddFunction();
 

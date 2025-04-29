@@ -84,8 +84,8 @@ void UserCollections::AddTask(Task task)
             maxIndex = tasks[i]->taskID;
         }
     }
+    task.taskID = maxIndex + 1;
     tasks[taskCount++] = new Task(task);
-    tasks[taskCount - 1]->taskID = maxIndex + 1;
     cout << task.taskID << "," << task.name << "," << task.description << "," << task.status << "," << task.priority << ",";
     cout << put_time(&task.dueDate, "%Y-%m-%d") << endl;
     fileManager.CloseFile();
