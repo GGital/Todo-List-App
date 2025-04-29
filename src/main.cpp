@@ -76,39 +76,80 @@ int main()
     } else {
 
         cout << "\nInvalid choice. Please try again later.\n";
-        
+        return 0;
     }
 
     //--------Main Menu--------
 
     //Error, I should sleep now D:. Don't forget to get the UserID to be able to logout, also connect all the other choices.
-    /*terminate called after throwing an instance of 'std::invalid_argument'
-  what():  stoi
-  make: *** [run] Error -1073740791*/
-    
+    DoublyLinkedList<int> dll;
+    DoublyLinkedList<Task> taskList;
     int MainChoice;
-    //cin >> MainChoice;
-    /*if (MainChoice==1) {
+    int userID;
+    cin >> MainChoice;
+    
+    if (MainChoice==1) {
+
         //Add Task here
+        string name,desc,status,prior;
+        cout << "Enter task name: ";
+        cin.ignore();
+        getline(cin,name);
+
+        cout << "Enter task description: ";
+        cin.ignore();
+        getline(cin,desc);
+
+        cout << "Enter task status (e.g., Not started,In progress, Completed): ";
+        cin.ignore();
+        getline(cin,status);
+
+        cout << "Enter task priority (e.g., Low, Medium, High): ";
+        cin.ignore();
+        getline(cin,prior);
+
+        //UserCollections.AddTask();
+        //dll connect insertatend
+
     } else if (MainChoice==2) {
+
         //Delete Task here
+        //dll delete
+
     } else if (MainChoice==3) { 
+
         //Modify Task here
+        //select category, modify name,desc,status,prior
+        //int modifymenuchoice;
+        //cin >> modifymenuchoice;
+        //if(modifychoice==1){cin task}
+        //else if(modifychoice==2){cin category}
+        //else if(modifychoice==3){ exit }
+
+
     } else if (MainChoice==4) {
+
         //View All Tasks here
+        //dll display
+
     } else if (MainChoice==5) {
-        //Seach Task here
+
+        //Search Task here
+
     } else if (MainChoice==6) {
+
         //Add Category here   
+
     } else if (MainChoice==7) {
+
         //Logout here
-        loginSystem.LogoutUser();
+        //loginSystem.LogoutUser(userid);
 
     } else {
 
         cout << "\nInvalid choice. Please try again later.\n";
 
-    }*/
+    }
 
     /*DoublyLinkedList<int> dll;
     dll.insertAtEnd(10);

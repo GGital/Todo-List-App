@@ -15,8 +15,8 @@ public:
         cout << "***************\n";
         cout << "Authentication Menu.\n\n";
         cout << "1.Register.\n2.Login.\n3.Exit\n\n";
-        cout << "Enter your choice :";
-        //cin.clear();
+        cout << "Enter your choice: ";
+        cin.clear();
 
     }
     void showRegisterMenu() {
@@ -39,7 +39,19 @@ public:
         cout << "***************\n";
         cout << "Main Menu.\n\n";
         cout << "1.Add Task\n2.Delete Task\n3.Modify Task\n4.View All Tasks\n5.Seach Task\n6.Add Category\n7.Logout\n\n";
-        cout << "Enter your choice :";
+        cout << "Enter your choice: ";
+        cin.clear();
 
+    }
+};
+
+class ModifyMenuUI {
+public:
+    void showModifyMenu() {
+        cout << "***************\n";
+        cout << "Modify Menu.\n\n";
+        cout << "1.Modify Task\n2.Modify Category\n\n";
+        cout << "Enter your choice: ";
+        cin.clear();
     }
 };
