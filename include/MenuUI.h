@@ -38,7 +38,7 @@ public:
     void showMainMenu() {
         cout << "***************\n";
         cout << "Main Menu.\n\n";
-        cout << "1.Add Task\n2.Delete Task\n3.Modify Task\n4.View All Tasks\n5.Seach Task\n6.Add Category\n7.Logout\n\n";
+        cout << "1.Add Task\n2.Delete Task\n3.Modify Task\n4.View All Tasks\n5.Seach Task\n6.Topological Task\n7.Add Category\n8.Delete Category\n9.Logout\n\n";
         cout << "Enter your choice: ";
         cin.clear();
 

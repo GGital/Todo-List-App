@@ -21,6 +21,7 @@ int main()
     //example.Farewell();
 
     //--------Authentication Menu--------
+
     LoginSystem loginSystem;
     LoginSystemUI loginmenu;
     MainMenuUI mainmenu;
@@ -48,6 +49,7 @@ int main()
         } else {
 
             cout << "\nUsername is taken. Please try again later.\n";
+            return 0;
 
         }
 
@@ -59,8 +61,8 @@ int main()
         cout <<"Password :";
         cin >> password;
 
-        if (loginSystem.LoginUser(username,password)) {
-
+        if (!loginSystem.LoginUser(username,password)==-1) {
+            
             cout << "\nLogin Successfully.\n";
             //cout << loginSystem.LoginUser(username,password);
             mainmenu.showMainMenu();
@@ -68,6 +70,7 @@ int main()
         } else {
 
             cout << "\nWrong Username or Password. Please try again later.\n";
+            return 0;
 
         }
         
@@ -83,14 +86,12 @@ int main()
 
     //--------Main Menu--------
 
-    //Error, I should sleep now D:. Don't forget to get the UserID to be able to logout, also connect all the other choices.
     DoublyLinkedList<Task> taskList;
     
     int MainChoice;
     int userID=loginSystem.LoginUser(username,password);
 
     UserCollections usercollection(userID, username, password);
-    //Task task;
 
     cin.clear();
     cin >> MainChoice;
@@ -99,6 +100,7 @@ int main()
         if (MainChoice==1) {
 
             //Add Task here
+
             string name,desc,status,prior;
             cout << "Enter task name: ";
             cin.ignore();
@@ -115,11 +117,13 @@ int main()
 
             cout << "\n***************\n";
             Task task(userID, name, desc, status, prior);
+            //Due date input
             usercollection.AddTask(task);
             taskList.insertAtEnd(task);
 
 
             fileManager.WriteFile("./output/output.txt");
+            //fileManager.WriteFile("./output/output.txt"); //Here Change the file location to userID.csv
             taskList.display();
             fileManager.CloseFile();
 
@@ -128,15 +132,22 @@ int main()
             mainmenu.showMainMenu();
             cin.clear();
             cin >> MainChoice;
-            
-            //taskList.insertAtEnd(Task(name, desc, status, prior));
 
             //dll connect insertatend
+            //Save to User collections csv
 
         } else if (MainChoice==2) {
 
             //Delete Task here
-            //dll delete
+            
+            //Show all tasks
+
+            //Delete by Task Name
+
+
+            //Delete by Task ID
+
+            //No Task Testcase
 
         } else if (MainChoice==3) { 
 
@@ -148,21 +159,51 @@ int main()
             //else if(modifychoice==2){cin category}
             //else if(modifychoice==3){ exit }
 
+            //Modify By choice
+
+            //No Task Testcase
+
 
         } else if (MainChoice==4) {
 
             //View All Tasks here
-            //dll display
+            
+            //View by Task ID order
+
+            //No Task Testcase
 
         } else if (MainChoice==5) {
 
             //Search Task here
 
+            //Search by Task Name
+
+            //Search by Task ID
+
+            //Search by Task Priority
+
+            //No Task Testcase
+
         } else if (MainChoice==6) {
 
-            //Add Category here   
+            //Topological Task here
 
         } else if (MainChoice==7) {
+
+            //Add Category here
+            
+            //Input Category Name
+
+        } else if (MainChoice==8) {
+
+            //Delete Category here
+
+            //Show All Categories
+
+            //Delete Category By Name
+
+
+        } else if (MainChoice==9) {
 
             //Logout here
             loginSystem.LogoutUser(userID);
@@ -172,8 +213,10 @@ int main()
         } else {
 
             cout << "\nInvalid choice. Please try again later.\n";
+
+            //Retry in loop lei
             break;
-        }
+        }//new choice toposort
     }
     /*DoublyLinkedList<int> dll;
     dll.insertAtEnd(10);
