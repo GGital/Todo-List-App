@@ -54,23 +54,24 @@ int main()
         }
 
     } else if (AuthChoice==2) {
-
+        
         loginmenu.showLoginMenu();
         cout <<"Username :";
         cin >> username;
         cout <<"Password :";
         cin >> password;
-
-        if (!loginSystem.LoginUser(username,password)==-1) {
+        
+        if (loginSystem.LoginUser(username,password)==-1) {
             
-            cout << "\nLogin Successfully.\n";
-            //cout << loginSystem.LoginUser(username,password);
-            mainmenu.showMainMenu();
+            cout << "\nWrong Username or Password. Please try again later.\n";
+            return 0;
 
         } else {
 
-            cout << "\nWrong Username or Password. Please try again later.\n";
-            return 0;
+            cout << "\nLogin Successfully.\n";
+            //cout << loginSystem.LoginUser(username,password);
+            mainmenu.showMainMenu();
+            
 
         }
         
@@ -92,16 +93,19 @@ int main()
     int userID=loginSystem.LoginUser(username,password);
 
     UserCollections usercollection(userID, username, password);
-
-    cin.clear();
-    cin >> MainChoice;
     
+    string name,desc,status,prior;
+
     while(true){
+
+        mainmenu.showMainMenu();
+        cin.clear();
+        cin >> MainChoice;
+
         if (MainChoice==1) {
 
             //Add Task here
 
-            string name,desc,status,prior;
             cout << "Enter task name: ";
             cin.ignore();
             getline(cin,name);
@@ -116,52 +120,126 @@ int main()
             getline(cin,prior);
 
             cout << "\n***************\n";
-            Task task(userID, name, desc, status, prior);
+            Task task(name, desc, status, prior);
             //Due date input
             usercollection.AddTask(task);
-            taskList.insertAtEnd(task);
+            taskList.insertAtEnd(task); //dll connect insertatend
 
-
-            fileManager.WriteFile("./output/output.txt");
-            //fileManager.WriteFile("./output/output.txt"); //Here Change the file location to userID.csv
-            taskList.display();
-            fileManager.CloseFile();
-
-            cout << task << "Task Add Successfully.\n";
-
-            mainmenu.showMainMenu();
-            cin.clear();
-            cin >> MainChoice;
-
-            //dll connect insertatend
-            //Save to User collections csv
+            cout << "Task Add Successfully.\n";
+            
 
         } else if (MainChoice==2) {
 
-            //Delete Task here
+            while(true){
+                
+                //Delete Task here
+
+                int removechoice;
+                int removeTaskID;
+                string removeName;
+
+                RemoveMenuUI removemenuUI;
+                removemenuUI.showRemoveMenu();
+                cin.clear();
+                cin >> removechoice;
+
+                if(removechoice==1) {
+
+                    //Delete by Task Name
+
+                    cout << "Enter Task's Name To Remove: ";
+                    cin >> removeName;
+                    usercollection.RemoveTask(removeName);
+                    //What if that name doesn't exist in file?
+                    break;
+
+                } else if(removechoice==2) {
+
+                    //Delete by Task ID
+
+                    cout << "Enter Task's ID To Remove: ";
+                    cin >> removeTaskID;
+                    usercollection.RemoveTask(removeTaskID);
+                    //What if that ID doesn't exist in file?
+                    //Why remove by User ID does delete the first task??
+                    //What's the Task ID?
+                    break;
+
+
+                } else if(removechoice==3) {
+
+                    break;
+
+                } else {
+
+                    cout << "\nInvalid choice.\n";
+
+                }
+                
+                //Show all tasks
+
+                //No Task Testcase
+            }
             
-            //Show all tasks
-
-            //Delete by Task Name
-
-
-            //Delete by Task ID
-
-            //No Task Testcase
 
         } else if (MainChoice==3) { 
+            
+            while(true){
+                Task task(name, desc, status, prior);
+                //Modify Task here
 
-            //Modify Task here
-            //select category, modify name,desc,status,prior
-            //int modifymenuchoice;
-            //cin >> modifymenuchoice;
-            //if(modifychoice==1){cin task}
-            //else if(modifychoice==2){cin category}
-            //else if(modifychoice==3){ exit }
+                int modifychoice;
+                int modifyTaskID;
+                string modifyName;
 
-            //Modify By choice
+                ModifyMenuUI modifymenuUI;
+                modifymenuUI.showModifyMenu();
+                cin.clear();
+                cin >> modifychoice;
 
-            //No Task Testcase
+                if(modifychoice==1) {
+
+                    //Modify by Task Name
+
+                    cout << "Enter Task's Name To Edit: ";
+                    cin >> modifyName;
+                    usercollection.EditTask(modifyName,task);
+                    
+                    //HELPPPPPPPP
+
+                    //What if that name doesn't exist in file?
+                    break;
+
+                } else if(modifychoice==2) {
+
+                    //Modify by Task ID
+
+                    cout << "Enter Task's ID To Edit: ";
+                    cin >> modifyTaskID;
+                    usercollection.EditTask(modifyTaskID,task);
+                    
+                    //HELPPPPPPPP
+
+                    //What if that ID doesn't exist in file?
+                    //Why remove by User ID does delete the first task??
+                    //What's the Task ID?
+                    break;
+
+
+                } else if(modifychoice==3) {
+
+                    break;
+
+                } else {
+
+                    cout << "\nInvalid choice.\n";
+
+                }
+                
+                //Show all tasks
+
+                //No Task Testcase
+            }
 
 
         } else if (MainChoice==4) {
@@ -187,12 +265,15 @@ int main()
         } else if (MainChoice==6) {
 
             //Topological Task here
+            //Susu na 
 
         } else if (MainChoice==7) {
 
             //Add Category here
-            
-            //Input Category Name
+
+            string categoryname;
+            cin >> categoryname;
+            usercollection.AddCategory(categoryname);
 
         } else if (MainChoice==8) {
 
@@ -212,10 +293,11 @@ int main()
 
         } else {
 
-            cout << "\nInvalid choice. Please try again later.\n";
+            cout << "\nInvalid choice.\n";
+            break;
+
 
             //Retry in loop lei
-            break;
         }//new choice toposort
     }
     /*DoublyLinkedList<int> dll;
