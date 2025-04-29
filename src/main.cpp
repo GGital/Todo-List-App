@@ -66,8 +66,13 @@ int main()
     loginSystem.RegisterUser("Test", "GG");
     cout << loginSystem.LoginUser("Test", "GG") << endl;
 
-    UserCollections userCollection(1, "Test", "GG");
+    UserCollections userCollection(3058, "Test", "GG");
 
     cout << ANSI_COLOR_RED << "Hello World!" << ANSI_COLOR_RESET << endl;
+
+    userCollection.TestRemoveFunction();
+
+    // userCollection.TestAddFunction();
+
     return 0;
 }

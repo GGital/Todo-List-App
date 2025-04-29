@@ -7,7 +7,7 @@ using namespace std;
 
 void UserCollections::ReadTasksFromFile()
 {
-    fileManager.ReadFile("./UserCollection/Tasks/" + to_string(userId) + ".csv");
+    fileManager.ReadFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
     string line;
     while (getline(cin, line))
     {
@@ -39,7 +39,7 @@ void UserCollections::ReadTasksFromFile()
 
 void UserCollections::ReadCategoriesFromFile()
 {
-    fileManager.ReadFile("./UserCollection/Categories/" + to_string(userId) + ".csv");
+    fileManager.ReadFile("./UserCollections/Categories/" + to_string(userId) + ".csv");
     string line;
     while (getline(cin, line))
     {
@@ -50,5 +50,136 @@ void UserCollections::ReadCategoriesFromFile()
 
 void UserCollections::AddTask(Task task)
 {
-    cout << "Trallalello Tralla" << endl;
+    fileManager.AppendFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
+    tasks[taskCount++] = new Task(task);
+    cout << task.taskID << "," << task.name << "," << task.description << "," << task.status << "," << task.priority << ",";
+    cout << put_time(&task.dueDate, "%Y-%m-%d") << endl;
+    fileManager.CloseFile();
+}
+
+void UserCollections::AddCategory(string category)
+{
+    fileManager.AppendFile("./UserCollections/Categories/" + to_string(userId) + ".csv");
+    categories[categoryCount++] = new string(category);
+    cout << category << endl;
+    fileManager.CloseFile();
+}
+
+void UserCollections::RemoveCategory(string category)
+{
+    for (int i = 0; i < categoryCount; i++)
+    {
+        if (*categories[i] == category)
+        {
+            delete categories[i];
+            for (int j = i; j < categoryCount - 1; j++)
+            {
+                categories[j] = categories[j + 1];
+            }
+            categories[--categoryCount] = nullptr;
+            break;
+        }
+    }
+    fileManager.WriteFile("./UserCollections/Categories/" + to_string(userId) + ".csv");
+    for (int i = 0; i < categoryCount; i++)
+    {
+        cout << *categories[i] << endl;
+    }
+    fileManager.CloseFile();
+}
+
+void UserCollections::RemoveTask(int taskID)
+{
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (tasks[i]->taskID == taskID)
+        {
+            delete tasks[i];
+            for (int j = i; j < taskCount - 1; j++)
+            {
+                tasks[j] = tasks[j + 1];
+            }
+            tasks[--taskCount] = nullptr;
+            break;
+        }
+    }
+    fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
+    for (int i = 0; i < taskCount; i++)
+    {
+        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
+        cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
+    }
+    fileManager.CloseFile();
+}
+
+void UserCollections::RemoveTask(string taskName)
+{
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (tasks[i]->name == taskName)
+        {
+            delete tasks[i];
+            for (int j = i; j < taskCount - 1; j++)
+            {
+                tasks[j] = tasks[j + 1];
+            }
+            tasks[--taskCount] = nullptr;
+            break;
+        }
+    }
+    fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
+    for (int i = 0; i < taskCount; i++)
+    {
+        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
+        cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
+    }
+    fileManager.CloseFile();
+}
+
+void UserCollections::EditTask(int taskID, Task newTask)
+{
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (tasks[i]->taskID == taskID)
+        {
+            delete tasks[i];
+            tasks[i] = new Task(newTask);
+            break;
+        }
+    }
+    fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
+    for (int i = 0; i < taskCount; i++)
+    {
+        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
+        cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
+    }
+    fileManager.CloseFile();
+}
+
+void UserCollections::EditTask(string taskName, Task newTask)
+{
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (tasks[i]->name == taskName)
+        {
+            delete tasks[i];
+            tasks[i] = new Task(newTask);
+            break;
+        }
+    }
+    fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
+    for (int i = 0; i < taskCount; i++)
+    {
+        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
+        cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
+    }
+    fileManager.CloseFile();
+}
+
+void UserCollections::DisplayTasks()
+{
+    for (int i = 0; i < taskCount; i++)
+    {
+        cout << *tasks[i] << endl;
+    }
 }
