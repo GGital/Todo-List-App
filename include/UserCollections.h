@@ -39,6 +39,7 @@ public:
             delete categories[i];
         }
     }
+
     /* ReadTasksFromFile
     Parameter : None
     Description : This function reads tasks from the tasks.csv file and populates the tasks array.
@@ -49,9 +50,41 @@ public:
     Description : This function reads categories from the categories.csv file and populates the categories array.
     */
     void ReadCategoriesFromFile();
+
+    /*DisplayTasks
+    Parameter : None
+    Desription : This function displays all tasks in the tasks array.
+    */
+    void DisplayTasks();
     /* AddTask
     Parameter : (Task task)
     Description : This function adds a new task to the tasks array and appends it to the tasks.csv file.
     */
     void AddTask(Task task);
+
+    /* AddCategory
+    Parameter : (string category)
+    Description : This function adds a new category to the categories array and appends it to the categories.csv file.
+    */
+    void AddCategory(string category);
+
+    /* RemoveCategory
+    Parameter : (string category)
+    Desription : This function removes a category from the categories array and deletes it from the categories.csv file.
+    */
+    void RemoveCategory(string category);
+
+    /* RemoveTask
+     Parameter : (int taskID) OR (string taskName)
+     Description : This function removes a task from the tasks array and deletes it from the tasks.csv file.
+     */
+    void RemoveTask(int taskID);
+    void RemoveTask(string taskName);
+
+    /* EditTask
+    Parameter : (int taskID, Task newTask) OR (string taskName, Task newTask)
+    Description : This function edits an existing task in the tasks array and updates it in the tasks.csv file.
+    */
+    void EditTask(int taskID, Task newTask);
+    void EditTask(string taskName, Task newTask);
 };
