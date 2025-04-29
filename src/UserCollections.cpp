@@ -50,5 +50,5 @@ void UserCollections::ReadCategoriesFromFile()
 
 void UserCollections::AddTask(Task task)
 {
-    cout << "Trallalello Tralla" << endl;
+    //cout << "Trallalello Tralla" << endl;
 }

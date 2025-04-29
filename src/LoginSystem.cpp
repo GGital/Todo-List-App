@@ -59,17 +59,17 @@ void LoginSystem::RegisterUser(string username, string password)
     users[userCount++] = newUser;
 }
 
-bool LoginSystem::LoginUser(string username, string password)
+int LoginSystem::LoginUser(string username, string password)
 {
     password = hashPassword(password);
     for (int i = 0; i < userCount; i++)
     {
         if (users[i]->username == username && users[i]->password == password)
         {
-            return true;
+            return users[i]->userID;
         }
     }
-    return false;
+    return -1;
 }
 
 void LoginSystem::LogoutUser(int userID)

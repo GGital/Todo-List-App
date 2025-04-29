@@ -63,9 +63,9 @@ public:
     /* LoginUser
     Parameter : (string username, string password)
     Description : This function checks if the username and password match any existing user in the users.csv file.
-    Returns true if the user is found, false otherwise.
+    Returns the userID if successful, -1 if not found.
     */
-    bool LoginUser(string username, string password);
+    int LoginUser(string username, string password);
 
     /* hashPassword
     Parameter : (string password)

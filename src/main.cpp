@@ -41,6 +41,7 @@ int main()
 
             loginSystem.RegisterUser(username,password);
             loginSystem.LoginUser(username,password);
+            //cout << loginSystem.LoginUser(username,password);
             cout << "\nRegister Successfully.\n";
             mainmenu.showMainMenu();
 
@@ -61,6 +62,7 @@ int main()
         if (loginSystem.LoginUser(username,password)) {
 
             cout << "\nLogin Successfully.\n";
+            //cout << loginSystem.LoginUser(username,password);
             mainmenu.showMainMenu();
 
         } else {
@@ -82,75 +84,97 @@ int main()
     //--------Main Menu--------
 
     //Error, I should sleep now D:. Don't forget to get the UserID to be able to logout, also connect all the other choices.
-    DoublyLinkedList<int> dll;
     DoublyLinkedList<Task> taskList;
+    
     int MainChoice;
-    int userID;
+    int userID=loginSystem.LoginUser(username,password);
+
+    UserCollections usercollection(userID, username, password);
+    //Task task;
+
+    cin.clear();
     cin >> MainChoice;
     
-    if (MainChoice==1) {
+    while(true){
+        if (MainChoice==1) {
 
-        //Add Task here
-        string name,desc,status,prior;
-        cout << "Enter task name: ";
-        cin.ignore();
-        getline(cin,name);
+            //Add Task here
+            string name,desc,status,prior;
+            cout << "Enter task name: ";
+            cin.ignore();
+            getline(cin,name);
 
-        cout << "Enter task description: ";
-        cin.ignore();
-        getline(cin,desc);
+            cout << "Enter task description: ";
+            getline(cin,desc);
 
-        cout << "Enter task status (e.g., Not started,In progress, Completed): ";
-        cin.ignore();
-        getline(cin,status);
+            cout << "Enter task status (e.g., Not started,In progress, Completed): ";
+            getline(cin,status);
 
-        cout << "Enter task priority (e.g., Low, Medium, High): ";
-        cin.ignore();
-        getline(cin,prior);
+            cout << "Enter task priority (e.g., Low, Medium, High): ";
+            getline(cin,prior);
 
-        //UserCollections.AddTask();
-        //dll connect insertatend
-
-    } else if (MainChoice==2) {
-
-        //Delete Task here
-        //dll delete
-
-    } else if (MainChoice==3) { 
-
-        //Modify Task here
-        //select category, modify name,desc,status,prior
-        //int modifymenuchoice;
-        //cin >> modifymenuchoice;
-        //if(modifychoice==1){cin task}
-        //else if(modifychoice==2){cin category}
-        //else if(modifychoice==3){ exit }
+            cout << "\n***************\n";
+            Task task(userID, name, desc, status, prior);
+            usercollection.AddTask(task);
+            taskList.insertAtEnd(task);
 
 
-    } else if (MainChoice==4) {
+            fileManager.WriteFile("./output/output.txt");
+            taskList.display();
+            fileManager.CloseFile();
 
-        //View All Tasks here
-        //dll display
+            cout << task << "Task Add Successfully.\n";
 
-    } else if (MainChoice==5) {
+            mainmenu.showMainMenu();
+            cin.clear();
+            cin >> MainChoice;
+            
+            //taskList.insertAtEnd(Task(name, desc, status, prior));
 
-        //Search Task here
+            //dll connect insertatend
 
-    } else if (MainChoice==6) {
+        } else if (MainChoice==2) {
 
-        //Add Category here   
+            //Delete Task here
+            //dll delete
 
-    } else if (MainChoice==7) {
+        } else if (MainChoice==3) { 
 
-        //Logout here
-        //loginSystem.LogoutUser(userid);
+            //Modify Task here
+            //select category, modify name,desc,status,prior
+            //int modifymenuchoice;
+            //cin >> modifymenuchoice;
+            //if(modifychoice==1){cin task}
+            //else if(modifychoice==2){cin category}
+            //else if(modifychoice==3){ exit }
 
-    } else {
 
-        cout << "\nInvalid choice. Please try again later.\n";
+        } else if (MainChoice==4) {
 
+            //View All Tasks here
+            //dll display
+
+        } else if (MainChoice==5) {
+
+            //Search Task here
+
+        } else if (MainChoice==6) {
+
+            //Add Category here   
+
+        } else if (MainChoice==7) {
+
+            //Logout here
+            loginSystem.LogoutUser(userID);
+            cout << "Logout Successfully.";
+            break;
+
+        } else {
+
+            cout << "\nInvalid choice. Please try again later.\n";
+            break;
+        }
     }
-
     /*DoublyLinkedList<int> dll;
     dll.insertAtEnd(10);
     dll.insertAtEnd(30);
