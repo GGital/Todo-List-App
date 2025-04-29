@@ -72,7 +72,7 @@ int main()
 
     userCollection.TestRemoveFunction();
 
-    // userCollection.TestAddFunction();
+    userCollection.TestAddFunction();
 
     return 0;
 }
