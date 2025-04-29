@@ -1,8 +1,20 @@
+#pragma once
 #include <iostream>
 #include <File_Management.h>
+#include <fstream>
 #include <string>
+#include <ctime>
+#include <iomanip>
+#include <sstream>
 #include <Task.h>
 using namespace std;
+
+enum Priority
+{
+    Low,
+    Medium,
+    High
+};
 
 class UserCollections
 {
@@ -24,6 +36,7 @@ public:
             tasks[i] = nullptr;
             categories[i] = nullptr;
         }
+        cout << "User ID: " << userId << endl;
         ReadTasksFromFile();
         ReadCategoriesFromFile();
     }
@@ -97,6 +110,8 @@ public:
         AddTask(Task(1, "Test Task", "Test Description", "In Progress", "High"));
         AddCategory("Test Category");
         EditTask(1, Task(1, "Updated Task", "Updated Description", "Completed", "Low"));
+        AddTask(Task("Test Task 2", "Test Description 2", "In Progress", "Medium"));
+        AddTask(Task("Test Task 3", "Test Description 3", "In Progress", "High"));
     }
 
     /*TestRemoveFunction
@@ -107,5 +122,18 @@ public:
     {
         RemoveTask(1);
         RemoveCategory("Test Category");
+    }
+
+    /*ParseStringtoDateTime
+    Parameter : (string dateString)
+    Description : This function parses a string to a DateTime object.
+    */
+    struct tm ParseStringtoDateTime(string dateString)
+    {
+        struct tm dateTime = {};
+        istringstream ss(dateString);
+        ss >> get_time(&dateTime, "%Y-%m-%d");
+        time_t time = mktime(&dateTime);
+        return *localtime(&time);
     }
 };

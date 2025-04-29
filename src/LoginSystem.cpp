@@ -74,5 +74,5 @@ int LoginSystem::LoginUser(string username, string password)
 
 void LoginSystem::LogoutUser(int userID)
 {
-    cout << "User with ID " << userID << " logged out." << endl;
+    //cout << "User with ID " << userID << " logged out." << endl;
 }

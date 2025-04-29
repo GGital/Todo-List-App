@@ -73,4 +73,32 @@ public:
         cout << "Enter your choice: ";
         cin.clear();
     }
+    void ModifyTaskORCategoryMenu() {
+
+        cout << "***************\n";
+        cout << "Modify Menu.\n\n";
+        cout << "1.Modify tasks\n2.Assign Task's Category\n3.Exit\n\n";
+        cout << "Enter your choice: ";
+        cin.clear();
+
+    }
+};
+
+class CategoryUI {
+public:
+    void AddCategoryMenu() {
+
+        cout << "***************\n";
+        cout << "Add the Category Menu.\n\n";
+        cout << "Enter your category name: ";
+        cin.clear();
+
+    }
+    void DeleteCategoryMenu() {
+
+        cout << "***************\n";
+        cout << "Delete the Category Menu.\n\n";
+        cout << "Enter your category name: ";
+        cin.clear();
+    }
 };

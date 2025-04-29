@@ -41,10 +41,9 @@ int main()
         if (!loginSystem.checkduplicate(username)) {
 
             loginSystem.RegisterUser(username,password);
-            loginSystem.LoginUser(username,password);
             //cout << loginSystem.LoginUser(username,password);
-            cout << "\nRegister Successfully.\n";
-            mainmenu.showMainMenu();
+            cout << "\nRegistration Successful. Please Login to continue.\n";
+            return 0;
 
         } else {
 
@@ -68,7 +67,7 @@ int main()
 
         } else {
 
-            cout << "\nLogin Successfully.\n";
+            cout << "\nLogin Successful. Entering the program.\n";
             //cout << loginSystem.LoginUser(username,password);
             mainmenu.showMainMenu();
             
@@ -125,6 +124,7 @@ int main()
             usercollection.AddTask(task);
             taskList.insertAtEnd(task); //dll connect insertatend
 
+            //if the task name already add, cout in terminal not in file csv
             cout << "Task Add Successfully.\n";
             
 
@@ -160,9 +160,6 @@ int main()
                     cout << "Enter Task's ID To Remove: ";
                     cin >> removeTaskID;
                     usercollection.RemoveTask(removeTaskID);
-                    //What if that ID doesn't exist in file?
-                    //Why remove by User ID does delete the first task??
-                    //What's the Task ID?
                     break;
 
 
@@ -178,7 +175,7 @@ int main()
                 
                 //Show all tasks
 
-                //No Task Testcase
+                //No Task Testcase , no task at all, no task matched
             }
             
 
@@ -186,6 +183,7 @@ int main()
             
             while(true){
                 Task task(name, desc, status, prior);
+                
                 //Modify Task here
 
                 int modifychoice;
@@ -201,9 +199,27 @@ int main()
 
                     //Modify by Task Name
 
-                    cout << "Enter Task's Name To Edit: ";
-                    cin >> modifyName;
-                    usercollection.EditTask(modifyName,task);
+                    int modifyTaskORCategorychoice;
+                    modifymenuUI.ModifyTaskORCategoryMenu();
+                    cin >> modifyTaskORCategorychoice;
+
+                    if (modifyTaskORCategorychoice==1) {
+
+                        //Show All tasks
+                        cout << "Enter Task's Name To Edit: ";
+                        cin >> modifyName;
+                        usercollection.EditTask(modifyName,task);
+
+                    } else if (modifyTaskORCategorychoice==2) {
+
+                        //Show All tasks
+                        //Assign Category Name and Task's Name
+
+                    } else {
+
+                        break;
+
+                    }
                     
                     //HELPPPPPPPP
 
@@ -214,15 +230,31 @@ int main()
 
                     //Modify by Task ID
 
-                    cout << "Enter Task's ID To Edit: ";
-                    cin >> modifyTaskID;
-                    usercollection.EditTask(modifyTaskID,task);
+                    int modifyTaskORCategorychoice;
+                    modifymenuUI.ModifyTaskORCategoryMenu();
+                    cin >> modifyTaskORCategorychoice;
+
+                    if (modifyTaskORCategorychoice==1) {
+
+                        //Show All tasks
+                        cout << "Enter Task's ID To Edit: ";
+                        cin >> modifyTaskID;
+                        usercollection.EditTask(modifyTaskID,task);
+
+                    } else if (modifyTaskORCategorychoice==2) {
+
+                        //Show All tasks
+                        //Assign Category Name and Task's ID
+
+                    } else {
+
+                        break;
+
+                    }
                     
                     //HELPPPPPPPP
 
                     //What if that ID doesn't exist in file?
-                    //Why remove by User ID does delete the first task??
-                    //What's the Task ID?
                     break;
 
 
@@ -247,7 +279,8 @@ int main()
             //View All Tasks here
             
             //View by Task ID order
-
+            //usercollection.ReadTasksFromFile();
+            //break;
             //No Task Testcase
 
         } else if (MainChoice==5) {
@@ -271,6 +304,8 @@ int main()
 
             //Add Category here
 
+            CategoryUI categoryUI;
+            categoryUI.AddCategoryMenu();
             string categoryname;
             cin >> categoryname;
             usercollection.AddCategory(categoryname);
@@ -279,14 +314,16 @@ int main()
 
             //Delete Category here
 
-            //Show All Categories
-
-            //Delete Category By Name
-
+            CategoryUI categoryUI;
+            categoryUI.DeleteCategoryMenu();
+            string categoryname;
+            cin >> categoryname;
+            usercollection.RemoveCategory(categoryname);
 
         } else if (MainChoice==9) {
 
             //Logout here
+
             loginSystem.LogoutUser(userID);
             cout << "Logout Successfully.";
             break;
