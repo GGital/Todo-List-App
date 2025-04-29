@@ -28,11 +28,8 @@ void UserCollections::ReadTasksFromFile()
         line = line.substr(pos + 1);
         pos = line.find(',');
         string taskDueDate = line.substr(0, pos);
-        tm tm = {};
-        istringstream ss(taskDueDate);
-        ss >> get_time(&tm, "%Y-%m-%d");
-        time_t dueDate = mktime(&tm);
-        tasks[taskCount++] = new Task(taskID, taskName, taskDescription, taskStatus, taskPriority, *localtime(&dueDate));
+        struct tm t = ParseStringtoDateTime(taskDueDate);
+        tasks[taskCount++] = new Task(taskID, taskName, taskDescription, taskStatus, taskPriority, t);
     }
     fileManager.CloseFile();
 }
@@ -51,6 +48,15 @@ void UserCollections::ReadCategoriesFromFile()
 void UserCollections::AddTask(Task task)
 {
     fileManager.AppendFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (tasks[i]->name == task.name)
+        {
+            cout << "Task name already exists." << endl;
+            fileManager.CloseFile();
+            return;
+        }
+    }
     tasks[taskCount++] = new Task(task);
     cout << task.taskID << "," << task.name << "," << task.description << "," << task.status << "," << task.priority << ",";
     cout << put_time(&task.dueDate, "%Y-%m-%d") << endl;
@@ -60,6 +66,15 @@ void UserCollections::AddTask(Task task)
 void UserCollections::AddCategory(string category)
 {
     fileManager.AppendFile("./UserCollections/Categories/" + to_string(userId) + ".csv");
+    for (int i = 0; i < categoryCount; i++)
+    {
+        if (*categories[i] == category)
+        {
+            cout << "Category name already exists." << endl;
+            fileManager.CloseFile();
+            return;
+        }
+    }
     categories[categoryCount++] = new string(category);
     cout << category << endl;
     fileManager.CloseFile();
@@ -67,11 +82,13 @@ void UserCollections::AddCategory(string category)
 
 void UserCollections::RemoveCategory(string category)
 {
+    bool found = false;
     for (int i = 0; i < categoryCount; i++)
     {
         if (*categories[i] == category)
         {
             delete categories[i];
+            found = true;
             for (int j = i; j < categoryCount - 1; j++)
             {
                 categories[j] = categories[j + 1];
@@ -79,6 +96,11 @@ void UserCollections::RemoveCategory(string category)
             categories[--categoryCount] = nullptr;
             break;
         }
+    }
+    if (!found)
+    {
+        cout << "Category not found." << endl;
+        return;
     }
     fileManager.WriteFile("./UserCollections/Categories/" + to_string(userId) + ".csv");
     for (int i = 0; i < categoryCount; i++)
@@ -90,11 +112,13 @@ void UserCollections::RemoveCategory(string category)
 
 void UserCollections::RemoveTask(int taskID)
 {
+    bool found = false;
     for (int i = 0; i < taskCount; i++)
     {
         if (tasks[i]->taskID == taskID)
         {
             delete tasks[i];
+            found = true;
             for (int j = i; j < taskCount - 1; j++)
             {
                 tasks[j] = tasks[j + 1];
@@ -102,6 +126,11 @@ void UserCollections::RemoveTask(int taskID)
             tasks[--taskCount] = nullptr;
             break;
         }
+    }
+    if (!found)
+    {
+        cout << "Task not found." << endl;
+        return;
     }
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
     for (int i = 0; i < taskCount; i++)
@@ -114,11 +143,13 @@ void UserCollections::RemoveTask(int taskID)
 
 void UserCollections::RemoveTask(string taskName)
 {
+    bool found = false;
     for (int i = 0; i < taskCount; i++)
     {
         if (tasks[i]->name == taskName)
         {
             delete tasks[i];
+            found = true;
             for (int j = i; j < taskCount - 1; j++)
             {
                 tasks[j] = tasks[j + 1];
@@ -126,6 +157,11 @@ void UserCollections::RemoveTask(string taskName)
             tasks[--taskCount] = nullptr;
             break;
         }
+    }
+    if (!found)
+    {
+        cout << "Task not found." << endl;
+        return;
     }
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
     for (int i = 0; i < taskCount; i++)
@@ -138,14 +174,21 @@ void UserCollections::RemoveTask(string taskName)
 
 void UserCollections::EditTask(int taskID, Task newTask)
 {
+    bool found = false;
     for (int i = 0; i < taskCount; i++)
     {
         if (tasks[i]->taskID == taskID)
         {
             delete tasks[i];
+            found = true;
             tasks[i] = new Task(newTask);
             break;
         }
+    }
+    if (!found)
+    {
+        cout << "Task not found." << endl;
+        return;
     }
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
     for (int i = 0; i < taskCount; i++)
@@ -158,14 +201,21 @@ void UserCollections::EditTask(int taskID, Task newTask)
 
 void UserCollections::EditTask(string taskName, Task newTask)
 {
+    bool found = false;
     for (int i = 0; i < taskCount; i++)
     {
         if (tasks[i]->name == taskName)
         {
             delete tasks[i];
+            found = true;
             tasks[i] = new Task(newTask);
             break;
         }
+    }
+    if (!found)
+    {
+        cout << "Task not found." << endl;
+        return;
     }
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
     for (int i = 0; i < taskCount; i++)

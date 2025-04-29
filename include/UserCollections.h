@@ -1,8 +1,18 @@
 #include <iostream>
 #include <File_Management.h>
 #include <string>
+#include <ctime>
+#include <iomanip>
+#include <sstream>
 #include <Task.h>
 using namespace std;
+
+enum Priority
+{
+    Low,
+    Medium,
+    High
+};
 
 class UserCollections
 {
@@ -107,5 +117,18 @@ public:
     {
         RemoveTask(1);
         RemoveCategory("Test Category");
+    }
+
+    /*ParseStringtoDateTime
+    Parameter : (string dateString)
+    Description : This function parses a string to a DateTime object.
+    */
+    struct tm ParseStringtoDateTime(string dateString)
+    {
+        struct tm dateTime = {};
+        istringstream ss(dateString);
+        ss >> get_time(&dateTime, "%Y-%m-%d");
+        time_t time = mktime(&dateTime);
+        return *localtime(&time);
     }
 };
