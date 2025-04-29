@@ -87,4 +87,25 @@ public:
     */
     void EditTask(int taskID, Task newTask);
     void EditTask(string taskName, Task newTask);
+
+    /*TestAddFunction
+    Parameter : None
+    Description : This function is used for testing mandatory functions in the UserCollections class.
+    */
+    void TestAddFunction()
+    {
+        AddTask(Task(1, "Test Task", "Test Description", "In Progress", "High"));
+        AddCategory("Test Category");
+        EditTask(1, Task(1, "Updated Task", "Updated Description", "Completed", "Low"));
+    }
+
+    /*TestRemoveFunction
+    Parameter : None
+    Description : This function is used for testing mandatory functions in the UserCollections class.
+    */
+    void TestRemoveFunction()
+    {
+        RemoveTask(1);
+        RemoveCategory("Test Category");
+    }
 };
