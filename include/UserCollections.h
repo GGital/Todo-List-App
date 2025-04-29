@@ -1,5 +1,7 @@
+#pragma once
 #include <iostream>
 #include <File_Management.h>
+#include <fstream>
 #include <string>
 #include <ctime>
 #include <iomanip>
@@ -34,6 +36,7 @@ public:
             tasks[i] = nullptr;
             categories[i] = nullptr;
         }
+        cout << "User ID: " << userId << endl;
         ReadTasksFromFile();
         ReadCategoriesFromFile();
     }

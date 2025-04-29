@@ -7,10 +7,17 @@ using namespace std;
 
 void UserCollections::ReadTasksFromFile()
 {
-    fileManager.ReadFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
+    string filePath = "./UserCollections/Tasks/" + to_string(userId) + ".csv";
+    ifstream file(filePath);
     string line;
-    while (getline(cin, line))
+    if (!file.is_open())
     {
+        cerr << "Error: Could not open file " << filePath << endl;
+        return;
+    }
+    while (getline(file, line))
+    {
+        // cout << line;
         int pos = line.find(',');
         int taskID = stoi(line.substr(0, pos));
         line = line.substr(pos + 1);
@@ -36,12 +43,24 @@ void UserCollections::ReadTasksFromFile()
 
 void UserCollections::ReadCategoriesFromFile()
 {
-    fileManager.ReadFile("./UserCollections/Categories/" + to_string(userId) + ".csv");
-    string line;
-    while (getline(cin, line))
+    string filePath = "./UserCollections/Categories/" + to_string(userId) + ".csv";
+    ifstream file(filePath);
+    if (!file.is_open())
     {
+        cerr << "Error: Could not open file " << filePath << endl;
+        return;
+    }
+    string line;
+    while (getline(file, line))
+    {
+        // cout << line;
         categories[categoryCount++] = new string(line);
     }
+    /*cout << categoryCount << endl;
+    for (int i = 0; i < categoryCount; i++)
+    {
+        cout << *categories[i] << endl;
+    }*/
     fileManager.CloseFile();
 }
 
@@ -57,7 +76,16 @@ void UserCollections::AddTask(Task task)
             return;
         }
     }
+    int maxIndex = 0;
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (tasks[i]->taskID > maxIndex)
+        {
+            maxIndex = tasks[i]->taskID;
+        }
+    }
     tasks[taskCount++] = new Task(task);
+    tasks[taskCount - 1]->taskID = maxIndex + 1;
     cout << task.taskID << "," << task.name << "," << task.description << "," << task.status << "," << task.priority << ",";
     cout << put_time(&task.dueDate, "%Y-%m-%d") << endl;
     fileManager.CloseFile();
@@ -83,8 +111,10 @@ void UserCollections::AddCategory(string category)
 void UserCollections::RemoveCategory(string category)
 {
     bool found = false;
+    // cout << categoryCount << endl;
     for (int i = 0; i < categoryCount; i++)
     {
+        // cout << *categories[i] << category << endl;
         if (*categories[i] == category)
         {
             delete categories[i];
@@ -113,8 +143,10 @@ void UserCollections::RemoveCategory(string category)
 void UserCollections::RemoveTask(int taskID)
 {
     bool found = false;
+    // cout << taskCount << endl;
     for (int i = 0; i < taskCount; i++)
     {
+        // cout << tasks[i]->taskID << taskID << endl;
         if (tasks[i]->taskID == taskID)
         {
             delete tasks[i];
