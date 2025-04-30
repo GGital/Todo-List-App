@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 #include <ctime>
+#include <iomanip>
+#include <sstream>
 using namespace std;
 
 struct Task
@@ -35,6 +37,19 @@ struct Task
     Task(string n, string d, string s, string p, struct tm dd) : name(n), description(d), status(s), priority(p), dueDate(dd) {}
 
     Task(int id, string n, string d, string s, string p, struct tm dd) : taskID(id), name(n), description(d), status(s), priority(p), dueDate(dd) {}
+
+    Task(string n, string d, string s, string p, string dd)
+    {
+        name = n;
+        description = d;
+        status = s;
+        priority = p;
+        struct tm dateTime = {};
+        istringstream ss(dd);
+        ss >> get_time(&dateTime, "%Y-%m-%d");
+        time_t time = mktime(&dateTime);
+        dueDate = *localtime(&time);
+    }
     // Overloading the << operator for easy printing of Task objects
     friend ostream &operator<<(ostream &os, const Task &task)
     {

@@ -108,10 +108,11 @@ public:
     void TestAddFunction()
     {
         AddTask(Task(1, "Test Task", "Test Description", "In Progress", "High"));
+        AddTask(Task(2, "Test Task 2", "Test Description 2", "Completed", "Medium"));
         AddCategory("Test Category");
-        EditTask(1, Task(1, "Updated Task", "Updated Description", "Completed", "Low"));
-        AddTask(Task("Test Task 2", "Test Description 2", "In Progress", "Medium"));
-        AddTask(Task("Test Task 3", "Test Description 3", "In Progress", "High"));
+        AddCategory("Test Category 2");
+        AddTask(Task("Test Task 3", "Test Description 3", "In Progress", "Low", "2025-11-24"));
+        AddTask(Task("Test Task 4", "Test Description 4", "Completed", "High", "2025-11-24"));
     }
 
     /*TestRemoveFunction

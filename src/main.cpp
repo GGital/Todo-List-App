@@ -74,12 +74,12 @@ int main()
 
     userCollection.TestAddFunction();
 
+    /*
     userCollection.TestEditFunction();
-
     userCollection.RemindTask();
-
     userCollection.RemoveAllTasks();
-
     userCollection.RemoveAllCategories();
+    */
+
     return 0;
 }
