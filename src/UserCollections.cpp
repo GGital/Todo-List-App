@@ -1,4 +1,5 @@
 #include <UserCollections.h>
+#include <UI.h>
 #include <Task.h>
 #include <ctime>
 #include <iomanip>
@@ -270,4 +271,39 @@ void UserCollections::DisplayTasks()
     {
         cout << *tasks[i] << endl;
     }
+}
+
+void UserCollections::RemindTask()
+{
+    time_t now = time(0);
+    struct tm t = *localtime(&now);
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (tasks[i]->dueDate.tm_year == t.tm_year && tasks[i]->dueDate.tm_mon == t.tm_mon && tasks[i]->dueDate.tm_mday == t.tm_mday)
+        {
+            cout << ANSI_COLOR_RED << "Task Name: " << tasks[i]->name << " is due today!" << ANSI_COLOR_RESET << endl;
+        }
+    }
+}
+
+void UserCollections::RemoveAllTasks()
+{
+    for (int i = 0; i < taskCount; i++)
+    {
+        delete tasks[i];
+    }
+    taskCount = 0;
+    fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
+    fileManager.CloseFile();
+}
+
+void UserCollections::RemoveAllCategories()
+{
+    for (int i = 0; i < categoryCount; i++)
+    {
+        delete categories[i];
+    }
+    categoryCount = 0;
+    fileManager.WriteFile("./UserCollections/Categories/" + to_string(userId) + ".csv");
+    fileManager.CloseFile();
 }

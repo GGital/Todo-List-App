@@ -8,7 +8,7 @@
 #include "LoginSystem.h"
 #include "HashMapWithDLL.h"
 #include "UserCollections.h"
-#include <UI.h>
+#include "UI.h"
 using namespace std;
 
 int main()
@@ -76,5 +76,10 @@ int main()
 
     userCollection.TestEditFunction();
 
+    userCollection.RemindTask();
+
+    userCollection.RemoveAllTasks();
+
+    userCollection.RemoveAllCategories();
     return 0;
 }
