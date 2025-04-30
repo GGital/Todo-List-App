@@ -207,12 +207,15 @@ void UserCollections::RemoveTask(string taskName)
 void UserCollections::EditTask(int taskID, Task newTask)
 {
     bool found = false;
+    int oldTaskID = 0;
     for (int i = 0; i < taskCount; i++)
     {
         if (tasks[i]->taskID == taskID)
         {
+            oldTaskID = tasks[i]->taskID;
             delete tasks[i];
             found = true;
+            newTask.taskID = oldTaskID;
             tasks[i] = new Task(newTask);
             break;
         }
@@ -234,12 +237,15 @@ void UserCollections::EditTask(int taskID, Task newTask)
 void UserCollections::EditTask(string taskName, Task newTask)
 {
     bool found = false;
+    int oldTaskID = 0;
     for (int i = 0; i < taskCount; i++)
     {
         if (tasks[i]->name == taskName)
         {
+            oldTaskID = tasks[i]->taskID;
             delete tasks[i];
             found = true;
+            newTask.taskID = oldTaskID;
             tasks[i] = new Task(newTask);
             break;
         }
