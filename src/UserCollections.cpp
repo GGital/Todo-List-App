@@ -72,8 +72,8 @@ void UserCollections::AddTask(Task task)
     {
         if (tasks[i]->name == task.name)
         {
-            cout << "Task name already exists." << endl;
             fileManager.CloseFile();
+            cout << "Task name already exists." << endl;
             return;
         }
     }
@@ -99,8 +99,8 @@ void UserCollections::AddCategory(string category)
     {
         if (*categories[i] == category)
         {
-            cout << "Category name already exists." << endl;
             fileManager.CloseFile();
+            cout << "Category name already exists." << endl;
             return;
         }
     }
