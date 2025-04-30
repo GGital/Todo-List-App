@@ -124,6 +124,16 @@ public:
         RemoveCategory("Test Category");
     }
 
+    /*TestEditFunction
+    Parameter : None
+    Description : This function is used for testing mandatory functions in the UserCollections class.
+    */
+    void TestEditFunction()
+    {
+        EditTask(1, Task(1, "Updated Task", "Updated Description", "Completed", "Low"));
+        EditTask("Test Task 2", Task(1, "Updated Task", "Updated Description", "Completed", "Low"));
+    }
+
     /*ParseStringtoDateTime
     Parameter : (string dateString)
     Description : This function parses a string to a DateTime object.

@@ -74,5 +74,7 @@ int main()
 
     userCollection.TestAddFunction();
 
+    userCollection.TestEditFunction();
+
     return 0;
 }
