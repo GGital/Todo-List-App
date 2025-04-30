@@ -93,7 +93,7 @@ int main()
 
     UserCollections usercollection(userID, username, password);
     
-    string name,desc,status,prior;
+    string name,desc,status,prior,duedate;
 
     while(true){
 
@@ -105,21 +105,25 @@ int main()
 
             //Add Task here
 
-            cout << "Enter task name: ";
+            cout << "Enter task's name: ";
             cin.ignore();
             getline(cin,name);
 
-            cout << "Enter task description: ";
+            cout << "Enter task's description: ";
             getline(cin,desc);
 
-            cout << "Enter task status (e.g., Not started,In progress, Completed): ";
+            cout << "Enter task's status (e.g., Not started,In progress, Completed): ";
             getline(cin,status);
 
-            cout << "Enter task priority (e.g., Low, Medium, High): ";
+            cout << "Enter task's priority (e.g., Low, Medium, High): ";
             getline(cin,prior);
 
+            cout << "Enter task's due date (YYYY-MM-DD): ";
+            getline(cin,duedate);
+            // if(duedate) input check task add fail
+
             cout << "\n***************\n";
-            Task task(name, desc, status, prior);
+            Task task(name, desc, status, prior,duedate);
             //Due date input
             usercollection.AddTask(task);
             taskList.insertAtEnd(task); //dll connect insertatend
@@ -182,7 +186,7 @@ int main()
         } else if (MainChoice==3) { 
             
             while(true){
-                Task task(name, desc, status, prior);
+                string newname,newdesc,newstatus,newprior;
                 
                 //Modify Task here
 
@@ -206,9 +210,27 @@ int main()
                     if (modifyTaskORCategorychoice==1) {
 
                         //Show All tasks
+
                         cout << "Enter Task's Name To Edit: ";
-                        cin >> modifyName;
-                        usercollection.EditTask(modifyName,task);
+                        cin.ignore();
+                        getline(cin,modifyName);
+
+                        cout << "Enter task name: ";
+                        getline(cin,newname);
+
+                        cout << "Enter task description: ";
+                        getline(cin,newdesc);
+
+                        cout << "Enter task status (e.g., Not started,In progress, Completed): ";
+                        getline(cin,newstatus);
+
+                        cout << "Enter task priority (e.g., Low, Medium, High): ";
+                        getline(cin,newprior);
+
+                        Task newtask(newname, newdesc, newstatus, newprior);
+
+                        cout << "\n***************\n";
+                        usercollection.EditTask(modifyName, newtask);
 
                     } else if (modifyTaskORCategorychoice==2) {
 
@@ -239,7 +261,7 @@ int main()
                         //Show All tasks
                         cout << "Enter Task's ID To Edit: ";
                         cin >> modifyTaskID;
-                        usercollection.EditTask(modifyTaskID,task);
+                        //usercollection.EditTask(modifyTaskID,newtask);
 
                     } else if (modifyTaskORCategorychoice==2) {
 

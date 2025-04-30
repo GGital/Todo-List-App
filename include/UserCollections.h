@@ -108,10 +108,11 @@ public:
     void TestAddFunction()
     {
         AddTask(Task(1, "Test Task", "Test Description", "In Progress", "High"));
+        AddTask(Task(2, "Test Task 2", "Test Description 2", "Completed", "Medium"));
         AddCategory("Test Category");
-        EditTask(1, Task(1, "Updated Task", "Updated Description", "Completed", "Low"));
-        AddTask(Task("Test Task 2", "Test Description 2", "In Progress", "Medium"));
-        AddTask(Task("Test Task 3", "Test Description 3", "In Progress", "High"));
+        AddCategory("Test Category 2");
+        AddTask(Task("Test Task 3", "Test Description 3", "In Progress", "Low", "2025-11-24"));
+        AddTask(Task("Test Task 4", "Test Description 4", "Completed", "High", "2025-11-24"));
     }
 
     /*TestRemoveFunction
@@ -122,6 +123,16 @@ public:
     {
         RemoveTask(1);
         RemoveCategory("Test Category");
+    }
+
+    /*TestEditFunction
+    Parameter : None
+    Description : This function is used for testing mandatory functions in the UserCollections class.
+    */
+    void TestEditFunction()
+    {
+        EditTask(1, Task(1, "Updated Task", "Updated Description", "Completed", "Low"));
+        EditTask("Test Task 2", Task(1, "Updated Task", "Updated Description", "Completed", "Low"));
     }
 
     /*ParseStringtoDateTime
@@ -136,4 +147,22 @@ public:
         time_t time = mktime(&dateTime);
         return *localtime(&time);
     }
+
+    /*RemindTask
+    Parameter : None
+    Description : This function checks if any tasks are due upcoming days and displays a reminder message.
+    */
+    void RemindTask();
+
+    /*RemoveAllTasks
+    Parameter : None
+    Description : This function removes all tasks from the tasks array and deletes them from the tasks.csv file.
+    */
+    void RemoveAllTasks();
+
+    /*RemoveAllCategories
+     Parameter : None
+     Description : This function removes all categories from the categories array and deletes them from the categories.csv file.
+     */
+    void RemoveAllCategories();
 };
