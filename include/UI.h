@@ -1,4 +1,6 @@
 #pragma once
+#ifndef UI_H
+#define UI_H
 // #define NOMINMAX
 #include <iostream>
 #include <string>
@@ -51,7 +53,11 @@ void enable_ansi_colors()
 }
 */
 
-void clearScreen()
+class UI
 {
-    system("@cls||clear");
-}
+    void ClearScreen()
+    {
+        system("cls||clear");
+    }
+};
+#endif // UI_H
