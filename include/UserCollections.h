@@ -18,7 +18,8 @@ enum Priority
 
 class UserCollections
 {
-private:
+
+public:
     int userId;
     string username;
     string password;
@@ -27,8 +28,6 @@ private:
     int categoryCount;
     int taskCount;
     FileManagement fileManager;
-
-public:
     UserCollections(int id, string u, string p) : userId(id), username(u), password(p), categoryCount(0), taskCount(0)
     {
         for (int i = 0; i < 1005; i++)
@@ -69,6 +68,19 @@ public:
     Desription : This function displays all tasks in the tasks array.
     */
     void DisplayTasks();
+
+    /*DisplayCategories
+    Parameter : None
+    Description : This function displays all categories in the categories array.
+    */
+    void DisplayCategories()
+    {
+        for (int i = 0; i < categoryCount; i++)
+        {
+            cout << *categories[i] << endl;
+        }
+    }
+
     /* AddTask
     Parameter : (Task task)
     Description : This function adds a new task to the tasks array and appends it to the tasks.csv file.

@@ -4,35 +4,38 @@
 #include <Task.h>
 using namespace std;
 
-class LoginSystemUI {
+class LoginSystemUI
+{
 public:
-    void showAuthMenu() {
+    void showAuthMenu()
+    {
 
-        //LoginSystem authSystem;
+        // LoginSystem authSystem;
         cout << "***************\n";
         cout << "Authentication Menu.\n\n";
         cout << "1.Register.\n2.Login.\n3.Exit.\n\n";
         cout << "Enter your choice: ";
         cin.clear();
-
     }
-    void showRegisterMenu() {
+    void showRegisterMenu()
+    {
 
         cout << "***************\n";
         cout << "Register Menu.\n\n";
-
     }
-    void showLoginMenu() {
+    void showLoginMenu()
+    {
 
         cout << "***************\n";
         cout << "Login Menu.\n\n";
-        
     }
 };
 
-class MainMenuUI {
+class MainMenuUI
+{
 public:
-    void showMainMenu() {
+    void showMainMenu()
+    {
         cout << "***************\n";
         cout << "Main Menu.\n\n";
         cout << "1.Add Task.\n";
@@ -43,96 +46,101 @@ public:
         cout << "6.Topological Task.\n";
         cout << "7.Add Category.\n";
         cout << "8.Delete Category.\n";
-        cout << "9.Logout.\n\n";
+        cout << "9.View All Categories.\n";
+        cout << "0.Logout.\n\n";
         cout << "Enter your choice: ";
         cin.clear();
-
     }
 };
 
-class RemoveMenuUI {
+class RemoveMenuUI
+{
 public:
-    void showRemoveMenu() {
+    void showRemoveMenu()
+    {
 
         cout << "***************\n";
         cout << "Remove Menu.\n\n";
         cout << "1.Remove By Name.\n2.Remove By Task ID.\n3.Exit.\n\n";
         cout << "Enter your choice: ";
         cin.clear();
-
     }
 };
 
-class ModifyMenuUI {
+class ModifyMenuUI
+{
 public:
-    void showModifyMenu() {
-        
+    void showModifyMenu()
+    {
+
         cout << "***************\n";
         cout << "Modify Menu.\n\n";
         cout << "1.Modify By Name.\n2.Modify By Task ID.\n3.Exit.\n\n";
         cout << "Enter your choice: ";
         cin.clear();
     }
-    void ModifyTaskORCategoryMenu() {
+    void ModifyTaskORCategoryMenu()
+    {
 
         cout << "***************\n";
         cout << "Modify Menu.\n\n";
         cout << "1.Modify tasks.\n2.Assign Task's Category.\n3.Exit.\n\n";
         cout << "Enter your choice: ";
         cin.clear();
-
     }
 };
 
-
-class SearchUI {
-    public:
-        void SearchMainUI() {
-
-            cout << "***************\n";
-            cout << "Search Menu.\n\n";
-            cout << "1.Search By Name.\n2.Search By Task ID.\n3.Search By Priority Level.\n4.Exit.\n\n";
-            cout << "Enter your choice: ";
-            cin.clear();
-    
-        }
-        void SearchNameUI() {
-
-            cout << "***************\n";
-            cout << "Search By Name Menu.\n\n";
-            cout << "Enter Task's Name: ";
-            cin.clear();
-    
-        }
-        void SearchIDUI() {
-
-            cout << "***************\n";
-            cout << "Search By ID Menu.\n\n";
-            cout << "Enter Task's ID: ";
-            cin.clear();
-    
-        }
-        void SearchPriorUI() {
-
-            cout << "***************\n";
-            cout << "Search By Priority Menu.\n\n";
-            cout << "Enter Task's Priority: ";
-            cin.clear();
-    
-        }
-};
-    
-class CategoryUI {
+class SearchUI
+{
 public:
-    void AddCategoryMenu() {
+    void SearchMainUI()
+    {
+
+        cout << "***************\n";
+        cout << "Search Menu.\n\n";
+        cout << "1.Search By Name.\n2.Search By Task ID.\n3.Search By Priority Level.\n4.Exit.\n\n";
+        cout << "Enter your choice: ";
+        cin.clear();
+    }
+    void SearchNameUI()
+    {
+
+        cout << "***************\n";
+        cout << "Search By Name Menu.\n\n";
+        cout << "Enter Task's Name: ";
+        cin.clear();
+    }
+    void SearchIDUI()
+    {
+
+        cout << "***************\n";
+        cout << "Search By ID Menu.\n\n";
+        cout << "Enter Task's ID: ";
+        cin.clear();
+    }
+    void SearchPriorUI()
+    {
+
+        cout << "***************\n";
+        cout << "Search By Priority Menu.\n\n";
+        cout << "Enter Task's Priority: ";
+        cin.clear();
+    }
+};
+
+class CategoryUI
+{
+public:
+    void AddCategoryMenu()
+    {
 
         cout << "***************\n";
         cout << "Add the Category Menu.\n\n";
         cout << "Enter your category name: ";
         cin.clear();
-
     }
-    void DeleteCategoryMenu() {
+    void DeleteCategoryMenu()
+    {
 
         cout << "***************\n";
         cout << "Delete the Category Menu.\n\n";
@@ -140,4 +148,3 @@ public:
         cin.clear();
     }
 };
-

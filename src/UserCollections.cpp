@@ -10,20 +10,12 @@ void UserCollections::ReadTasksFromFile()
 {
     string filePath = "./UserCollections/Tasks/" + to_string(userId) + ".csv";
     ifstream file(filePath);
-    string filePath = "./UserCollections/Tasks/" + to_string(userId) + ".csv";
-    ifstream file(filePath);
     string line;
     if (!file.is_open())
     {
         cerr << "Error: Could not open file " << filePath << endl;
         return;
     }
-    while (getline(file, line))
-        if (!file.is_open())
-        {
-            cerr << "Error: Could not open file " << filePath << endl;
-            return;
-        }
     while (getline(file, line))
     {
         // cout << line;
@@ -56,13 +48,6 @@ void UserCollections::ReadTasksFromFile()
 
 void UserCollections::ReadCategoriesFromFile()
 {
-    string filePath = "./UserCollections/Categories/" + to_string(userId) + ".csv";
-    ifstream file(filePath);
-    if (!file.is_open())
-    {
-        cerr << "Error: Could not open file " << filePath << endl;
-        return;
-    }
     string filePath = "./UserCollections/Categories/" + to_string(userId) + ".csv";
     ifstream file(filePath);
     if (!file.is_open())

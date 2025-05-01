@@ -107,11 +107,12 @@ int main()
     DoublyLinkedList<Task> taskList;
 
     int MainChoice;
+
     int userID = loginSystem.LoginUser(username, password);
 
     UserCollections usercollection(userID, username, password);
 
-    string name, desc, status, prior, duedate;
+    string name, category, desc, status, prior, duedate;
 
     while (true)
     {
@@ -132,11 +133,77 @@ int main()
             cout << "Enter task's description: ";
             getline(cin, desc);
 
-            cout << "Enter task's status (e.g., Not started,In progress, Completed): ";
-            getline(cin, status);
+            cout << "[0] Uncategorized\n";
+            for (int i = 0; i < usercollection.categoryCount; i++)
+            {
+                cout << "[" << i + 1 << "] " << *usercollection.categories[i] << endl;
+            }
+
+            cout << "Enter task's category: ";
+            int categoryIndex;
+            cin >> categoryIndex;
+
+            if (categoryIndex == 0)
+            {
+                category = "Uncategorized";
+            }
+            else if (categoryIndex > 0 && categoryIndex < usercollection.categoryCount)
+            {
+                category = *usercollection.categories[categoryIndex - 1];
+            }
+            else
+            {
+                cout << "Invalid category index.\n";
+                continue;
+            }
+
+            cout << "Enter task's status: ";
+            cout << "[0] Not started\n"
+                 << "[1] In progress\n"
+                 << "[2] Completed\n";
+            int statusIndex;
+            cin >> statusIndex;
+            if (statusIndex == 0)
+            {
+                status = "Not started";
+            }
+            else if (statusIndex == 1)
+            {
+                status = "In progress";
+            }
+            else if (statusIndex == 2)
+            {
+                status = "Completed";
+            }
+            else
+            {
+                cout << "Invalid status index.\n";
+                continue;
+            }
 
             cout << "Enter task's priority (e.g., Low, Medium, High): ";
-            getline(cin, prior);
+            cout << "[0] Low\n"
+                 << "[1] Medium\n"
+                 << "[2] High\n";
+            int priorIndex;
+            cin >> priorIndex;
+            if (priorIndex == 0)
+            {
+                prior = "Low";
+            }
+            else if (priorIndex == 1)
+            {
+                prior = "Medium";
+            }
+            else if (priorIndex == 2)
+            {
+                prior = "High";
+            }
+            else
+            {
+                cout << "Invalid priority index.\n";
+                continue;
+            }
 
             cout << "Enter task's due date (YYYY-MM-DD): ";
             getline(cin, duedate);
@@ -273,11 +340,75 @@ int main()
                             cout << "Enter task description: ";
                             getline(cin, newdesc);
 
-                            cout << "Enter task status (e.g., Not started,In progress, Completed): ";
-                            getline(cin, newstatus);
+                            cout << "[0] Uncategorized\n";
+                            for (int i = 0; i < usercollection.categoryCount; i++)
+                            {
+                                cout << "[" << i + 1 << "] " << *usercollection.categories[i] << endl;
+                            }
+                            cout << "Enter task's category: ";
+                            int categoryIndex;
+                            cin >> categoryIndex;
+                            if (categoryIndex == 0)
+                            {
+                                category = "Uncategorized";
+                            }
+                            else if (categoryIndex > 0 && categoryIndex < usercollection.categoryCount)
+                            {
+                                category = *usercollection.categories[categoryIndex - 1];
+                            }
+                            else
+                            {
+                                cout << "Invalid category index.\n";
+                                continue;
+                            }
+
+                            cout << "Enter task's status: ";
+                            cout << "[0] Not started\n"
+                                 << "[1] In progress\n"
+                                 << "[2] Completed\n";
+                            int statusIndex;
+                            cin >> statusIndex;
+                            if (statusIndex == 0)
+                            {
+                                status = "Not started";
+                            }
+                            else if (statusIndex == 1)
+                            {
+                                status = "In progress";
+                            }
+                            else if (statusIndex == 2)
+                            {
+                                status = "Completed";
+                            }
+                            else
+                            {
+                                cout << "Invalid status index.\n";
+                                continue;
+                            }
 
                             cout << "Enter task priority (e.g., Low, Medium, High): ";
-                            getline(cin, newprior);
+                            cout << "[0] Low\n"
+                                 << "[1] Medium\n"
+                                 << "[2] High\n";
+                            int priorIndex;
+                            cin >> priorIndex;
+                            if (priorIndex == 0)
+                            {
+                                prior = "Low";
+                            }
+                            else if (priorIndex == 1)
+                            {
+                                prior = "Medium";
+                            }
+                            else if (priorIndex == 2)
+                            {
+                                prior = "High";
+                            }
+                            else
+                            {
+                                cout << "Invalid priority index.\n";
+                                continue;
+                            }
 
                             cout << "Enter task's due date (YYYY-MM-DD): ";
                             getline(cin, newduedate);
@@ -505,8 +636,31 @@ int main()
             string categoryname;
             cin >> categoryname;
             usercollection.RemoveCategory(categoryname);
+            for (int i = 0; i < usercollection.taskCount; i++)
+            {
+                if (usercollection.tasks[i]->category == categoryname)
+                {
+                    usercollection.tasks[i]->category = "Uncategorized";
+                }
+            }
+            usercollection.fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userID) + ".csv");
+            for (int i = 0; i < usercollection.taskCount; i++)
+            {
+                cout << usercollection.tasks[i]->taskID << "," << usercollection.tasks[i]->name << "," << usercollection.tasks[i]->description << "," << usercollection.tasks[i]->category << "," << usercollection.tasks[i]->status << "," << usercollection.tasks[i]->priority << ",";
+                cout << put_time(&usercollection.tasks[i]->dueDate, "%Y-%m-%d") << endl;
+            }
+            usercollection.fileManager.CloseFile();
         }
         else if (MainChoice == 9)
+        {
+
+            //--------View Category Menu--------
+
+            cout << "\n\n";
+            usercollection.DisplayCategories();
+            // No Category Testcase
+        }
+        else if (MainChoice == 0)
         {
 
             //--------Logout Menu--------
@@ -525,56 +679,5 @@ int main()
             continue;
         }
     }
-    /*DoublyLinkedList<int> dll;
-    dll.insertAtEnd(10);
-    dll.insertAtEnd(30);
-    dll.display();
-
-    DoublyLinkedList<double> dll2;
-    dll2.insertAtEnd(10.5);
-    dll2.insertAtEnd(30.5);
-    dll2.display();
-
-    MinPriorityQueue<int> minQueue;
-    minQueue.insert(10, 1);
-    minQueue.insert(20, 2);
-    minQueue.insert(30, 3);
-
-    MaxPriorityQueue<int> maxQueue;
-    maxQueue.insert(10, 1);
-    maxQueue.insert(20, 2);
-    maxQueue.insert(30, 3);
-
-    DoublyLinkedList<Task> taskList;
-    taskList.insertAtEnd(Task("Task 1", "Description 1", "In Progress", "High"));
-    taskList.insertAtEnd(Task("Task 2", "Description 2", "Completed", "Medium"));
-
-    fileManager.WriteFile("./output/output.txt");
-    taskList.display();
-    fileManager.CloseFile();
-
-    LoginSystem loginSystem;
-    loginSystem.RegisterUser("Gital", "Madiwa");
-    cout << loginSystem.LoginUser("Gital", "Madiwa") << endl;
-    */
-
-    /*HashMapDLL<string, Task> hashMap(1000);
-    Task task1("Task 1", "Description 1", "In Progress", "High");
-    Task task2("Task 2", "Description 2", "Completed", "Medium");
-    hashMap.insert("Daily Work", task1);
-    hashMap.insert("Career", task2);
-    DoublyLinkedList<Task> *list = hashMap.getList("Daily Work");
-    //DoublyLinkedList<Task> *list = hashMap.getList("Career");
-    fileManager.WriteFile("./output/output.txt");
-    list->display();
-    fileManager.CloseFile();
-
-    LoginSystem loginSystem;
-    loginSystem.RegisterUser("Test", "GG");
-    cout << loginSystem.LoginUser("Test", "GG") << endl;
-
-    UserCollections userCollection(3058, "Test", "GG");
-
-    cout << ANSI_COLOR_RED << "Hello World!" << ANSI_COLOR_RESET << endl;*/
     return 0;
 }

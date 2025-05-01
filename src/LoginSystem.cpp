@@ -46,13 +46,14 @@ void LoginSystem::RegisterUser(string username, string password)
         fileManager.CloseFile();
         return;
     }
+    password = hashPassword(password);
     User *newUser = new User(username, password);
     for (int i = 0; i < userCount; i++)
     {
         if (users[i]->userID == newUser->userID)
             newUser->userID++;
     }
-    cout << newUser->userID << "," << username << "," << hashPassword(password) << endl;
+    cout << newUser->userID << "," << username << "," << password << endl;
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(newUser->userID) + ".csv");
     fileManager.WriteFile("./UserCollections/Categories/" + to_string(newUser->userID) + ".csv");
     fileManager.CloseFile();
