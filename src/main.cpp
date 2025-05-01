@@ -25,63 +25,76 @@ int main()
     LoginSystem loginSystem;
     LoginSystemUI loginmenu;
     MainMenuUI mainmenu;
-    loginmenu.showAuthMenu();
-    int AuthChoice;
-    cin >> AuthChoice;
-    //cout << AuthChoice;
+
     string username,password;
-    if (AuthChoice==1) {
 
-        loginmenu.showRegisterMenu();
-        cout <<"Username :";
-        cin >> username;
-        cout <<"Password :";
-        cin >> password;
+    while(true){
 
-        if (!loginSystem.checkduplicate(username)) {
+        loginmenu.showAuthMenu();
+        int AuthChoice;
+        cin.clear();
+        cin >> AuthChoice;
+        
+        if (AuthChoice==1) {
 
-            loginSystem.RegisterUser(username,password);
-            //cout << loginSystem.LoginUser(username,password);
-            cout << "\nRegistration Successful. Please Login to continue.\n";
+            loginmenu.showRegisterMenu();
+            cout <<"Username :"; 
+            cin >> username;
+            cout <<"Password :";
+            cin >> password;
+
+            if (!loginSystem.checkduplicate(username)) {
+
+                loginSystem.RegisterUser(username,password);
+                cout << "\nRegistration Successful. Please Login to continue.\n";
+                break;
+
+            } else {
+
+                cout << "\nUsername is taken. Please try again later.\n";
+                cin.clear();
+                cin.ignore();
+                continue;
+
+            }
+
+        } else if (AuthChoice==2) {
+            
+            loginmenu.showLoginMenu();
+            cout <<"Username :";
+            cin >> username;
+            cout <<"Password :";
+            cin >> password;
+            
+            if (loginSystem.LoginUser(username,password)==-1) {
+                
+                cout << "\nWrong Username or Password. Please try again later.\n";
+                cin.clear();
+                cin.ignore();
+                continue;
+
+            } else {
+
+                cout << "\nLogin Successful. Entering the program.\n";
+                //cout << loginSystem.LoginUser(username,password);
+                mainmenu.showMainMenu();
+                break;
+                
+
+            }
+            
+        } else if (AuthChoice==3) {
+
             return 0;
 
         } else {
 
-            cout << "\nUsername is taken. Please try again later.\n";
-            return 0;
+            cout << "\nInvalid choice.\n";
+            cin.clear();
+            cin.ignore();
+            continue;
 
         }
-
-    } else if (AuthChoice==2) {
-        
-        loginmenu.showLoginMenu();
-        cout <<"Username :";
-        cin >> username;
-        cout <<"Password :";
-        cin >> password;
-        
-        if (loginSystem.LoginUser(username,password)==-1) {
-            
-            cout << "\nWrong Username or Password. Please try again later.\n";
-            return 0;
-
-        } else {
-
-            cout << "\nLogin Successful. Entering the program.\n";
-            //cout << loginSystem.LoginUser(username,password);
-            mainmenu.showMainMenu();
-            
-
-        }
-        
-    } else if (AuthChoice==3) {
-
-        return 0;
-
-    } else {
-
-        cout << "\nInvalid choice. Please try again later.\n";
-        return 0;
     }
 
     //--------Main Menu--------
@@ -100,10 +113,10 @@ int main()
         mainmenu.showMainMenu();
         cin.clear();
         cin >> MainChoice;
-
+        
         if (MainChoice==1) {
 
-            //Add Task here
+            //--------Add Task Menu--------
 
             cout << "Enter task's name: ";
             cin.ignore();
@@ -124,11 +137,16 @@ int main()
 
             cout << "\n***************\n";
             Task task(name, desc, status, prior,duedate);
-            //Due date input
+
             usercollection.AddTask(task);
             taskList.insertAtEnd(task); //dll connect insertatend
+            
 
-            //if the task name already add, cout in terminal not in file csv
+            //task add fail? task add success if else
+            // due date testcase without -, as alphabet char, future time
+            //remind task where?
+
+            //Priority Testcase ONLY: LOW MEDIUM HIGH. otherwise: invalid
             cout << "Task Add Successfully.\n";
             
 
@@ -136,7 +154,7 @@ int main()
 
             while(true){
                 
-                //Delete Task here
+                //--------Delete Task Menu--------
 
                 int removechoice;
                 int removeTaskID;
@@ -151,6 +169,11 @@ int main()
 
                     //Delete by Task Name
 
+                    //Task Viewing First
+                    cout << "\n\n";
+                    usercollection.DisplayTasks();
+                    cout << "***************\n";
+
                     cout << "Enter Task's Name To Remove: ";
                     cin >> removeName;
                     usercollection.RemoveTask(removeName);
@@ -161,6 +184,11 @@ int main()
 
                     //Delete by Task ID
 
+                    //Task Viewing First
+                    cout << "\n\n";
+                    usercollection.DisplayTasks();
+                    cout << "***************\n";
+
                     cout << "Enter Task's ID To Remove: ";
                     cin >> removeTaskID;
                     usercollection.RemoveTask(removeTaskID);
@@ -169,30 +197,36 @@ int main()
 
                 } else if(removechoice==3) {
 
+                    //Exit
                     break;
 
                 } else {
 
+                    //Invalid Input
                     cout << "\nInvalid choice.\n";
+                    cin.clear();
+                    cin.ignore();
+                    continue;
 
                 }
                 
                 //Show all tasks
 
-                //No Task Testcase , no task at all, no task matched
             }
             
 
         } else if (MainChoice==3) { 
             
             while(true){
-                string newname,newdesc,newstatus,newprior;
+
+                string newname,newdesc,newstatus,newprior,newduedate;
                 
-                //Modify Task here
+                //--------Modify Task Menu--------
 
                 int modifychoice;
                 int modifyTaskID;
                 string modifyName;
+                HashMapDLL<string, Task> hashMap(1000);
 
                 ModifyMenuUI modifymenuUI;
                 modifymenuUI.showModifyMenu();
@@ -207,46 +241,61 @@ int main()
                     modifymenuUI.ModifyTaskORCategoryMenu();
                     cin >> modifyTaskORCategorychoice;
 
-                    if (modifyTaskORCategorychoice==1) {
+                    while(true){
+                        if (modifyTaskORCategorychoice==1) {
 
-                        //Show All tasks
+                            //Modify Task
 
-                        cout << "Enter Task's Name To Edit: ";
-                        cin.ignore();
-                        getline(cin,modifyName);
+                            //Task Viewing First
+                            cout << "\n\n";
+                            usercollection.DisplayTasks();
+                            cout << "***************\n";
 
-                        cout << "Enter task name: ";
-                        getline(cin,newname);
+                            cout << "Enter Task's Name To Edit: ";
+                            cin.ignore();
+                            getline(cin,modifyName);
 
-                        cout << "Enter task description: ";
-                        getline(cin,newdesc);
+                            cout << "Enter task name: ";
+                            getline(cin,newname);
 
-                        cout << "Enter task status (e.g., Not started,In progress, Completed): ";
-                        getline(cin,newstatus);
+                            cout << "Enter task description: ";
+                            getline(cin,newdesc);
 
-                        cout << "Enter task priority (e.g., Low, Medium, High): ";
-                        getline(cin,newprior);
+                            cout << "Enter task status (e.g., Not started,In progress, Completed): ";
+                            getline(cin,newstatus);
 
-                        Task newtask(newname, newdesc, newstatus, newprior);
+                            cout << "Enter task priority (e.g., Low, Medium, High): ";
+                            getline(cin,newprior);
 
-                        cout << "\n***************\n";
-                        usercollection.EditTask(modifyName, newtask);
+                            cout << "Enter task's due date (YYYY-MM-DD): ";
+                            getline(cin,newduedate);
 
-                    } else if (modifyTaskORCategorychoice==2) {
+                            Task newtask(newname, newdesc, newstatus, newprior,newduedate);
 
-                        //Show All tasks
-                        //Assign Category Name and Task's Name
+                            cout << "\n***************\n";
+                            usercollection.EditTask(modifyName, newtask);
+                            break;
 
-                    } else {
+                        } else if (modifyTaskORCategorychoice==2) {
 
-                        break;
+                            //Assign Category Name and Task's Name
 
+                            //Task Viewing First
+                            cout << "\n\n";
+                            usercollection.DisplayTasks();
+                            cout << "***************\n";
+
+                        } else {
+
+                            //Invalid Input
+                            cout << "\nInvalid choice.\n";
+                            cin.clear();
+                            cin.ignore();
+                            continue;
+
+                        }
+                        
                     }
-                    
-                    //HELPPPPPPPP
-
-                    //What if that name doesn't exist in file?
-                    break;
 
                 } else if(modifychoice==2) {
 
@@ -256,75 +305,166 @@ int main()
                     modifymenuUI.ModifyTaskORCategoryMenu();
                     cin >> modifyTaskORCategorychoice;
 
-                    if (modifyTaskORCategorychoice==1) {
+                    while(true){
+                        if (modifyTaskORCategorychoice==1) {
 
-                        //Show All tasks
-                        cout << "Enter Task's ID To Edit: ";
-                        cin >> modifyTaskID;
-                        //usercollection.EditTask(modifyTaskID,newtask);
+                            //Modify Task
 
-                    } else if (modifyTaskORCategorychoice==2) {
+                            //Task Viewing First
+                            cout << "\n\n";
+                            usercollection.DisplayTasks();
+                            cout << "***************\n";
+                            cout << "Enter Task's ID To Edit: ";
+                            cin >> modifyTaskID;
+                            //usercollection.EditTask(modifyTaskID,newtask);
 
-                        //Show All tasks
-                        //Assign Category Name and Task's ID
+                            cout << "Enter task name: ";
+                            getline(cin,newname);
 
-                    } else {
+                            cout << "Enter task description: ";
+                            getline(cin,newdesc);
 
-                        break;
+                            cout << "Enter task status (e.g., Not started,In progress, Completed): ";
+                            getline(cin,newstatus);
 
+                            cout << "Enter task priority (e.g., Low, Medium, High): ";
+                            getline(cin,newprior);
+
+                            cout << "Enter task's due date (YYYY-MM-DD): ";
+                            getline(cin,newduedate);
+
+                            Task newtask(newname, newdesc, newstatus, newprior,newduedate);
+
+                            cout << "\n***************\n";
+                            usercollection.EditTask(modifyTaskID, newtask);
+
+                        } else if (modifyTaskORCategorychoice==2) {
+
+                            //Assign Category Name and Task's ID
+
+                            //Task Viewing First
+                            cout << "\n\n";
+                            usercollection.DisplayTasks();
+                            cout << "***************\n";
+                            
+                            string category;
+                            
+                            cout << "Enter the category: ";
+                            cin >> category;
+                            cout << "Enter the task ID: ";
+                            cin >> modifyTaskID;
+
+                            Task task(name,desc,status,prior,duedate);
+
+                            hashMap.insert(category, task);
+                            DoublyLinkedList<Task> *list = hashMap.getList(category);
+                            fileManager.WriteFile("./UserCollections/Categories/" + to_string(userID) + ".csv");
+                            list->display();
+                            fileManager.CloseFile();
+                            
+                            
+
+                            // Category Name view, Testcase category name to task
+
+                        } else {
+
+                            //Invalid Input
+                            cout << "\nInvalid choice.\n";
+                            cin.clear();
+                            cin.ignore();
+                            continue;
+
+                        }
+                        
                     }
-                    
-                    //HELPPPPPPPP
-
-                    //What if that ID doesn't exist in file?
-                    break;
-
 
                 } else if(modifychoice==3) {
 
+                    //Exit
                     break;
 
                 } else {
 
+                    //Invalid Input
                     cout << "\nInvalid choice.\n";
+                    cin.clear();
+                    cin.ignore();
+                    continue;
 
                 }
                 
                 //Show all tasks
-
-                //No Task Testcase
             }
 
 
         } else if (MainChoice==4) {
 
-            //View All Tasks here
+            //--------View Task Menu[By Task ID]--------
             
-            //View by Task ID order
-            //usercollection.ReadTasksFromFile();
+            cout << "\n\n";
+            usercollection.DisplayTasks();
             //break;
             //No Task Testcase
 
         } else if (MainChoice==5) {
 
             //Search Task here
+            SearchUI searchUI;
 
-            //Search by Task Name
+            while(true) {
 
-            //Search by Task ID
+                int searchchoice;
+                searchUI.SearchMainUI();
+                cin >> searchchoice;
+                
+                if (searchchoice==1) {
+                    
+                    //Search by Task Name
+                    searchUI.SearchNameUI();
+                    string searchName;
+                    getline(cin,searchName);
 
-            //Search by Task Priority
+                } else if (searchchoice==2) {
+
+                    //Search by Task ID
+                    searchUI.SearchIDUI();
+                    int searchID;
+                    cin >> searchID;
+
+                } else if (searchchoice==3) {
+
+                    //Search by Task Priority
+                    searchUI.SearchPriorUI();
+                    string searchPrior;
+                    getline(cin,searchPrior);
+                    
+                } else if (searchchoice==4) {
+
+                    //Exit
+                    break;
+
+                } else {
+
+                    //Invalid Input
+                    cout << "\nInvalid choice.\n";
+                    cin.clear();
+                    cin.ignore();
+                    continue;
+
+                }
+            
+            }
 
             //No Task Testcase
 
         } else if (MainChoice==6) {
 
-            //Topological Task here
+            //--------Topological Task Menu--------
             //Susu na 
 
         } else if (MainChoice==7) {
 
-            //Add Category here
+            //--------Add Category Menu--------
 
             CategoryUI categoryUI;
             categoryUI.AddCategoryMenu();
@@ -334,7 +474,7 @@ int main()
 
         } else if (MainChoice==8) {
 
-            //Delete Category here
+            //--------Delete Category Menu--------
 
             CategoryUI categoryUI;
             categoryUI.DeleteCategoryMenu();
@@ -344,7 +484,7 @@ int main()
 
         } else if (MainChoice==9) {
 
-            //Logout here
+            //--------Logout Menu--------
 
             loginSystem.LogoutUser(userID);
             cout << "Logout Successfully.";
@@ -352,12 +492,13 @@ int main()
 
         } else {
 
+            //Invalid Input 
             cout << "\nInvalid choice.\n";
-            break;
+            cin.clear();
+            cin.ignore();
+            continue;
 
-
-            //Retry in loop lei
-        }//new choice toposort
+        }
     }
     /*DoublyLinkedList<int> dll;
     dll.insertAtEnd(10);
@@ -397,7 +538,8 @@ int main()
     Task task2("Task 2", "Description 2", "Completed", "Medium");
     hashMap.insert("Daily Work", task1);
     hashMap.insert("Career", task2);
-    DoublyLinkedList<Task> *list = hashMap.getList("Career");
+    DoublyLinkedList<Task> *list = hashMap.getList("Daily Work");
+    //DoublyLinkedList<Task> *list = hashMap.getList("Career");
     fileManager.WriteFile("./output/output.txt");
     list->display();
     fileManager.CloseFile();

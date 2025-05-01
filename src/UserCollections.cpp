@@ -73,7 +73,7 @@ void UserCollections::AddTask(Task task)
         if (tasks[i]->name == task.name)
         {
             fileManager.CloseFile();
-            cout << "Task name already exists." << endl;
+            cout << "\nTask name already exists.\n" << endl;
             return;
         }
     }
@@ -100,7 +100,7 @@ void UserCollections::AddCategory(string category)
         if (*categories[i] == category)
         {
             fileManager.CloseFile();
-            cout << "Category name already exists." << endl;
+            cout << "\nCategory name already exists.\n" << endl;
             return;
         }
     }
@@ -162,7 +162,7 @@ void UserCollections::RemoveTask(int taskID)
     }
     if (!found)
     {
-        cout << "Task not found." << endl;
+        cout << "\nTask not found.\n" << endl;
         return;
     }
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
@@ -193,7 +193,7 @@ void UserCollections::RemoveTask(string taskName)
     }
     if (!found)
     {
-        cout << "Task not found." << endl;
+        cout << "\nTask not found.\n" << endl;
         return;
     }
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
@@ -223,7 +223,7 @@ void UserCollections::EditTask(int taskID, Task newTask)
     }
     if (!found)
     {
-        cout << "Task not found." << endl;
+        cout << "\nTask not found.\n" << endl;
         return;
     }
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
@@ -253,7 +253,7 @@ void UserCollections::EditTask(string taskName, Task newTask)
     }
     if (!found)
     {
-        cout << "Task not found." << endl;
+        cout << "\nTask not found.\n" << endl;
         return;
     }
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
@@ -267,9 +267,14 @@ void UserCollections::EditTask(string taskName, Task newTask)
 
 void UserCollections::DisplayTasks()
 {
+    
     for (int i = 0; i < taskCount; i++)
     {
-        cout << *tasks[i] << endl;
+        int num=i+1;
+        cout << "[ Task's ID: " << num << " ]\n" << *tasks[i] << endl;
+        
+    } if (taskCount==0){
+        cout << "No task available.\n";
     }
 }
 
