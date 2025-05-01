@@ -10,6 +10,8 @@ void UserCollections::ReadTasksFromFile()
 {
     string filePath = "./UserCollections/Tasks/" + to_string(userId) + ".csv";
     ifstream file(filePath);
+    string filePath = "./UserCollections/Tasks/" + to_string(userId) + ".csv";
+    ifstream file(filePath);
     string line;
     if (!file.is_open())
     {
@@ -17,7 +19,14 @@ void UserCollections::ReadTasksFromFile()
         return;
     }
     while (getline(file, line))
+        if (!file.is_open())
+        {
+            cerr << "Error: Could not open file " << filePath << endl;
+            return;
+        }
+    while (getline(file, line))
     {
+        // cout << line;
         // cout << line;
         int pos = line.find(',');
         int taskID = stoi(line.substr(0, pos));
@@ -38,12 +47,21 @@ void UserCollections::ReadTasksFromFile()
         string taskDueDate = line.substr(0, pos);
         struct tm t = ParseStringtoDateTime(taskDueDate);
         tasks[taskCount++] = new Task(taskID, taskName, taskDescription, taskStatus, taskPriority, t);
+        struct tm t = ParseStringtoDateTime(taskDueDate);
+        tasks[taskCount++] = new Task(taskID, taskName, taskDescription, taskStatus, taskPriority, t);
     }
     fileManager.CloseFile();
 }
 
 void UserCollections::ReadCategoriesFromFile()
 {
+    string filePath = "./UserCollections/Categories/" + to_string(userId) + ".csv";
+    ifstream file(filePath);
+    if (!file.is_open())
+    {
+        cerr << "Error: Could not open file " << filePath << endl;
+        return;
+    }
     string filePath = "./UserCollections/Categories/" + to_string(userId) + ".csv";
     ifstream file(filePath);
     if (!file.is_open())
@@ -73,7 +91,8 @@ void UserCollections::AddTask(Task task)
         if (tasks[i]->name == task.name)
         {
             fileManager.CloseFile();
-            cout << "\nTask name already exists.\n" << endl;
+            cout << "\nTask name already exists.\n"
+                 << endl;
             return;
         }
     }
@@ -100,7 +119,8 @@ void UserCollections::AddCategory(string category)
         if (*categories[i] == category)
         {
             fileManager.CloseFile();
-            cout << "\nCategory name already exists.\n" << endl;
+            cout << "\nCategory name already exists.\n"
+                 << endl;
             return;
         }
     }
@@ -162,7 +182,8 @@ void UserCollections::RemoveTask(int taskID)
     }
     if (!found)
     {
-        cout << "\nTask not found.\n" << endl;
+        cout << "\nTask not found.\n"
+             << endl;
         return;
     }
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
@@ -193,7 +214,8 @@ void UserCollections::RemoveTask(string taskName)
     }
     if (!found)
     {
-        cout << "\nTask not found.\n" << endl;
+        cout << "\nTask not found.\n"
+             << endl;
         return;
     }
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
@@ -223,7 +245,8 @@ void UserCollections::EditTask(int taskID, Task newTask)
     }
     if (!found)
     {
-        cout << "\nTask not found.\n" << endl;
+        cout << "\nTask not found.\n"
+             << endl;
         return;
     }
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
@@ -253,7 +276,8 @@ void UserCollections::EditTask(string taskName, Task newTask)
     }
     if (!found)
     {
-        cout << "\nTask not found.\n" << endl;
+        cout << "\nTask not found.\n"
+             << endl;
         return;
     }
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
@@ -267,13 +291,15 @@ void UserCollections::EditTask(string taskName, Task newTask)
 
 void UserCollections::DisplayTasks()
 {
-    
+
     for (int i = 0; i < taskCount; i++)
     {
-        int num=i+1;
-        cout << "[ Task's ID: " << num << " ]\n" << *tasks[i] << endl;
-        
-    } if (taskCount==0){
+        int num = i + 1;
+        cout << "[ Task's ID: " << num << " ]\n"
+             << *tasks[i] << endl;
+    }
+    if (taskCount == 0)
+    {
         cout << "No task available.\n";
     }
 }

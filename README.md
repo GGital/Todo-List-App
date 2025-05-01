@@ -4,7 +4,7 @@ Managing tasks efficiently is a growing challenge in today’s fast-paced world.
 
 This ToDo Application offers a simple yet powerful solution to create, organize, and track tasks effectively.
 
-<p align="center"><img src="https://github.com/user-attachments/assets/125a83dc-8691-42a9-8627-c1b7a153bb8c"></p>
+<p align="center"><img src="https://github.com/user-attachments/assets/125a83dc-8691-42a9-8627-c1b7a153bb8c"> <img height=300px src="https://github.com/user-attachments/assets/0a22b7f5-ad0c-4027-9749-a5a4042d2417"></p>
 
 
 ## **Key Features**
@@ -15,9 +15,10 @@ This ToDo Application offers a simple yet powerful solution to create, organize,
 - Reminding Upcoming Tasks
 
 ## **Project Structure**
-- ```User Collections``` - Directory storing user-specific data
-- ```Include``` - Directory storing all header files for data structure or class implementation
+- ```UserCollections``` - Directory storing user-specific data
+- ```include``` - Directory storing all header files for data structure or class implementation
 - ```src``` - Directory storing function implementation
+- ```app.exe``` Executable program made by ```MAKEFILE```
 
 ## **Data Structure Used**
 - Priority Queue – To handle priority-based tasks efficiently
