@@ -315,10 +315,11 @@ int main()
                             usercollection.DisplayTasks();
                             cout << "***************\n";
                             cout << "Enter Task's ID To Edit: ";
+                            cin.ignore();
                             cin >> modifyTaskID;
-                            //usercollection.EditTask(modifyTaskID,newtask);
 
                             cout << "Enter task name: ";
+                            cin.ignore();
                             getline(cin,newname);
 
                             cout << "Enter task description: ";
@@ -337,6 +338,7 @@ int main()
 
                             cout << "\n***************\n";
                             usercollection.EditTask(modifyTaskID, newtask);
+                            break;
 
                         } else if (modifyTaskORCategorychoice==2) {
 
@@ -460,7 +462,7 @@ int main()
         } else if (MainChoice==6) {
 
             //--------Topological Task Menu--------
-            //Susu na 
+            //Susu na Teerak <3
 
         } else if (MainChoice==7) {
 
