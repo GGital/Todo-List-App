@@ -38,6 +38,9 @@ void UserCollections::ReadTasksFromFile()
         string taskDescription = line.substr(0, pos);
         line = line.substr(pos + 1);
         pos = line.find(',');
+        string taskCategory = line.substr(0, pos);
+        line = line.substr(pos + 1);
+        pos = line.find(',');
         string taskStatus = line.substr(0, pos);
         line = line.substr(pos + 1);
         pos = line.find(',');
@@ -45,10 +48,8 @@ void UserCollections::ReadTasksFromFile()
         line = line.substr(pos + 1);
         pos = line.find(',');
         string taskDueDate = line.substr(0, pos);
-        struct tm t = ParseStringtoDateTime(taskDueDate);
-        tasks[taskCount++] = new Task(taskID, taskName, taskDescription, taskStatus, taskPriority, t);
-        struct tm t = ParseStringtoDateTime(taskDueDate);
-        tasks[taskCount++] = new Task(taskID, taskName, taskDescription, taskStatus, taskPriority, t);
+        // struct tm t = ParseStringtoDateTime(taskDueDate);
+        tasks[taskCount++] = new Task(taskID, taskName, taskDescription, taskCategory, taskStatus, taskPriority, taskDueDate);
     }
     fileManager.CloseFile();
 }
@@ -106,7 +107,7 @@ void UserCollections::AddTask(Task task)
     }
     task.taskID = maxIndex + 1;
     tasks[taskCount++] = new Task(task);
-    cout << task.taskID << "," << task.name << "," << task.description << "," << task.status << "," << task.priority << ",";
+    cout << task.taskID << "," << task.name << "," << task.description << "," << task.category << "," << task.status << "," << task.priority << ",";
     cout << put_time(&task.dueDate, "%Y-%m-%d") << endl;
     fileManager.CloseFile();
 }
@@ -189,7 +190,7 @@ void UserCollections::RemoveTask(int taskID)
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
     for (int i = 0; i < taskCount; i++)
     {
-        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
+        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->category << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
         cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
     }
     fileManager.CloseFile();
@@ -221,7 +222,7 @@ void UserCollections::RemoveTask(string taskName)
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
     for (int i = 0; i < taskCount; i++)
     {
-        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
+        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->category << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
         cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
     }
     fileManager.CloseFile();
@@ -252,7 +253,7 @@ void UserCollections::EditTask(int taskID, Task newTask)
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
     for (int i = 0; i < taskCount; i++)
     {
-        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
+        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->category << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
         cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
     }
     fileManager.CloseFile();
@@ -283,7 +284,7 @@ void UserCollections::EditTask(string taskName, Task newTask)
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
     for (int i = 0; i < taskCount; i++)
     {
-        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
+        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->category << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
         cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
     }
     fileManager.CloseFile();
