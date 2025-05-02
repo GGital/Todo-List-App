@@ -2,6 +2,7 @@
 #include <iostream>
 #include <LoginSystem.h>
 #include <Task.h>
+#include <UI.h>
 using namespace std;
 
 class LoginSystemUI
@@ -9,19 +10,25 @@ class LoginSystemUI
 public:
     void showAuthMenu()
     {
-
         // LoginSystem authSystem;
-        cout << "***************\n";
-        cout << "Authentication Menu.\n\n";
-        cout << "1.Register.\n2.Login.\n3.Exit.\n\n";
-        cout << "Enter your choice: ";
+        cout << " (***********************************************************)\n";    
+        cout << "(                    Authentication Menu.                     )\n";
+        cout << " (                                             \\)\\)   *      )\n";
+        cout << "(     1.Register.                            \\(b b)  * *      )\n";
+        cout << " (    2.Login.                                  ))Z *****    )\n";
+        cout << "(     3.Exit.                                   /\\   ||       )\n";
+        cout << " (                                           ^^^^^^^^^^^^^   )\n";
+        cout << "  **********************************************************\n";
+        cout << "  Enter your choice:";
+
         cin.clear();
     }
     void showRegisterMenu()
     {
 
-        cout << "***************\n";
-        cout << "Register Menu.\n\n";
+        cout << "\n\n";
+        cout << " (***********************************************************)\n"; 
+        cout << " (    Register Menu.\n\n";
     }
     void showLoginMenu()
     {
@@ -59,7 +66,7 @@ public:
     void showRemoveMenu()
     {
 
-        cout << "***************\n";
+        cout << " ╭────────────────────────────────────────────╮\n";
         cout << "Remove Menu.\n\n";
         cout << "1.Remove By Name.\n2.Remove By Task ID.\n3.Exit.\n\n";
         cout << "Enter your choice: ";
