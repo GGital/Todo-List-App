@@ -1,6 +1,9 @@
 # Compiler
 CXX := g++
-CXXFLAGS := -Wall -Wextra -std=c++17 -Iinclude
+CXXFLAGS := -Wall -Wextra -std=c++17 -Iinclude -IC:\SFML-2.6.2\include
+
+# SFML libraries
+LDFLAGS := -LC:\SFML-2.6.2\lib -lsfml-graphics -lsfml-window -lsfml-system
 
 # Directories
 SRC_DIR := src
@@ -20,7 +23,7 @@ all: $(TARGET)
 
 # Link all object files to create the final executable
 $(TARGET): $(OBJECTS)
-	$(CXX) $(OBJECTS) -o $(TARGET)
+	$(CXX) $(OBJECTS) -o $(TARGET) $(LDFLAGS)
 
 # Compile .cpp files into .o object files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_DIR)
