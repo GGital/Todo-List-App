@@ -19,6 +19,7 @@ void UserCollections::ReadTasksFromFile()
     while (getline(file, line))
     {
         // cout << line;
+        // cout << line;
         int pos = line.find(',');
         int taskID = stoi(line.substr(0, pos));
         line = line.substr(pos + 1);
@@ -29,6 +30,9 @@ void UserCollections::ReadTasksFromFile()
         string taskDescription = line.substr(0, pos);
         line = line.substr(pos + 1);
         pos = line.find(',');
+        string taskCategory = line.substr(0, pos);
+        line = line.substr(pos + 1);
+        pos = line.find(',');
         string taskStatus = line.substr(0, pos);
         line = line.substr(pos + 1);
         pos = line.find(',');
@@ -36,8 +40,8 @@ void UserCollections::ReadTasksFromFile()
         line = line.substr(pos + 1);
         pos = line.find(',');
         string taskDueDate = line.substr(0, pos);
-        struct tm t = ParseStringtoDateTime(taskDueDate);
-        tasks[taskCount++] = new Task(taskID, taskName, taskDescription, taskStatus, taskPriority, t);
+        // struct tm t = ParseStringtoDateTime(taskDueDate);
+        tasks[taskCount++] = new Task(taskID, taskName, taskDescription, taskCategory, taskStatus, taskPriority, taskDueDate);
     }
     fileManager.CloseFile();
 }
@@ -73,7 +77,8 @@ void UserCollections::AddTask(Task task)
         if (tasks[i]->name == task.name)
         {
             fileManager.CloseFile();
-            cout << "Task name already exists." << endl;
+            cout << "\nTask name already exists.\n"
+                 << endl;
             return;
         }
     }
@@ -87,7 +92,7 @@ void UserCollections::AddTask(Task task)
     }
     task.taskID = maxIndex + 1;
     tasks[taskCount++] = new Task(task);
-    cout << task.taskID << "," << task.name << "," << task.description << "," << task.status << "," << task.priority << ",";
+    cout << task.taskID << "," << task.name << "," << task.description << "," << task.category << "," << task.status << "," << task.priority << ",";
     cout << put_time(&task.dueDate, "%Y-%m-%d") << endl;
     fileManager.CloseFile();
 }
@@ -100,7 +105,8 @@ void UserCollections::AddCategory(string category)
         if (*categories[i] == category)
         {
             fileManager.CloseFile();
-            cout << "Category name already exists." << endl;
+            cout << "\nCategory name already exists.\n"
+                 << endl;
             return;
         }
     }
@@ -162,13 +168,14 @@ void UserCollections::RemoveTask(int taskID)
     }
     if (!found)
     {
-        cout << "Task not found." << endl;
+        cout << "\nTask not found.\n"
+             << endl;
         return;
     }
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
     for (int i = 0; i < taskCount; i++)
     {
-        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
+        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->category << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
         cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
     }
     fileManager.CloseFile();
@@ -193,13 +200,14 @@ void UserCollections::RemoveTask(string taskName)
     }
     if (!found)
     {
-        cout << "Task not found." << endl;
+        cout << "\nTask not found.\n"
+             << endl;
         return;
     }
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
     for (int i = 0; i < taskCount; i++)
     {
-        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
+        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->category << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
         cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
     }
     fileManager.CloseFile();
@@ -223,13 +231,14 @@ void UserCollections::EditTask(int taskID, Task newTask)
     }
     if (!found)
     {
-        cout << "Task not found." << endl;
+        cout << "\nTask not found.\n"
+             << endl;
         return;
     }
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
     for (int i = 0; i < taskCount; i++)
     {
-        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
+        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->category << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
         cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
     }
     fileManager.CloseFile();
@@ -253,13 +262,68 @@ void UserCollections::EditTask(string taskName, Task newTask)
     }
     if (!found)
     {
-        cout << "Task not found." << endl;
+        cout << "\nTask not found.\n"
+             << endl;
         return;
     }
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
     for (int i = 0; i < taskCount; i++)
     {
-        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
+        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->category << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
+        cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
+    }
+    fileManager.CloseFile();
+}
+
+void UserCollections::EditTaskCategory(string taskName, string category)
+{
+    bool found = false;
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (tasks[i]->name == taskName)
+        {
+            tasks[i]->category = category;
+            found = true;
+            break;
+        }
+    }
+    if (!found)
+    {
+        cout << "\nTask not found.\n"
+             << endl;
+        return;
+    }
+    fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
+    for (int i = 0; i < taskCount; i++)
+    {
+        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->category << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
+        cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
+    }
+    fileManager.CloseFile();
+}
+
+void UserCollections::EditTaskCategory(int taskID, string category)
+{
+    bool found = false;
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (tasks[i]->taskID == taskID)
+        {
+            tasks[i]->category = category;
+            found = true;
+            break;
+        }
+    }
+    if (!found)
+    {
+        cout << "\nTask not found.\n"
+             << endl;
+        return;
+    }
+    fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
+    for (int i = 0; i < taskCount; i++)
+    {
+        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->category << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
         cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
     }
     fileManager.CloseFile();
@@ -267,9 +331,16 @@ void UserCollections::EditTask(string taskName, Task newTask)
 
 void UserCollections::DisplayTasks()
 {
+
     for (int i = 0; i < taskCount; i++)
     {
-        cout << *tasks[i] << endl;
+        int num = i + 1;
+        cout << "[ Task's ID: " << num << " ]\n"
+             << *tasks[i] << endl;
+    }
+    if (taskCount == 0)
+    {
+        cout << "No task available.\n";
     }
 }
 
@@ -306,4 +377,53 @@ void UserCollections::RemoveAllCategories()
     categoryCount = 0;
     fileManager.WriteFile("./UserCollections/Categories/" + to_string(userId) + ".csv");
     fileManager.CloseFile();
+}
+
+Task *UserCollections::SearchTask(string taskName)
+{
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (tasks[i]->name == taskName)
+        {
+            return tasks[i];
+        }
+    }
+    cout << "\nTask not found.\n"
+         << endl;
+    return nullptr;
+}
+
+Task *UserCollections::SearchTask(int taskID)
+{
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (tasks[i]->taskID == taskID)
+        {
+            return tasks[i];
+        }
+    }
+    cout << "\nTask not found.\n"
+         << endl;
+    return nullptr;
+}
+
+void UserCollections::InitializeHashMap()
+{
+    for (int i = 0; i < taskCount; i++)
+    {
+        taskHashMapCategory.insert(tasks[i]->category, *tasks[i]);
+        taskHashMapPriority.insert(tasks[i]->priority, *tasks[i]);
+    }
+}
+
+DoublyLinkedList<Task> *UserCollections::SearchCategory(string category)
+{
+    DoublyLinkedList<Task> *result = taskHashMapCategory.getList(category);
+    return result;
+}
+
+DoublyLinkedList<Task> *UserCollections::SearchPriority(string priority)
+{
+    DoublyLinkedList<Task> *result = taskHashMapPriority.getList(priority);
+    return result;
 }

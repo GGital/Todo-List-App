@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <string>
 #include <Task.h>
@@ -10,15 +11,21 @@ class HashMapDLL
 public:
     DoublyLinkedList<U> *table; // Array of doubly linked lists
     int size;                   // Size of the hash table
-
+    T *keyCheck;                // Array of keys
     HashMapDLL(int s) : size(s)
     {
         table = new DoublyLinkedList<U>[size]; // Initialize the array of doubly linked lists
+        keyCheck = new T[size];                // Initialize the array of keys
+        for (int i = 0; i < size; i++)
+        {
+            keyCheck[i] = T(); // Initialize keys to default value
+        }
     }
 
     ~HashMapDLL()
     {
-        delete[] table; // Clean up the array of doubly linked lists
+        delete[] table;    // Clean up the array of doubly linked lists
+        delete[] keyCheck; // Clean up the array of keys
     }
 
     int hashFunction(T key)
@@ -33,11 +40,20 @@ public:
                 hash -= 7;
                 hash %= size;
             }
+            while (keyCheck[hash] != T() && keyCheck[hash] != key) // Check for collision
+            {
+                hash = (hash + 1) % size; // Linear probing for collision resolution
+            }
             return hash % size;
         }
         else
         {
-            return (key * 2 + doubleHashFunction(key)) % size;
+            int hash = (key * 2 + doubleHashFunction(key)) % size;
+            while (keyCheck[hash] != T() && keyCheck[hash] != key) // Check for collision
+            {
+                hash = (hash + 1) % size; // Linear probing for collision resolution
+            }
+            return hash % size;
         }
     }
 

@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <sstream>
 #include <Task.h>
+#include <HashMapWithDLL.h>
 using namespace std;
 
 enum Priority
@@ -18,7 +19,8 @@ enum Priority
 
 class UserCollections
 {
-private:
+
+public:
     int userId;
     string username;
     string password;
@@ -28,7 +30,9 @@ private:
     int taskCount;
     FileManagement fileManager;
 
-public:
+    HashMapDLL<string, Task> taskHashMapCategory = HashMapDLL<string, Task>(1005); // HashMap for searching tasks by category
+    HashMapDLL<string, Task> taskHashMapPriority = HashMapDLL<string, Task>(1005); // HashMap for searching tasks by priority
+
     UserCollections(int id, string u, string p) : userId(id), username(u), password(p), categoryCount(0), taskCount(0)
     {
         for (int i = 0; i < 1005; i++)
@@ -69,6 +73,19 @@ public:
     Desription : This function displays all tasks in the tasks array.
     */
     void DisplayTasks();
+
+    /*DisplayCategories
+    Parameter : None
+    Description : This function displays all categories in the categories array.
+    */
+    void DisplayCategories()
+    {
+        for (int i = 0; i < categoryCount; i++)
+        {
+            cout << *categories[i] << endl;
+        }
+    }
+
     /* AddTask
     Parameter : (Task task)
     Description : This function adds a new task to the tasks array and appends it to the tasks.csv file.
@@ -101,6 +118,12 @@ public:
     void EditTask(int taskID, Task newTask);
     void EditTask(string taskName, Task newTask);
 
+    /*EditTaskCategory
+    Parameter : (int taskID, string category) OR (string taskName, string category)
+    Description : This function edits the category of an existing task in the tasks array and updates it in the tasks.csv file.
+    */
+    void EditTaskCategory(int taskID, string category);
+    void EditTaskCategory(string taskName, string category);
     /*TestAddFunction
     Parameter : None
     Description : This function is used for testing mandatory functions in the UserCollections class.
@@ -165,4 +188,29 @@ public:
      Description : This function removes all categories from the categories array and deletes them from the categories.csv file.
      */
     void RemoveAllCategories();
+
+    /*SearchTask
+    Parameter : (string taskName) OR (int taskID)
+    Description : This function searches for a task by its name in the tasks array and returns the task if found.
+    */
+    Task *SearchTask(string taskName);
+    Task *SearchTask(int taskID);
+
+    /* InitializeHashMap
+    Parameter : None
+    Description : This function initializes the hash map for searching tasks by category and priority.
+    */
+    void InitializeHashMap();
+
+    /*SearchCategory
+    Parameter : (string categoryName)
+    Description : This function searches for tasks by their category in the tasks array using the concept of hash table chaining with doubly linked list.
+    */
+    DoublyLinkedList<Task> *SearchCategory(string categoryName);
+
+    /*SearchPriority
+    Parameter : (string priorityName)
+    Description : This function searches for tasks by their priority in the tasks array using the concept of hash table chaining with doubly linked list.
+    */
+    DoublyLinkedList<Task> *SearchPriority(string priorityName);
 };
