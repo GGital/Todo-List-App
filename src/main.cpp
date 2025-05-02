@@ -6,6 +6,7 @@
 #include "Min-Priority-Queue.h"
 #include "Max-Priority-Queue.h"
 #include "Task.h"
+#include "GraphTask.h"
 #include "LoginSystem.h"
 #include "HashMapWithDLL.h"
 #include "UserCollections.h"
@@ -847,6 +848,17 @@ int main()
 
             //--------Topological Task Menu--------
             // Susu na Teerak <3
+            GraphTask graphTask;
+            graphTask.BuildGraph(usercollection);
+            // cout << "Graph built successfully.\n";
+            graphTask.TopologicalSort();
+            Queue<Task> *topologicalOrder = graphTask.TopologicalOrder;
+            cout << "Topological Order of Tasks:\n";
+            while (!topologicalOrder->isEmpty())
+            {
+                Task task = topologicalOrder->dequeue();
+                cout << task.taskID << " " << task.name << endl;
+            }
         }
         else if (MainChoice == 7)
         {
