@@ -1,6 +1,7 @@
 #include <iostream>
 #include <example.h>
 #include <File_Management.h>
+#include <regex>
 #include "Doubly-Linked-List.h"
 #include "Min-Priority-Queue.h"
 #include "Max-Priority-Queue.h"
@@ -16,6 +17,7 @@ int main()
 {
     FileManagement fileManager;
     Example example;
+    regex datePattern(R"(\d{4}-\d{2}-\d{2})"); // Matches YYYY-MM-DD format
     // enable_ansi_colors();
     // example.Greet();
     // example.Farewell();
@@ -147,7 +149,7 @@ int main()
             {
                 category = "Uncategorized";
             }
-            else if (categoryIndex > 0 && categoryIndex < usercollection.categoryCount)
+            else if (categoryIndex > 0 && categoryIndex <= usercollection.categoryCount)
             {
                 category = *usercollection.categories[categoryIndex - 1];
             }
@@ -157,7 +159,7 @@ int main()
                 continue;
             }
 
-            cout << "Enter task's status: ";
+            cout << "Enter task's status:\n";
             cout << "[0] Not started\n"
                  << "[1] In progress\n"
                  << "[2] Completed\n";
@@ -181,7 +183,7 @@ int main()
                 continue;
             }
 
-            cout << "Enter task's priority (e.g., Low, Medium, High): ";
+            cout << "Enter task's priority (e.g., Low, Medium, High): \n";
             cout << "[0] Low\n"
                  << "[1] Medium\n"
                  << "[2] High\n";
@@ -206,11 +208,18 @@ int main()
             }
 
             cout << "Enter task's due date (YYYY-MM-DD): ";
+            cin.ignore();
             getline(cin, duedate);
+
             // if(duedate) input check task add fail
+            if (!regex_match(duedate, datePattern))
+            {
+                cout << "Invalid date format. Please enter the date in YYYY-MM-DD format.\n";
+                continue; // Ask the user to re-enter the date
+            }
 
             cout << "\n***************\n";
-            Task task(name, desc, status, prior, duedate);
+            Task task(name, desc, category, status, prior, duedate);
 
             usercollection.AddTask(task);
             taskList.insertAtEnd(task); // dll connect insertatend
@@ -317,7 +326,7 @@ int main()
                     int modifyTaskORCategorychoice;
                     modifymenuUI.ModifyTaskORCategoryMenu();
                     cin >> modifyTaskORCategorychoice;
-
+                    cin.clear();
                     while (true)
                     {
                         if (modifyTaskORCategorychoice == 1)
@@ -334,6 +343,14 @@ int main()
                             cin.ignore();
                             getline(cin, modifyName);
 
+                            // Check if task exists
+                            Task *task = usercollection.SearchTask(modifyName);
+                            if (task == nullptr)
+                            {
+                                cout << "Task not found.\n";
+                                continue;
+                            }
+
                             cout << "Enter task name: ";
                             getline(cin, newname);
 
@@ -348,11 +365,12 @@ int main()
                             cout << "Enter task's category: ";
                             int categoryIndex;
                             cin >> categoryIndex;
+                            cout << categoryIndex << endl;
                             if (categoryIndex == 0)
                             {
                                 category = "Uncategorized";
                             }
-                            else if (categoryIndex > 0 && categoryIndex < usercollection.categoryCount)
+                            else if (categoryIndex > 0 && categoryIndex <= usercollection.categoryCount)
                             {
                                 category = *usercollection.categories[categoryIndex - 1];
                             }
@@ -362,7 +380,7 @@ int main()
                                 continue;
                             }
 
-                            cout << "Enter task's status: ";
+                            cout << "Enter task's status: \n";
                             cout << "[0] Not started\n"
                                  << "[1] In progress\n"
                                  << "[2] Completed\n";
@@ -370,15 +388,15 @@ int main()
                             cin >> statusIndex;
                             if (statusIndex == 0)
                             {
-                                status = "Not started";
+                                newstatus = "Not started";
                             }
                             else if (statusIndex == 1)
                             {
-                                status = "In progress";
+                                newstatus = "In progress";
                             }
                             else if (statusIndex == 2)
                             {
-                                status = "Completed";
+                                newstatus = "Completed";
                             }
                             else
                             {
@@ -386,7 +404,7 @@ int main()
                                 continue;
                             }
 
-                            cout << "Enter task priority (e.g., Low, Medium, High): ";
+                            cout << "Enter task priority (e.g., Low, Medium, High): \n";
                             cout << "[0] Low\n"
                                  << "[1] Medium\n"
                                  << "[2] High\n";
@@ -394,15 +412,15 @@ int main()
                             cin >> priorIndex;
                             if (priorIndex == 0)
                             {
-                                prior = "Low";
+                                newprior = "Low";
                             }
                             else if (priorIndex == 1)
                             {
-                                prior = "Medium";
+                                newprior = "Medium";
                             }
                             else if (priorIndex == 2)
                             {
-                                prior = "High";
+                                newprior = "High";
                             }
                             else
                             {
@@ -411,9 +429,16 @@ int main()
                             }
 
                             cout << "Enter task's due date (YYYY-MM-DD): ";
+                            cin.ignore();
                             getline(cin, newduedate);
 
-                            Task newtask(newname, newdesc, newstatus, newprior, newduedate);
+                            if (!regex_match(newduedate, datePattern))
+                            {
+                                cout << "Invalid date format. Please enter the date in YYYY-MM-DD format.\n";
+                                continue; // Ask the user to re-enter the date
+                            }
+
+                            Task newtask(newname, newdesc, category, newstatus, newprior, newduedate);
 
                             cout << "\n***************\n";
                             usercollection.EditTask(modifyName, newtask);
@@ -428,6 +453,38 @@ int main()
                             cout << "\n\n";
                             usercollection.DisplayTasks();
                             cout << "***************\n";
+
+                            string category;
+
+                            cout << "[0] Uncategorized\n";
+                            for (int i = 0; i < usercollection.categoryCount; i++)
+                            {
+                                cout << "[" << i + 1 << "] " << *usercollection.categories[i] << endl;
+                            }
+                            cout << "Enter task's category: ";
+                            int categoryIndex;
+                            cin >> categoryIndex;
+                            // cout << categoryIndex << endl;
+                            if (categoryIndex == 0)
+                            {
+                                category = "Uncategorized";
+                            }
+                            else if (categoryIndex > 0 && categoryIndex <= usercollection.categoryCount)
+                            {
+                                category = *usercollection.categories[categoryIndex - 1];
+                            }
+                            else
+                            {
+                                cout << "Invalid category index.\n";
+                                continue;
+                            }
+                            cout << "Enter the task name: ";
+                            cin.ignore();
+                            getline(cin, modifyName);
+
+                            usercollection.EditTaskCategory(modifyName, category);
+
+                            break;
                         }
                         else
                         {
@@ -461,8 +518,15 @@ int main()
                             usercollection.DisplayTasks();
                             cout << "***************\n";
                             cout << "Enter Task's ID To Edit: ";
-                            cin.ignore();
                             cin >> modifyTaskID;
+
+                            // Check if task exists
+                            Task *task = usercollection.SearchTask(modifyTaskID);
+                            if (task == nullptr)
+                            {
+                                cout << "Task not found.\n";
+                                continue;
+                            }
 
                             cout << "Enter task name: ";
                             cin.ignore();
@@ -471,16 +535,88 @@ int main()
                             cout << "Enter task description: ";
                             getline(cin, newdesc);
 
-                            cout << "Enter task status (e.g., Not started,In progress, Completed): ";
-                            getline(cin, newstatus);
+                            cout << "[0] Uncategorized\n";
+                            for (int i = 0; i < usercollection.categoryCount; i++)
+                            {
+                                cout << "[" << i + 1 << "] " << *usercollection.categories[i] << endl;
+                            }
+                            cout << "Enter task's category: ";
+                            int categoryIndex;
+                            cin >> categoryIndex;
+                            // cout << categoryIndex << endl;
+                            if (categoryIndex == 0)
+                            {
+                                category = "Uncategorized";
+                            }
+                            else if (categoryIndex > 0 && categoryIndex <= usercollection.categoryCount)
+                            {
+                                category = *usercollection.categories[categoryIndex - 1];
+                            }
+                            else
+                            {
+                                cout << "Invalid category index.\n";
+                                continue;
+                            }
 
-                            cout << "Enter task priority (e.g., Low, Medium, High): ";
-                            getline(cin, newprior);
+                            cout << "Enter task's status: \n";
+                            cout << "[0] Not started\n"
+                                 << "[1] In progress\n"
+                                 << "[2] Completed\n";
+                            int statusIndex;
+                            cin >> statusIndex;
+                            if (statusIndex == 0)
+                            {
+                                newstatus = "Not started";
+                            }
+                            else if (statusIndex == 1)
+                            {
+                                newstatus = "In progress";
+                            }
+                            else if (statusIndex == 2)
+                            {
+                                newstatus = "Completed";
+                            }
+                            else
+                            {
+                                cout << "Invalid status index.\n";
+                                continue;
+                            }
+
+                            cout << "Enter task priority (e.g., Low, Medium, High): \n";
+                            cout << "[0] Low\n"
+                                 << "[1] Medium\n"
+                                 << "[2] High\n";
+                            int priorIndex;
+                            cin >> priorIndex;
+                            if (priorIndex == 0)
+                            {
+                                newprior = "Low";
+                            }
+                            else if (priorIndex == 1)
+                            {
+                                newprior = "Medium";
+                            }
+                            else if (priorIndex == 2)
+                            {
+                                newprior = "High";
+                            }
+                            else
+                            {
+                                cout << "Invalid priority index.\n";
+                                continue;
+                            }
 
                             cout << "Enter task's due date (YYYY-MM-DD): ";
+                            cin.ignore();
                             getline(cin, newduedate);
 
-                            Task newtask(newname, newdesc, newstatus, newprior, newduedate);
+                            if (!regex_match(newduedate, datePattern))
+                            {
+                                cout << "Invalid date format. Please enter the date in YYYY-MM-DD format.\n";
+                                continue; // Ask the user to re-enter the date
+                            }
+
+                            Task newtask(newname, newdesc, category, newstatus, newprior, newduedate);
 
                             cout << "\n***************\n";
                             usercollection.EditTask(modifyTaskID, newtask);
@@ -498,19 +634,34 @@ int main()
 
                             string category;
 
-                            cout << "Enter the category: ";
-                            cin >> category;
+                            cout << "[0] Uncategorized\n";
+                            for (int i = 0; i < usercollection.categoryCount; i++)
+                            {
+                                cout << "[" << i + 1 << "] " << *usercollection.categories[i] << endl;
+                            }
+                            cout << "Enter task's category: ";
+                            int categoryIndex;
+                            cin >> categoryIndex;
+                            // cout << categoryIndex << endl;
+                            if (categoryIndex == 0)
+                            {
+                                category = "Uncategorized";
+                            }
+                            else if (categoryIndex > 0 && categoryIndex <= usercollection.categoryCount)
+                            {
+                                category = *usercollection.categories[categoryIndex - 1];
+                            }
+                            else
+                            {
+                                cout << "Invalid category index.\n";
+                                continue;
+                            }
                             cout << "Enter the task ID: ";
                             cin >> modifyTaskID;
 
-                            Task task(name, desc, status, prior, duedate);
+                            usercollection.EditTaskCategory(modifyTaskID, category);
 
-                            hashMap.insert(category, task);
-                            DoublyLinkedList<Task> *list = hashMap.getList(category);
-                            fileManager.WriteFile("./UserCollections/Categories/" + to_string(userID) + ".csv");
-                            list->display();
-                            fileManager.CloseFile();
-
+                            break;
                             // Category Name view, Testcase category name to task
                         }
                         else
@@ -558,7 +709,7 @@ int main()
 
             // Search Task here
             SearchUI searchUI;
-
+            usercollection.InitializeHashMap();
             while (true)
             {
 
@@ -572,7 +723,17 @@ int main()
                     // Search by Task Name
                     searchUI.SearchNameUI();
                     string searchName;
+                    cin.ignore();
                     getline(cin, searchName);
+                    Task *temp = usercollection.SearchTask(searchName);
+                    if (temp != nullptr)
+                    {
+                        cout << *temp << endl;
+                    }
+                    else
+                    {
+                        cout << "Task not found.\n";
+                    }
                 }
                 else if (searchchoice == 2)
                 {
@@ -581,16 +742,88 @@ int main()
                     searchUI.SearchIDUI();
                     int searchID;
                     cin >> searchID;
+                    Task *temp = usercollection.SearchTask(searchID);
+                    if (temp != nullptr)
+                    {
+                        cout << *temp << endl;
+                    }
+                    else
+                    {
+                        cout << "Task not found.\n";
+                    }
                 }
                 else if (searchchoice == 3)
                 {
 
                     // Search by Task Priority
                     searchUI.SearchPriorUI();
-                    string searchPrior;
-                    getline(cin, searchPrior);
+                    cout << "[0] Low\n"
+                         << "[1] Medium\n"
+                         << "[2] High\n";
+                    int searchPriorIndex;
+                    cin >> searchPriorIndex;
+                    if (searchPriorIndex == 0)
+                    {
+                        prior = "Low";
+                    }
+                    else if (searchPriorIndex == 1)
+                    {
+                        prior = "Medium";
+                    }
+                    else if (searchPriorIndex == 2)
+                    {
+                        prior = "High";
+                    }
+                    else
+                    {
+                        cout << "Invalid priority index.\n";
+                        continue;
+                    }
+                    DoublyLinkedList<Task> *temp = usercollection.SearchPriority(prior);
+                    if (temp != nullptr)
+                    {
+                        temp->display();
+                    }
+                    else
+                    {
+                        cout << "Task not found.\n";
+                    }
                 }
                 else if (searchchoice == 4)
+                {
+                    // Search by Category
+                    searchUI.SearchCategoryUI();
+                    for (int i = 0; i < usercollection.categoryCount; i++)
+                    {
+                        cout << "[" << i + 1 << "] " << *usercollection.categories[i] << endl;
+                    }
+                    cout << "Enter task's category: ";
+                    int categoryIndex;
+                    cin >> categoryIndex;
+                    if (categoryIndex == 0)
+                    {
+                        category = "Uncategorized";
+                    }
+                    else if (categoryIndex > 0 && categoryIndex <= usercollection.categoryCount)
+                    {
+                        category = *usercollection.categories[categoryIndex - 1];
+                    }
+                    else
+                    {
+                        cout << "Invalid category index.\n";
+                        continue;
+                    }
+                    DoublyLinkedList<Task> *temp = usercollection.SearchCategory(category);
+                    if (temp != nullptr)
+                    {
+                        temp->display();
+                    }
+                    else
+                    {
+                        cout << "Task not found.\n";
+                    }
+                }
+                else if (searchchoice == 5)
                 {
 
                     // Exit

@@ -38,9 +38,8 @@ struct Task
         dueDate = *localtime(&now); // Initialize dueDate to current date and time
     }
 
-    Task() : taskID(0), name(""), description(""), status(""), priority("")
+    Task() : taskID(0), name(""), description(""), category("General"), status("Not started"), priority("Low")
     {
-        category = "General";
         time_t now = time(0);
         dueDate = *localtime(&now); // Initialize dueDate to current date and time
     }

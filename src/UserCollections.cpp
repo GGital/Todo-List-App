@@ -275,6 +275,60 @@ void UserCollections::EditTask(string taskName, Task newTask)
     fileManager.CloseFile();
 }
 
+void UserCollections::EditTaskCategory(string taskName, string category)
+{
+    bool found = false;
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (tasks[i]->name == taskName)
+        {
+            tasks[i]->category = category;
+            found = true;
+            break;
+        }
+    }
+    if (!found)
+    {
+        cout << "\nTask not found.\n"
+             << endl;
+        return;
+    }
+    fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
+    for (int i = 0; i < taskCount; i++)
+    {
+        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->category << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
+        cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
+    }
+    fileManager.CloseFile();
+}
+
+void UserCollections::EditTaskCategory(int taskID, string category)
+{
+    bool found = false;
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (tasks[i]->taskID == taskID)
+        {
+            tasks[i]->category = category;
+            found = true;
+            break;
+        }
+    }
+    if (!found)
+    {
+        cout << "\nTask not found.\n"
+             << endl;
+        return;
+    }
+    fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
+    for (int i = 0; i < taskCount; i++)
+    {
+        cout << tasks[i]->taskID << "," << tasks[i]->name << "," << tasks[i]->description << "," << tasks[i]->category << "," << tasks[i]->status << "," << tasks[i]->priority << ",";
+        cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
+    }
+    fileManager.CloseFile();
+}
+
 void UserCollections::DisplayTasks()
 {
 
@@ -323,4 +377,53 @@ void UserCollections::RemoveAllCategories()
     categoryCount = 0;
     fileManager.WriteFile("./UserCollections/Categories/" + to_string(userId) + ".csv");
     fileManager.CloseFile();
+}
+
+Task *UserCollections::SearchTask(string taskName)
+{
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (tasks[i]->name == taskName)
+        {
+            return tasks[i];
+        }
+    }
+    cout << "\nTask not found.\n"
+         << endl;
+    return nullptr;
+}
+
+Task *UserCollections::SearchTask(int taskID)
+{
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (tasks[i]->taskID == taskID)
+        {
+            return tasks[i];
+        }
+    }
+    cout << "\nTask not found.\n"
+         << endl;
+    return nullptr;
+}
+
+void UserCollections::InitializeHashMap()
+{
+    for (int i = 0; i < taskCount; i++)
+    {
+        taskHashMapCategory.insert(tasks[i]->category, *tasks[i]);
+        taskHashMapPriority.insert(tasks[i]->priority, *tasks[i]);
+    }
+}
+
+DoublyLinkedList<Task> *UserCollections::SearchCategory(string category)
+{
+    DoublyLinkedList<Task> *result = taskHashMapCategory.getList(category);
+    return result;
+}
+
+DoublyLinkedList<Task> *UserCollections::SearchPriority(string priority)
+{
+    DoublyLinkedList<Task> *result = taskHashMapPriority.getList(priority);
+    return result;
 }
