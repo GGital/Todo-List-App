@@ -9,28 +9,89 @@ using namespace std;
 class GraphTask
 {
 public:
-    DoublyLinkedList<Task> *edgeList[1000]; // Array of doubly linked lists to represent the graph
+    DoublyLinkedList<Task> *edgeList[1005]; // Array of doubly linked lists to represent the graph
     int vertexCount;                        // Number of vertices in the graph
     int edgeCount;                          // Number of edges in the graph
-    Queue<int> queue;                       // Queue for BFS or DFS traversal
+    Task task[1005];
 
     GraphTask()
     {
         vertexCount = 0;
         edgeCount = 0;
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 1005; i++)
         {
             edgeList[i] = nullptr; // Initialize the array of doubly linked lists
         }
     }
     ~GraphTask()
     {
-        for (int i = 0; i < vertexCount; i++)
+        for (int i = 0; i < 1005; i++)
         {
             delete edgeList[i]; // Clean up the doubly linked lists
         }
     }
 
+    int priorityToInt(string priority)
+    {
+        if (priority == "Low")
+            return 1;
+        else if (priority == "Medium")
+            return 2;
+        else if (priority == "High")
+            return 3;
+        else
+            return 0; // Default case
+    }
+
+    bool earlierDueDate(Task &task1, Task &task2)
+    {
+        if (task1.dueDate.tm_year < task2.dueDate.tm_year)
+            return true;
+        else if (task1.dueDate.tm_year == task2.dueDate.tm_year && task1.dueDate.tm_mon < task2.dueDate.tm_mon)
+            return true;
+        else if (task1.dueDate.tm_year == task2.dueDate.tm_year && task1.dueDate.tm_mon == task2.dueDate.tm_mon && task1.dueDate.tm_mday < task2.dueDate.tm_mday)
+            return true;
+        return false;
+    }
+
+    void SyncwithUserCollections(UserCollections &userCollections)
+    {
+        for (int i = 0; i < userCollections.taskCount; i++)
+        {
+            task[i] = *userCollections.tasks[i]; // Copy tasks from UserCollections to the graph
+        }
+    }
+
+    void BuildGraph(UserCollections &userCollections)
+    {
+        SyncwithUserCollections(userCollections); // Sync tasks with UserCollections
+        for (int i = 0; i < userCollections.taskCount; i++)
+        {
+            for (int j = 0; j < userCollections.taskCount; j++)
+            {
+                if (i == j)
+                    continue; // Skip self-loops
+                Task a = *userCollections.tasks[i];
+                Task b = *userCollections.tasks[j];
+
+                if (priorityToInt(a.priority) > priorityToInt(b.priority))
+                {
+                    AddEdge(a.taskID, b.taskID);
+                }
+                else if (priorityToInt(a.priority) == priorityToInt(b.priority))
+                {
+                    if (earlierDueDate(a, b))
+                    {
+                        AddEdge(a.taskID, b.taskID);
+                    }
+                    else if (a.category == b.category && a.status != b.status)
+                    {
+                        AddEdge(a.taskID, b.taskID);
+                    }
+                }
+            }
+        }
+    }
     void AddVertex(int TaskID)
     {
         if (edgeList[TaskID] != nullptr)
@@ -44,15 +105,16 @@ public:
 
     void AddEdge(int TaskIDsrc, int TaskIDdest)
     {
-        AddVertex(TaskIDsrc);  // Ensure the source vertex exists
-        AddVertex(TaskIDdest); // Ensure the destination vertex exists
-        edgeList[TaskIDsrc]->insertAtEnd(task);
+        AddVertex(TaskIDsrc);                               // Ensure the source vertex exists
+        AddVertex(TaskIDdest);                              // Ensure the destination vertex exists
+        edgeList[TaskIDsrc]->insertAtEnd(task[TaskIDdest]); // Add the destination task to the source vertex's list
         edgeCount++;
     }
-    void TopologicalSort()
+
+    Queue<Task> TopologicalSort()
     {
-        int *inDegree = new int[vertexCount](); // Array to store in-degrees of vertices
-        for (int i = 0; i < vertexCount; i++)
+        int *inDegree = new int[1005](); // Array to store in-degrees of vertices
+        for (int i = 0; i < 1005; i++)
         {
             DoublyLinkedList<Task> *list = edgeList[i];
             if (list != nullptr)
@@ -65,12 +127,35 @@ public:
                 }
             }
         }
-        for (int i = 0; i < vertexCount; i++)
+        Queue<int> q;       // Queue to store vertices with in-degree 0
+        Queue<Task> result; // Result queue for topological sort
+        for (int i = 0; i < 1005; i++)
         {
             if (inDegree[i] == 0)
             {
-                queue.enqueue(i); // Enqueue vertices with in-degree 0
+                q.enqueue(i); // Enqueue vertices with in-degree 0
             }
         }
+        while (!q.isEmpty())
+        {
+            int u = q.dequeue();     // Dequeue a vertex
+            result.enqueue(task[u]); // Add it to the result queue
+            DoublyLinkedList<Task> *list = edgeList[u];
+            if (list != nullptr)
+            {
+                Node<Task> *current = list->head;
+                while (current != nullptr)
+                {
+                    inDegree[current->data.taskID]--; // Decrease in-degree of adjacent vertices
+                    if (inDegree[current->data.taskID] == 0)
+                    {
+                        q.enqueue(current->data.taskID); // Enqueue vertices with in-degree 0
+                    }
+                    current = current->next;
+                }
+            }
+        }
+        delete[] inDegree; // Clean up the in-degree array
+        return result;     // Return the topological order
     }
 };
