@@ -1,3 +1,4 @@
+#include <windows.h>
 #include <iostream>
 #include <example.h>
 #include <File_Management.h>
@@ -17,10 +18,19 @@
 #include "MenuUI.h"
 #include <SFML/Graphics.hpp>
 
-using namespace std;
+void enable_ansi_colors()
+{
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    DWORD dwMode = 0;
+    GetConsoleMode(hOut, &dwMode);
+    dwMode |= 0x0004; // ENABLE_VIRTUAL_TERMINAL_PROCESSING
+    SetConsoleMode(hOut, dwMode);
+}
 
 int main()
 {
+    SetConsoleOutputCP(CP_UTF8);
+    enable_ansi_colors();
     FileManagement fileManager;
     Example example;
     regex datePattern(R"(\d{4}-\d{2}-\d{2})"); // Matches YYYY-MM-DD format

@@ -55,9 +55,11 @@ void enable_ansi_colors()
 
 class UI
 {
+public:
     void ClearScreen()
     {
-        system("cls||clear");
+        printf("\033[2J\033[H");
+        fflush(stdout); // Ensure output is flushed immediately
     }
 };
 #endif // UI_H

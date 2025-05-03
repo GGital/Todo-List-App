@@ -343,17 +343,23 @@ void UserCollections::EditTaskCategory(int taskID, string category)
 
 void UserCollections::DisplayTasks()
 {
-
-    for (int i = 0; i < taskCount; i++)
-    {
-        int num = i + 1;
-        cout << "[ Task's ID: " << num << " ]\n"
-             << *tasks[i] << endl;
-    }
     if (taskCount == 0)
     {
         cout << "No task available.\n";
     }
+    cout << "==================================================================================================================================================\n";
+    cout << ANSI_COLOR_YELLOW << "                                                                       Task list" << ANSI_COLOR_RESET << endl;
+    cout << "==================================================================================================================================================\n"
+         << endl;
+    cout << setw(10) << "Task ID" << "\t" << setw(20) << "Task Name" << "\t" << setw(20) << "Category" << "\t" << setw(20) << "Status" << "\t" << setw(20) << "Priority" << "\t" << setw(20) << "Due Date" << endl;
+    for (int i = 0; i < taskCount; i++)
+    {
+        // Datetime to string conversion
+        string duedate = to_string(tasks[i]->dueDate.tm_year + 1900) + "-" + to_string(tasks[i]->dueDate.tm_mon + 1) + "-" + to_string(tasks[i]->dueDate.tm_mday);
+        cout << ANSI_COLOR_CYAN << setw(10) << tasks[i]->taskID << "\t" << ANSI_COLOR_RESET << setw(20) << tasks[i]->name << "\t" << setw(20) << tasks[i]->category << "\t" << setw(20) << tasks[i]->status << "\t" << setw(20) << tasks[i]->priority << "\t" << setw(20) << duedate << endl;
+    }
+    cout << "==================================================================================================================================================\n"
+         << endl;
 }
 
 void UserCollections::RemindTask()

@@ -3,7 +3,7 @@
 #include <LoginSystem.h>
 #include <Task.h>
 using namespace std;
-
+UI ui;
 class LoginSystemUI
 {
 public:
@@ -11,6 +11,7 @@ public:
     {
 
         // LoginSystem authSystem;
+        ui.ClearScreen();
         cout << "***************\n";
         cout << "Authentication Menu.\n\n";
         cout << "1.Register.\n2.Login.\n3.Exit.\n\n";
