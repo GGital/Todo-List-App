@@ -302,6 +302,18 @@ void UserCollections::EditTaskCategory(string taskName, string category)
     fileManager.CloseFile();
 }
 
+bool UserCollections::CheckDuplicate(string taskName)
+{
+    for (int i = 0; i < taskCount; i++)
+    {
+        if (tasks[i]->name == taskName)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 void UserCollections::EditTaskCategory(int taskID, string category)
 {
     bool found = false;

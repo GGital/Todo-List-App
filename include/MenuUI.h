@@ -15,7 +15,6 @@ public:
         cout << "Authentication Menu.\n\n";
         cout << "1.Register.\n2.Login.\n3.Exit.\n\n";
         cout << "Enter your choice: ";
-        cin.clear();
     }
     void showRegisterMenu()
     {
@@ -49,7 +48,6 @@ public:
         cout << "9.View All Categories.\n";
         cout << "0.Logout.\n\n";
         cout << "Enter your choice: ";
-        cin.clear();
     }
 };
 
@@ -63,7 +61,6 @@ public:
         cout << "Remove Menu.\n\n";
         cout << "1.Remove By Name.\n2.Remove By Task ID.\n3.Exit.\n\n";
         cout << "Enter your choice: ";
-        cin.clear();
     }
 };
 
@@ -77,7 +74,6 @@ public:
         cout << "Modify Menu.\n\n";
         cout << "1.Modify By Name.\n2.Modify By Task ID.\n3.Exit.\n\n";
         cout << "Enter your choice: ";
-        cin.clear();
     }
     void ModifyTaskORCategoryMenu()
     {
@@ -86,7 +82,6 @@ public:
         cout << "Modify Menu.\n\n";
         cout << "1.Modify tasks.\n2.Assign Task's Category.\n3.Exit.\n\n";
         cout << "Enter your choice: ";
-        cin.clear();
     }
 };
 
@@ -100,7 +95,6 @@ public:
         cout << "Search Menu.\n\n";
         cout << "1.Search By Name.\n2.Search By Task ID.\n3.Search By Priority Level.\n4.Search By Category\n5.Exit.\n\n";
         cout << "Enter your choice: ";
-        cin.clear();
     }
     void SearchNameUI()
     {
@@ -108,7 +102,6 @@ public:
         cout << "***************\n";
         cout << "Search By Name Menu.\n\n";
         cout << "Enter Task's Name: ";
-        cin.clear();
     }
     void SearchIDUI()
     {
@@ -116,7 +109,6 @@ public:
         cout << "***************\n";
         cout << "Search By ID Menu.\n\n";
         cout << "Enter Task's ID: ";
-        cin.clear();
     }
     void SearchPriorUI()
     {
@@ -124,7 +116,6 @@ public:
         cout << "***************\n";
         cout << "Search By Priority Menu.\n\n";
         cout << "Enter Task's Priority: ";
-        cin.clear();
     }
     void SearchCategoryUI()
     {
@@ -132,7 +123,6 @@ public:
         cout << "***************\n";
         cout << "Search By Category Menu.\n\n";
         cout << "Enter Task's Category: ";
-        cin.clear();
     }
 };
 
@@ -145,7 +135,6 @@ public:
         cout << "***************\n";
         cout << "Add the Category Menu.\n\n";
         cout << "Enter your category name: ";
-        cin.clear();
     }
     void DeleteCategoryMenu()
     {
@@ -153,6 +142,5 @@ public:
         cout << "***************\n";
         cout << "Delete the Category Menu.\n\n";
         cout << "Enter your category name: ";
-        cin.clear();
     }
 };

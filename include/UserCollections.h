@@ -40,7 +40,7 @@ public:
             tasks[i] = nullptr;
             categories[i] = nullptr;
         }
-        cout << "User ID: " << userId << endl;
+        // cout << "User ID: " << userId << endl;
         ReadTasksFromFile();
         ReadCategoriesFromFile();
     }
@@ -137,6 +137,12 @@ public:
         AddTask(Task("Test Task 3", "Test Description 3", "In Progress", "Low", "2025-11-24"));
         AddTask(Task("Test Task 4", "Test Description 4", "Completed", "High", "2025-11-24"));
     }
+
+    /*CheckDuplicate
+    Parameter : (string taskName)
+    Description : This function checks if a task with the same name already exists in the tasks array.
+    */
+    bool CheckDuplicate(string taskName);
 
     /*TestRemoveFunction
     Parameter : None
