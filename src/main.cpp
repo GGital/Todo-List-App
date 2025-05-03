@@ -10,8 +10,12 @@
 #include "LoginSystem.h"
 #include "HashMapWithDLL.h"
 #include "UserCollections.h"
+#include "Edge.h"
+#include "Node.h"
 #include <UI.h>
 #include "MenuUI.h"
+#include <SFML/Graphics.hpp>
+
 using namespace std;
 
 int main()
@@ -853,11 +857,95 @@ int main()
             // cout << "Graph built successfully.\n";
             graphTask.TopologicalSort();
             Queue<Task> *topologicalOrder = graphTask.TopologicalOrder;
+            /*
             cout << "Topological Order of Tasks:\n";
             while (!topologicalOrder->isEmpty())
             {
                 Task task = topologicalOrder->dequeue();
                 cout << task.taskID << " " << task.name << endl;
+            }
+            */
+            sf::RenderWindow window(sf::VideoMode(1000, 800), "Topological Sort Visualization", sf::Style::Default);
+            sf::View view = window.getDefaultView();
+            window.setFramerateLimit(60);
+            sf::Font font;
+            if (!font.loadFromFile("arial.ttf"))
+            {
+                std::cerr << "Error loading font\n";
+                return -1;
+            }
+            sf::Vector2f mouseDragStart;
+            bool dragging = false;
+
+            // Set up nodes and edges
+            Node *nodes[1005];
+            Edge *edges[1005];
+            int cnt = 0;
+            while (!topologicalOrder->isEmpty())
+            {
+                Task task = topologicalOrder->dequeue();
+                int taskID = task.taskID;
+                string labelText = "ID : " + to_string(taskID) + " " + task.name + "\nPriority : " + task.priority + "\nDue Date : " + to_string(task.dueDate.tm_year + 1900) + "-" + to_string(task.dueDate.tm_mon + 1) + "-" + to_string(task.dueDate.tm_mday);
+                nodes[cnt++] = new Node(100 + cnt * 250, 100 + cnt * 250, labelText, font);
+                nodes[cnt - 1]->setFillColor(task.status);
+            }
+            for (int i = 0; i < cnt - 1; i++)
+            {
+                edges[i] = new Edge(nodes[i], nodes[i + 1]);
+            }
+
+            while (window.isOpen())
+            {
+                sf::Event event;
+                while (window.pollEvent(event))
+                {
+                    if (event.type == sf::Event::Closed)
+                        window.close();
+                    if (event.type == sf::Event::MouseWheelScrolled)
+                    {
+                        if (event.mouseWheelScroll.delta > 0)
+                            view.zoom(0.9f); // zoom in
+                        else
+                            view.zoom(1.1f); // zoom out
+                    }
+                    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Middle)
+                    {
+                        dragging = true;
+                        mouseDragStart = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+                    }
+                    if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Middle)
+                    {
+                        dragging = false;
+                    }
+                    // Resize window
+                    if (event.type == sf::Event::Resized)
+                    {
+                        view.setSize(event.size.width, event.size.height);
+                    }
+
+                    // Handle dragging movement
+                    if (dragging)
+                    {
+                        sf::Vector2f newMousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+                        sf::Vector2f offset = mouseDragStart - newMousePos;
+                        view.move(offset);
+                        mouseDragStart = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+                    }
+                }
+
+                window.setView(view);
+                window.clear(sf::Color(30, 30, 30));
+                // Draw your graph here
+
+                for (int i = 0; i < cnt - 1; i++)
+                {
+                    edges[i]->draw(window);
+                }
+                for (int i = 0; i < cnt; i++)
+                {
+                    nodes[i]->draw(window);
+                }
+                window.display();
             }
         }
         else if (MainChoice == 7)

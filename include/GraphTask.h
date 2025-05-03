@@ -23,6 +23,8 @@ public:
         for (int i = 0; i < 1005; i++)
         {
             edgeList[i] = nullptr; // Initialize the array of doubly linked lists
+            task[i] = Task();
+            task[i].taskID = -1; // Initialize task IDs
         }
     }
     ~GraphTask()
@@ -58,25 +60,30 @@ public:
 
     void SyncwithUserCollections(UserCollections &userCollections)
     {
+        cout << userCollections.taskCount << endl;
         for (int i = 0; i < userCollections.taskCount; i++)
         {
-            task[i] = *userCollections.tasks[i];        // Copy tasks from UserCollections to the graph
-            edgeList[i] = new DoublyLinkedList<Task>(); // Initialize the doubly linked list for each task
+            Task *temp = userCollections.tasks[i]; // Get the task from UserCollections
+            task[temp->taskID] = *temp;
+            AddVertex(userCollections.tasks[i]->taskID); // Add vertex for each task
+            // cout << "Task ID: " << userCollections.tasks[i]->taskID << endl; // Print task ID
         }
     }
 
     void BuildGraph(UserCollections &userCollections)
     {
         SyncwithUserCollections(userCollections); // Sync tasks with UserCollections
-        for (int i = 0; i < userCollections.taskCount; i++)
+        for (int i = 0; i < 1005; i++)
         {
-            for (int j = 0; j < userCollections.taskCount; j++)
+            for (int j = 0; j < 1005; j++)
             {
+                // cout << "Task i : " << i << " Task j: " << j << endl;
                 if (i == j)
-                    continue; // Skip self-loops
-                Task a = *userCollections.tasks[i];
-                Task b = *userCollections.tasks[j];
-
+                    continue;     // Skip self-loops
+                Task a = task[i]; // Get the task at index i
+                Task b = task[j];
+                if (a.taskID == -1 || b.taskID == -1)
+                    continue; // Skip if task ID is -1 (not assigned)
                 if (priorityToInt(a.priority) > priorityToInt(b.priority))
                 {
                     AddEdge(a.taskID, b.taskID);
@@ -84,10 +91,6 @@ public:
                 else if (priorityToInt(a.priority) == priorityToInt(b.priority))
                 {
                     if (earlierDueDate(a, b))
-                    {
-                        AddEdge(a.taskID, b.taskID);
-                    }
-                    else if (a.category == b.category && a.status != b.status)
                     {
                         AddEdge(a.taskID, b.taskID);
                     }
@@ -119,6 +122,10 @@ public:
         int *inDegree = new int[1005](); // Array to store in-degrees of vertices
         for (int i = 0; i < 1005; i++)
         {
+            inDegree[i] = 0; // Initialize in-degrees to 0
+        }
+        for (int i = 0; i < 1005; i++)
+        {
             DoublyLinkedList<Task> *list = edgeList[i];
             if (list != nullptr)
             {
@@ -130,22 +137,27 @@ public:
                 }
             }
         }
+        /*for (int i = 0; i < 5; i++)
+        {
+            cout << "In-degree of task " << i << ": " << inDegree[i] << endl; // Print in-degrees for debugging
+        }*/
         Queue<int> *q = new Queue<int>(1005);     // Queue to store vertices with in-degree 0
         TopologicalOrder = new Queue<Task>(1005); // Queue to store the topological order of tasks
         for (int i = 0; i < 1005; i++)
         {
             if (inDegree[i] == 0 && edgeList[i] != nullptr)
             {
+                // cout << "Task ID: " << i << endl; // Print task ID with in-degree 0
                 q->enqueue(i); // Enqueue vertices with in-degree 0
             }
         }
         // cout << q.size << endl; // Print the size of the queue
         while (!q->isEmpty())
         {
-            int u = q->dequeue();                                // Dequeue a vertex
-            cout << "Processing task: " << task[u].name << endl; // Print the task being processed
-            cout << "Size of queue: " << q->size << endl;        // Print the size of the queue
-            TopologicalOrder->enqueue(task[u]);                  // Add it to the result queue
+            int u = q->dequeue(); // Dequeue a vertex
+            // cout << "Processing task: " << task[u].name << endl; // Print the task being processed
+            // cout << "Size of queue: " << q->size << endl;        // Print the size of the queue
+            TopologicalOrder->enqueue(task[u]); // Add it to the result queue
             DoublyLinkedList<Task> *list = edgeList[u];
             if (list != nullptr)
             {
@@ -154,6 +166,7 @@ public:
                 while (current != nullptr)
                 {
                     // cout << "Check2" << endl;
+                    // cout << current->data.taskID << endl; // Print the task ID of the current node
                     inDegree[current->data.taskID]--; // Decrease in-degree of adjacent vertices
                     if (inDegree[current->data.taskID] == 0 && edgeList[current->data.taskID] != nullptr)
                     {
@@ -165,7 +178,7 @@ public:
         }
         // delete[] inDegree;                             // Clean up the in-degree array
         // delete q;                                      // Clean up the queue
-        cout << "Check3" << endl;
-        cout << "Topological Sort completed." << endl; // Print completion message
+        // cout << "Check3" << endl;
+        // cout << "Topological Sort completed." << endl; // Print completion message
     }
 };
