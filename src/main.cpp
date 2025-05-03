@@ -2,6 +2,7 @@
 #include <example.h>
 #include <File_Management.h>
 #include <regex>
+#include <limits>
 #include "Doubly-Linked-List.h"
 #include "Min-Priority-Queue.h"
 #include "Max-Priority-Queue.h"
@@ -43,14 +44,30 @@ int main()
         cin.clear();
         cin >> AuthChoice;
 
+        if (cin.fail())
+        {
+            cin.clear();                                         // Clear the error flag
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+            cout << "Invalid input. Please enter a number.\n";
+            continue; // Ask for input again
+        }
         if (AuthChoice == 1)
         {
 
             loginmenu.showRegisterMenu();
             cout << "Username :";
-            cin >> username;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer
+            getline(cin, username);                              // Use getline to allow spaces in username
             cout << "Password :";
-            cin >> password;
+            getline(cin, password); // Use getline to allow spaces in password
+
+            // Check if there is whitespace in username and password
+            if (username.find(' ') != string::npos || password.find(' ') != string::npos)
+            {
+                cout << "\nUsername and Password cannot contain spaces.\n";
+                continue;
+            }
 
             if (!loginSystem.checkduplicate(username))
             {
@@ -63,8 +80,6 @@ int main()
             {
 
                 cout << "\nUsername is taken. Please try again later.\n";
-                cin.clear();
-                cin.ignore();
                 continue;
             }
         }
@@ -73,16 +88,21 @@ int main()
 
             loginmenu.showLoginMenu();
             cout << "Username :";
-            cin >> username;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer
+            getline(cin, username);                              // Use getline to allow spaces in username
             cout << "Password :";
-            cin >> password;
-
+            getline(cin, password); // Use getline to allow spaces in password
+            if (username.find(' ') != string::npos || password.find(' ') != string::npos)
+            {
+                cout << "\nUsername and Password cannot contain spaces.\n";
+                continue;
+            }
             if (loginSystem.LoginUser(username, password) == -1)
             {
 
                 cout << "\nWrong Username or Password. Please try again later.\n";
-                cin.clear();
-                cin.ignore();
+
                 continue;
             }
             else
@@ -90,7 +110,6 @@ int main()
 
                 cout << "\nLogin Successful. Entering the program.\n";
                 // cout << loginSystem.LoginUser(username,password);
-                mainmenu.showMainMenu();
                 break;
             }
         }
@@ -103,8 +122,6 @@ int main()
         {
 
             cout << "\nInvalid choice.\n";
-            cin.clear();
-            cin.ignore();
             continue;
         }
     }
@@ -125,9 +142,15 @@ int main()
     {
 
         mainmenu.showMainMenu();
-        cin.clear();
         cin >> MainChoice;
 
+        if (cin.fail())
+        {
+            cin.clear();                                         // Clear the error flag
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+            cout << "Invalid input. Please enter a number.\n";
+            continue; // Ask for input again
+        }
         if (MainChoice == 1)
         {
 
@@ -136,6 +159,17 @@ int main()
             cout << "Enter task's name: ";
             cin.ignore();
             getline(cin, name);
+
+            if (name.find(' ') != string::npos)
+            {
+                cout << "\nTask name cannot contain spaces.\n";
+                continue;
+            }
+            if (usercollection.CheckDuplicate(name))
+            {
+                cout << "\nTask name already exists.\n";
+                continue;
+            }
 
             cout << "Enter task's description: ";
             getline(cin, desc);
@@ -150,6 +184,13 @@ int main()
             int categoryIndex;
             cin >> categoryIndex;
 
+            if (cin.fail())
+            {
+                cin.clear();                                         // Clear the error flag
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                cout << "Invalid input. Please enter a number.\n";
+                continue; // Ask for input again
+            }
             if (categoryIndex == 0)
             {
                 category = "Uncategorized";
@@ -170,6 +211,13 @@ int main()
                  << "[2] Completed\n";
             int statusIndex;
             cin >> statusIndex;
+            if (cin.fail())
+            {
+                cin.clear();                                         // Clear the error flag
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                cout << "Invalid input. Please enter a number.\n";
+                continue; // Ask for input again
+            }
             if (statusIndex == 0)
             {
                 status = "Not started";
@@ -194,6 +242,13 @@ int main()
                  << "[2] High\n";
             int priorIndex;
             cin >> priorIndex;
+            if (cin.fail())
+            {
+                cin.clear();                                         // Clear the error flag
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                cout << "Invalid input. Please enter a number.\n";
+                continue; // Ask for input again
+            }
             if (priorIndex == 0)
             {
                 prior = "Low";
@@ -252,7 +307,13 @@ int main()
                 removemenuUI.showRemoveMenu();
                 cin.clear();
                 cin >> removechoice;
-
+                if (cin.fail())
+                {
+                    cin.clear();                                         // Clear the error flag
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                    cout << "Invalid input. Please enter a number.\n";
+                    continue; // Ask for input again
+                }
                 if (removechoice == 1)
                 {
 
@@ -281,6 +342,13 @@ int main()
 
                     cout << "Enter Task's ID To Remove: ";
                     cin >> removeTaskID;
+                    if (cin.fail())
+                    {
+                        cin.clear();                                         // Clear the error flag
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                        cout << "Invalid input. Please enter a number.\n";
+                        continue; // Ask for input again
+                    }
                     usercollection.RemoveTask(removeTaskID);
                     break;
                 }
@@ -322,7 +390,13 @@ int main()
                 modifymenuUI.showModifyMenu();
                 cin.clear();
                 cin >> modifychoice;
-
+                if (cin.fail())
+                {
+                    cin.clear();                                         // Clear the error flag
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                    cout << "Invalid input. Please enter a number.\n";
+                    continue; // Ask for input again
+                }
                 if (modifychoice == 1)
                 {
 
@@ -331,7 +405,13 @@ int main()
                     int modifyTaskORCategorychoice;
                     modifymenuUI.ModifyTaskORCategoryMenu();
                     cin >> modifyTaskORCategorychoice;
-                    cin.clear();
+                    if (cin.fail())
+                    {
+                        cin.clear();                                         // Clear the error flag
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                        cout << "Invalid input. Please enter a number.\n";
+                        continue; // Ask for input again
+                    }
                     while (true)
                     {
                         if (modifyTaskORCategorychoice == 1)
@@ -359,6 +439,17 @@ int main()
                             cout << "Enter task name: ";
                             getline(cin, newname);
 
+                            if (newname.find(' ') != string::npos)
+                            {
+                                cout << "\nTask name cannot contain spaces.\n";
+                                continue;
+                            }
+                            if (usercollection.CheckDuplicate(newname))
+                            {
+                                cout << "\nTask name already exists.\n";
+                                continue;
+                            }
+
                             cout << "Enter task description: ";
                             getline(cin, newdesc);
 
@@ -370,6 +461,13 @@ int main()
                             cout << "Enter task's category: ";
                             int categoryIndex;
                             cin >> categoryIndex;
+                            if (cin.fail())
+                            {
+                                cin.clear();                                         // Clear the error flag
+                                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                                cout << "Invalid input. Please enter a number.\n";
+                                continue; // Ask for input again
+                            }
                             cout << categoryIndex << endl;
                             if (categoryIndex == 0)
                             {
@@ -391,6 +489,13 @@ int main()
                                  << "[2] Completed\n";
                             int statusIndex;
                             cin >> statusIndex;
+                            if (cin.fail())
+                            {
+                                cin.clear();                                         // Clear the error flag
+                                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                                cout << "Invalid input. Please enter a number.\n";
+                                continue; // Ask for input again
+                            }
                             if (statusIndex == 0)
                             {
                                 newstatus = "Not started";
@@ -415,6 +520,13 @@ int main()
                                  << "[2] High\n";
                             int priorIndex;
                             cin >> priorIndex;
+                            if (cin.fail())
+                            {
+                                cin.clear();                                         // Clear the error flag
+                                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                                cout << "Invalid input. Please enter a number.\n";
+                                continue; // Ask for input again
+                            }
                             if (priorIndex == 0)
                             {
                                 newprior = "Low";
@@ -469,6 +581,13 @@ int main()
                             cout << "Enter task's category: ";
                             int categoryIndex;
                             cin >> categoryIndex;
+                            if (cin.fail())
+                            {
+                                cin.clear();                                         // Clear the error flag
+                                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                                cout << "Invalid input. Please enter a number.\n";
+                                continue; // Ask for input again
+                            }
                             // cout << categoryIndex << endl;
                             if (categoryIndex == 0)
                             {
@@ -510,7 +629,13 @@ int main()
                     int modifyTaskORCategorychoice;
                     modifymenuUI.ModifyTaskORCategoryMenu();
                     cin >> modifyTaskORCategorychoice;
-
+                    if (cin.fail())
+                    {
+                        cin.clear();                                         // Clear the error flag
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                        cout << "Invalid input. Please enter a number.\n";
+                        continue; // Ask for input again
+                    }
                     while (true)
                     {
                         if (modifyTaskORCategorychoice == 1)
@@ -524,7 +649,13 @@ int main()
                             cout << "***************\n";
                             cout << "Enter Task's ID To Edit: ";
                             cin >> modifyTaskID;
-
+                            if (cin.fail())
+                            {
+                                cin.clear();                                         // Clear the error flag
+                                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                                cout << "Invalid input. Please enter a number.\n";
+                                continue; // Ask for input again
+                            }
                             // Check if task exists
                             Task *task = usercollection.SearchTask(modifyTaskID);
                             if (task == nullptr)
@@ -548,6 +679,13 @@ int main()
                             cout << "Enter task's category: ";
                             int categoryIndex;
                             cin >> categoryIndex;
+                            if (cin.fail())
+                            {
+                                cin.clear();                                         // Clear the error flag
+                                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                                cout << "Invalid input. Please enter a number.\n";
+                                continue; // Ask for input again
+                            }
                             // cout << categoryIndex << endl;
                             if (categoryIndex == 0)
                             {
@@ -569,6 +707,13 @@ int main()
                                  << "[2] Completed\n";
                             int statusIndex;
                             cin >> statusIndex;
+                            if (cin.fail())
+                            {
+                                cin.clear();                                         // Clear the error flag
+                                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                                cout << "Invalid input. Please enter a number.\n";
+                                continue; // Ask for input again
+                            }
                             if (statusIndex == 0)
                             {
                                 newstatus = "Not started";
@@ -593,6 +738,13 @@ int main()
                                  << "[2] High\n";
                             int priorIndex;
                             cin >> priorIndex;
+                            if (cin.fail())
+                            {
+                                cin.clear();                                         // Clear the error flag
+                                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                                cout << "Invalid input. Please enter a number.\n";
+                                continue; // Ask for input again
+                            }
                             if (priorIndex == 0)
                             {
                                 newprior = "Low";
@@ -647,6 +799,13 @@ int main()
                             cout << "Enter task's category: ";
                             int categoryIndex;
                             cin >> categoryIndex;
+                            if (cin.fail())
+                            {
+                                cin.clear();                                         // Clear the error flag
+                                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                                cout << "Invalid input. Please enter a number.\n";
+                                continue; // Ask for input again
+                            }
                             // cout << categoryIndex << endl;
                             if (categoryIndex == 0)
                             {
@@ -663,7 +822,13 @@ int main()
                             }
                             cout << "Enter the task ID: ";
                             cin >> modifyTaskID;
-
+                            if (cin.fail())
+                            {
+                                cin.clear();                                         // Clear the error flag
+                                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                                cout << "Invalid input. Please enter a number.\n";
+                                continue; // Ask for input again
+                            }
                             usercollection.EditTaskCategory(modifyTaskID, category);
 
                             break;
@@ -721,7 +886,13 @@ int main()
                 int searchchoice;
                 searchUI.SearchMainUI();
                 cin >> searchchoice;
-
+                if (cin.fail())
+                {
+                    cin.clear();                                         // Clear the error flag
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                    cout << "Invalid input. Please enter a number.\n";
+                    continue; // Ask for input again
+                }
                 if (searchchoice == 1)
                 {
 
@@ -735,10 +906,6 @@ int main()
                     {
                         cout << *temp << endl;
                     }
-                    else
-                    {
-                        cout << "Task not found.\n";
-                    }
                 }
                 else if (searchchoice == 2)
                 {
@@ -747,14 +914,17 @@ int main()
                     searchUI.SearchIDUI();
                     int searchID;
                     cin >> searchID;
+                    if (cin.fail())
+                    {
+                        cin.clear();                                         // Clear the error flag
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                        cout << "Invalid input. Please enter a number.\n";
+                        continue; // Ask for input again
+                    }
                     Task *temp = usercollection.SearchTask(searchID);
                     if (temp != nullptr)
                     {
                         cout << *temp << endl;
-                    }
-                    else
-                    {
-                        cout << "Task not found.\n";
                     }
                 }
                 else if (searchchoice == 3)
@@ -767,6 +937,13 @@ int main()
                          << "[2] High\n";
                     int searchPriorIndex;
                     cin >> searchPriorIndex;
+                    if (cin.fail())
+                    {
+                        cin.clear();                                         // Clear the error flag
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                        cout << "Invalid input. Please enter a number.\n";
+                        continue; // Ask for input again
+                    }
                     if (searchPriorIndex == 0)
                     {
                         prior = "Low";
@@ -805,6 +982,13 @@ int main()
                     cout << "Enter task's category: ";
                     int categoryIndex;
                     cin >> categoryIndex;
+                    if (cin.fail())
+                    {
+                        cin.clear();                                         // Clear the error flag
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                        cout << "Invalid input. Please enter a number.\n";
+                        continue; // Ask for input again
+                    }
                     if (categoryIndex == 0)
                     {
                         category = "Uncategorized";
@@ -956,7 +1140,15 @@ int main()
             CategoryUI categoryUI;
             categoryUI.AddCategoryMenu();
             string categoryname;
-            cin >> categoryname;
+            cin.ignore();
+            getline(cin, categoryname);
+            if (categoryname.find(' ') != string::npos)
+            {
+                cout << "\nCategory name cannot contain spaces.\n";
+                continue;
+            }
+            // Check if there is whitespace in the name
+
             usercollection.AddCategory(categoryname);
         }
         else if (MainChoice == 8)
@@ -967,7 +1159,12 @@ int main()
             CategoryUI categoryUI;
             categoryUI.DeleteCategoryMenu();
             string categoryname;
-            cin >> categoryname;
+            getline(cin, categoryname);
+            if (categoryname.find(' ') != string::npos)
+            {
+                cout << "\nCategory name cannot contain spaces.\n";
+                continue;
+            }
             usercollection.RemoveCategory(categoryname);
             for (int i = 0; i < usercollection.taskCount; i++)
             {
@@ -1008,7 +1205,7 @@ int main()
             // Invalid Input
             cout << "\nInvalid choice.\n";
             cin.clear();
-            cin.ignore();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
         }
     }
