@@ -60,7 +60,7 @@ public:
 
     void SyncwithUserCollections(UserCollections &userCollections)
     {
-        cout << userCollections.taskCount << endl;
+        // cout << userCollections.taskCount << endl;
         for (int i = 0; i < userCollections.taskCount; i++)
         {
             Task *temp = userCollections.tasks[i]; // Get the task from UserCollections

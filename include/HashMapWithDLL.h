@@ -80,6 +80,13 @@ public:
         table[index].insertAtEnd(value);
     }
 
+    void clear()
+    {
+        delete[] table;                        // Clean up the array of doubly linked lists
+        delete[] keyCheck;                     // Clean up the array of keys
+        table = new DoublyLinkedList<U>[size]; // Reinitialize the array of doubly linked lists
+        keyCheck = new T[size];                // Reinitialize the array of keys
+    }
     DoublyLinkedList<U> *getList(T key)
     {
         int index = hashFunction(key);

@@ -31,6 +31,7 @@ int main()
 {
     SetConsoleOutputCP(CP_UTF8);
     enable_ansi_colors();
+    UI ui;
     FileManagement fileManager;
     Example example;
     regex datePattern(R"(\d{4}-\d{2}-\d{2})"); // Matches YYYY-MM-DD format
@@ -972,13 +973,37 @@ int main()
                         continue;
                     }
                     DoublyLinkedList<Task> *temp = usercollection.SearchPriority(prior);
-                    if (temp != nullptr)
+                    DoublyLinkedList<Task>::Node *current = temp->head;
+                    while (current != nullptr)
                     {
-                        temp->display();
-                    }
-                    else
-                    {
-                        cout << "Task not found.\n";
+                        ui.ClearScreen();
+                        cout << current->data << endl;
+                        if (current->next)
+                            cout << "Press n to go next\n";
+                        if (current->prev)
+                            cout << "Press p to go previous\n";
+                        cout << "Press any other key to exit\n";
+                        char choice;
+                        cin >> choice;
+                        if (cin.fail())
+                        {
+                            cin.clear();                                         // Clear the error flag
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                            cout << "Invalid input. Please enter a character.\n";
+                            continue; // Ask for input again
+                        }
+                        if (choice == 'n' && current->next != nullptr)
+                        {
+                            current = current->next;
+                        }
+                        else if (choice == 'p' && current->prev != nullptr)
+                        {
+                            current = current->prev;
+                        }
+                        else
+                        {
+                            break; // Exit the loop
+                        }
                     }
                 }
                 else if (searchchoice == 4)
@@ -1013,13 +1038,38 @@ int main()
                         continue;
                     }
                     DoublyLinkedList<Task> *temp = usercollection.SearchCategory(category);
-                    if (temp != nullptr)
+                    // Displaying task one by one using n & p to go next and previous
+                    DoublyLinkedList<Task>::Node *current = temp->head;
+                    while (current != nullptr)
                     {
-                        temp->display();
-                    }
-                    else
-                    {
-                        cout << "Task not found.\n";
+                        ui.ClearScreen();
+                        cout << current->data << endl;
+                        if (current->next)
+                            cout << "Press n to go next\n";
+                        if (current->prev)
+                            cout << "Press p to go previous\n";
+                        cout << "Press any other key to exit\n";
+                        char choice;
+                        cin >> choice;
+                        if (cin.fail())
+                        {
+                            cin.clear();                                         // Clear the error flag
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+                            cout << "Invalid input. Please enter a character.\n";
+                            continue; // Ask for input again
+                        }
+                        if (choice == 'n' && current->next != nullptr)
+                        {
+                            current = current->next;
+                        }
+                        else if (choice == 'p' && current->prev != nullptr)
+                        {
+                            current = current->prev;
+                        }
+                        else
+                        {
+                            break; // Exit the loop
+                        }
                     }
                 }
                 else if (searchchoice == 5)
@@ -1045,7 +1095,6 @@ int main()
         {
 
             //--------Topological Task Menu--------
-            // Susu na Teerak <3
             GraphTask graphTask;
             graphTask.BuildGraph(usercollection);
             // cout << "Graph built successfully.\n";

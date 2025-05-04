@@ -439,6 +439,10 @@ Task *UserCollections::SearchTask(int taskID)
 
 void UserCollections::InitializeHashMap()
 {
+    // Clear the hash maps first
+    taskHashMapCategory.clear();
+    taskHashMapPriority.clear();
+
     for (int i = 0; i < taskCount; i++)
     {
         taskHashMapCategory.insert(tasks[i]->category, *tasks[i]);
