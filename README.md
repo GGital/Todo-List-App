@@ -16,6 +16,10 @@ This ToDo Application offers a simple yet powerful solution to create, organize,
 - Task Ordering (Topological sorting)
 - Reminding Upcoming Tasks
 
+## Topological Sorting Example
+<p align="center"><img src="https://github.com/user-attachments/assets/027d5078-232b-457a-83de-464eb0caf9b5"></p>
+
+
 ## **Project Structure**
 
 - `UserCollections` - Directory storing user-specific data
