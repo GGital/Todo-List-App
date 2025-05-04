@@ -85,13 +85,7 @@ public:
     Parameter : None
     Description : This function displays all categories in the categories array.
     */
-    void DisplayCategories()
-    {
-        for (int i = 0; i < categoryCount; i++)
-        {
-            cout << *categories[i] << endl;
-        }
-    }
+    void DisplayCategories();
 
     /* AddTask
     Parameter : (Task task)

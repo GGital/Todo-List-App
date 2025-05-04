@@ -372,6 +372,25 @@ void UserCollections::DisplayTasks()
          << endl;
 }
 
+void UserCollections::DisplayCategories()
+{
+    if (categoryCount == 0)
+    {
+        cout << "No category available.\n";
+    }
+    cout << "==================================================================================================================================================\n";
+    cout << ANSI_COLOR_YELLOW << "                                                                       Category list" << ANSI_COLOR_RESET << endl;
+    cout << "==================================================================================================================================================\n"
+         << endl;
+    cout << setw(20) << "Category Name" << endl;
+    for (int i = 0; i < categoryCount; i++)
+    {
+        cout << ANSI_COLOR_CYAN << setw(20) << *categories[i] << ANSI_COLOR_RESET << endl;
+    }
+    cout << "==================================================================================================================================================\n"
+         << endl;
+}
+
 void UserCollections::RemindTask()
 {
     time_t now = time(0);

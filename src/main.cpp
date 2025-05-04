@@ -1216,6 +1216,7 @@ int main()
             //--------Delete Category Menu--------
 
             CategoryUI categoryUI;
+            usercollection.DisplayCategories();
             categoryUI.DeleteCategoryMenu();
             string categoryname;
             cin.ignore();
@@ -1226,7 +1227,6 @@ int main()
                 cout << "\nCategory name cannot contain spaces.\n";
                 continue;
             }
-            usercollection.RemoveCategory(categoryname);
             for (int i = 0; i < usercollection.taskCount; i++)
             {
                 if (usercollection.tasks[i]->category == categoryname)
@@ -1234,6 +1234,7 @@ int main()
                     usercollection.tasks[i]->category = "Uncategorized";
                 }
             }
+            usercollection.RemoveCategory(categoryname);
             usercollection.fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userID) + ".csv");
             for (int i = 0; i < usercollection.taskCount; i++)
             {
