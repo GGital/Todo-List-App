@@ -1,81 +1,121 @@
 #pragma once
 #include <iostream>
-#include <string>
-#include <Task.h>
+#include <stdexcept>
 using namespace std;
 
 template <typename T>
 class MaxPriorityQueue
 {
-public:
-    class Node
-    {
-    public:
-        T data;
-        int priority;
-        Node *next;
-        Node *prev;
-        Node(T data, int priority) : data(data), priority(priority), next(nullptr), prev(nullptr) {}
-    };
-    Node *head;
-    Node *tail;
+private:
+    pair<T, int> *heap; // Dynamically allocated array for the heap
+    int capacity;       // Maximum capacity of the heap
+    int size;           // Current number of elements in the heap
 
-    // Constructor to initialize the queue
-    MaxPriorityQueue() : head(nullptr), tail(nullptr) {}
+    // Helper function to get the parent index
+    int parent(int i) { return (i - 1) / 2; }
+
+    // Helper function to get the left child index
+    int leftChild(int i) { return 2 * i + 1; }
+
+    // Helper function to get the right child index
+    int rightChild(int i) { return 2 * i + 2; }
+
+    // Helper function to resize the heap when it exceeds capacity
+    void resize()
+    {
+        int newCap = capacity * 2;
+        auto *newHeap = new pair<T, int>[newCap];
+        for (int i = 0; i < size; ++i)
+            newHeap[i] = heap[i];
+        delete[] heap;
+        heap = newHeap;
+        capacity = newCap;
+    }
+
+    void heapifyUp(int idx)
+    {
+        while (idx > 0)
+        {
+            int p = parent(idx);
+            if (heap[p].second >= heap[idx].second)
+                break;
+            swap(heap[p], heap[idx]);
+            idx = p;
+        }
+    }
+
+    void heapifyDown(int idx)
+    {
+        while (true)
+        {
+            int l = leftChild(idx), r = rightChild(idx), largest = idx;
+            if (l < size && heap[l].second > heap[largest].second)
+                largest = l;
+            if (r < size && heap[r].second > heap[largest].second)
+                largest = r;
+            if (largest == idx)
+                break;
+            swap(heap[idx], heap[largest]);
+            idx = largest;
+        }
+    }
+
+public:
+    // Constructor to initialize the priority queue
+    MaxPriorityQueue(int initialCapacity = 10)
+    {
+        capacity = initialCapacity;
+        size = 0;
+        heap = new pair<T, int>[capacity];
+    }
+
+    // Destructor to clean up the dynamically allocated memory
+    ~MaxPriorityQueue()
+    {
+        // delete[] heap;
+    }
 
     // Insert a new element with a given priority
-    void insert(T data, int priority)
+    void insert(const T &val, int prio)
     {
-        Node *newNode = new Node(data, priority);
-        if (head == nullptr || head->priority < priority)
-        {
-            newNode->next = head;
-            if (head != nullptr)
-                head->prev = newNode;
-            head = newNode;
-            if (tail == nullptr)
-                tail = newNode;
-        }
-        else
-        {
-            Node *current = head;
-            while (current->next != nullptr && current->next->priority >= priority)
-            {
-                current = current->next;
-            }
-            newNode->next = current->next;
-            if (current->next != nullptr)
-                current->next->prev = newNode;
-            current->next = newNode;
-            newNode->prev = current;
-            if (newNode->next == nullptr)
-                tail = newNode;
-        }
+        if (size == capacity)
+            resize();
+        heap[size] = {val, prio};
+        heapifyUp(size);
+        ++size;
     }
 
-    // Pop the element with the highest priority
     T pop()
     {
-        if (head == nullptr)
-        {
-
-            cout << "Queue is empty" << endl;
-            return T(); // Return default value of T
-        }
-        Node *maxNode = head;
-        T maxData = maxNode->data;
-        head = head->next;
-        if (head != nullptr)
-            head->prev = nullptr;
-        else
-            tail = nullptr; // If the queue is now empty, update tail
-        delete maxNode;
-        return maxData;
+        if (size == 0)
+            throw runtime_error("pop() on empty queue");
+        T ret = heap[0].first;
+        heap[0] = heap[size - 1];
+        --size;
+        if (size > 0)
+            heapifyDown(0);
+        return ret;
     }
 
-    // Check if the queue is empty
-    bool isEmpty()
+    T peek() const
     {
-        return head == nullptr;
+        if (size == 0)
+            throw runtime_error("peek() on empty queue");
+        return heap[0].first;
+    }
+
+    bool isEmpty() const { return size == 0; }
+    void clear() { size = 0; }
+
+    // Get the array of sorted elements
+    T *getSortedArray()
+    {
+        T *sortedArray = new T[size];
+        int tempSize = size; // Store the original size
+        for (int i = 0; i < tempSize; i++)
+        {
+            sortedArray[i] = pop(); // Pop elements to get them in sorted order
+        }
+        return sortedArray;
     }
 };

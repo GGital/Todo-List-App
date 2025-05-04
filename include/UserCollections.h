@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <sstream>
 #include <Task.h>
+#include <Max-Priority-Queue.h>
 #include <HashMapWithDLL.h>
 using namespace std;
 
@@ -33,6 +34,8 @@ public:
     HashMapDLL<string, Task> taskHashMapCategory = HashMapDLL<string, Task>(1005); // HashMap for searching tasks by category
     HashMapDLL<string, Task> taskHashMapPriority = HashMapDLL<string, Task>(1005); // HashMap for searching tasks by priority
 
+    MaxPriorityQueue<Task> taskQueue; // Max priority queue for tasks
+
     UserCollections(int id, string u, string p) : userId(id), username(u), password(p), categoryCount(0), taskCount(0)
     {
         for (int i = 0; i < 1005; i++)
@@ -40,9 +43,13 @@ public:
             tasks[i] = nullptr;
             categories[i] = nullptr;
         }
+
+        taskQueue = MaxPriorityQueue<Task>(1005);
+
         // cout << "User ID: " << userId << endl;
         ReadTasksFromFile();
         ReadCategoriesFromFile();
+        InitializeTaskQueue();
     }
     // Destructor to clean up dynamically allocated memory
     ~UserCollections()
@@ -219,4 +226,11 @@ public:
     Description : This function searches for tasks by their priority in the tasks array using the concept of hash table chaining with doubly linked list.
     */
     DoublyLinkedList<Task> *SearchPriority(string priorityName);
+
+    /*
+    InitializeTaskQueue
+    Parameter : None
+    Description : This function initializes the task queue with tasks from the tasks array.
+    */
+    void InitializeTaskQueue();
 };

@@ -95,6 +95,7 @@ void UserCollections::AddTask(Task task)
     cout << task.taskID << "," << task.name << "," << task.description << "," << task.category << "," << task.status << "," << task.priority << ",";
     cout << put_time(&task.dueDate, "%Y-%m-%d") << endl;
     fileManager.CloseFile();
+    taskQueue.insert(task, task.priorityValue());
 }
 
 void UserCollections::AddCategory(string category)
@@ -145,6 +146,7 @@ void UserCollections::RemoveCategory(string category)
         cout << *categories[i] << endl;
     }
     fileManager.CloseFile();
+    InitializeTaskQueue();
 }
 
 void UserCollections::RemoveTask(int taskID)
@@ -179,6 +181,7 @@ void UserCollections::RemoveTask(int taskID)
         cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
     }
     fileManager.CloseFile();
+    InitializeTaskQueue();
 }
 
 void UserCollections::RemoveTask(string taskName)
@@ -211,6 +214,7 @@ void UserCollections::RemoveTask(string taskName)
         cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
     }
     fileManager.CloseFile();
+    InitializeTaskQueue();
 }
 
 void UserCollections::EditTask(int taskID, Task newTask)
@@ -242,6 +246,7 @@ void UserCollections::EditTask(int taskID, Task newTask)
         cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
     }
     fileManager.CloseFile();
+    InitializeTaskQueue();
 }
 
 void UserCollections::EditTask(string taskName, Task newTask)
@@ -273,6 +278,7 @@ void UserCollections::EditTask(string taskName, Task newTask)
         cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
     }
     fileManager.CloseFile();
+    InitializeTaskQueue();
 }
 
 void UserCollections::EditTaskCategory(string taskName, string category)
@@ -300,6 +306,7 @@ void UserCollections::EditTaskCategory(string taskName, string category)
         cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
     }
     fileManager.CloseFile();
+    InitializeTaskQueue();
 }
 
 bool UserCollections::CheckDuplicate(string taskName)
@@ -339,6 +346,7 @@ void UserCollections::EditTaskCategory(int taskID, string category)
         cout << put_time(&tasks[i]->dueDate, "%Y-%m-%d") << endl;
     }
     fileManager.CloseFile();
+    InitializeTaskQueue();
 }
 
 void UserCollections::DisplayTasks()
@@ -352,11 +360,13 @@ void UserCollections::DisplayTasks()
     cout << "==================================================================================================================================================\n"
          << endl;
     cout << setw(10) << "Task ID" << "\t" << setw(20) << "Task Name" << "\t" << setw(20) << "Category" << "\t" << setw(20) << "Status" << "\t" << setw(20) << "Priority" << "\t" << setw(20) << "Due Date" << endl;
+    Task *sortedTask = taskQueue.getSortedArray();
+    InitializeTaskQueue();
     for (int i = 0; i < taskCount; i++)
     {
         // Datetime to string conversion
-        string duedate = to_string(tasks[i]->dueDate.tm_year + 1900) + "-" + to_string(tasks[i]->dueDate.tm_mon + 1) + "-" + to_string(tasks[i]->dueDate.tm_mday);
-        cout << ANSI_COLOR_CYAN << setw(10) << tasks[i]->taskID << "\t" << ANSI_COLOR_RESET << setw(20) << tasks[i]->name << "\t" << setw(20) << tasks[i]->category << "\t" << setw(20) << tasks[i]->status << "\t" << setw(20) << tasks[i]->priority << "\t" << setw(20) << duedate << endl;
+        string duedate = to_string(sortedTask[i].dueDate.tm_year + 1900) + "-" + to_string(sortedTask[i].dueDate.tm_mon + 1) + "-" + to_string(sortedTask[i].dueDate.tm_mday);
+        cout << ANSI_COLOR_CYAN << setw(10) << sortedTask[i].taskID << "\t" << ANSI_COLOR_RESET << setw(20) << sortedTask[i].name << "\t" << setw(20) << sortedTask[i].category << "\t" << setw(20) << sortedTask[i].status << "\t" << setw(20) << sortedTask[i].priority << "\t" << setw(20) << duedate << endl;
     }
     cout << "==================================================================================================================================================\n"
          << endl;
@@ -384,6 +394,7 @@ void UserCollections::RemoveAllTasks()
     taskCount = 0;
     fileManager.WriteFile("./UserCollections/Tasks/" + to_string(userId) + ".csv");
     fileManager.CloseFile();
+    InitializeTaskQueue();
 }
 
 void UserCollections::RemoveAllCategories()
@@ -395,6 +406,7 @@ void UserCollections::RemoveAllCategories()
     categoryCount = 0;
     fileManager.WriteFile("./UserCollections/Categories/" + to_string(userId) + ".csv");
     fileManager.CloseFile();
+    InitializeTaskQueue();
 }
 
 Task *UserCollections::SearchTask(string taskName)
@@ -444,4 +456,14 @@ DoublyLinkedList<Task> *UserCollections::SearchPriority(string priority)
 {
     DoublyLinkedList<Task> *result = taskHashMapPriority.getList(priority);
     return result;
+}
+
+void UserCollections::InitializeTaskQueue()
+{
+    // Empty the queue first
+    taskQueue.clear();
+    for (int i = 0; i < taskCount; i++)
+    {
+        taskQueue.insert(*tasks[i], tasks[i]->priorityValue());
+    }
 }
