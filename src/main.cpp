@@ -1218,6 +1218,8 @@ int main()
             CategoryUI categoryUI;
             categoryUI.DeleteCategoryMenu();
             string categoryname;
+            cin.ignore();
+            cin.clear();
             getline(cin, categoryname);
             if (categoryname.find(' ') != string::npos)
             {
