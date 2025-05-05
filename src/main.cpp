@@ -1,3 +1,4 @@
+#include <windows.h>
 #include <iostream>
 #include <example.h>
 #include <File_Management.h>
@@ -14,6 +15,7 @@ using namespace std;
 
 int main()
 {
+    SetConsoleOutputCP(CP_UTF8);
     FileManagement fileManager;
     Example example;
     // enable_ansi_colors();
@@ -40,22 +42,22 @@ int main()
         {
 
             loginmenu.showRegisterMenu();
-            cout << "Username :";
+            cout <<ANSI_COLOR_BABY_BLUE2 << "Username :"ANSI_COLOR_RESET;
             cin >> username;
-            cout << "Password :";
+            cout <<ANSI_COLOR_BABY_BLUE4 << "Password :"ANSI_COLOR_RESET;
             cin >> password;
 
             if (!loginSystem.checkduplicate(username))
             {
 
                 loginSystem.RegisterUser(username, password);
-                cout << "\nRegistration Successful. Please Login to continue.\n";
+                cout <<ANSI_COLOR_GREEN <<"\nRegistration Successful. Please Login to continue.\n"ANSI_COLOR_RESET;
                 break;
             }
             else
             {
 
-                cout << "\nUsername is taken. Please try again later.\n";
+                cout <<ANSI_COLOR_RED <<"\nUsername is taken. Please try again later.\n"<<ANSI_COLOR_RESET;
                 cin.clear();
                 cin.ignore();
                 continue;
@@ -65,15 +67,15 @@ int main()
         {
 
             loginmenu.showLoginMenu();
-            cout << "Username :";
+            cout <<ANSI_COLOR_BABY_BLUE2 << "Username :"<<ANSI_COLOR_RESET;
             cin >> username;
-            cout << "Password :";
+            cout <<ANSI_COLOR_BABY_BLUE4 << "Password :"<<ANSI_COLOR_RESET;
             cin >> password;
 
             if (loginSystem.LoginUser(username, password) == -1)
             {
 
-                cout << "\nWrong Username or Password. Please try again later.\n";
+                cout << ANSI_COLOR_RED <<"\nWrong Username or Password. Please try again later.\n"<< ANSI_COLOR_RESET;
                 cin.clear();
                 cin.ignore();
                 continue;
@@ -81,7 +83,7 @@ int main()
             else
             {
 
-                cout << "\nLogin Successful. Entering the program.\n";
+                cout <<ANSI_COLOR_GREEN2 << "\nLogin Successful. Entering the program.\n"<< ANSI_COLOR_RESET;;
                 // cout << loginSystem.LoginUser(username,password);
                 mainmenu.showMainMenu();
                 break;
@@ -95,7 +97,7 @@ int main()
         else
         {
 
-            cout << "\nInvalid choice.\n";
+            cout <<ANSI_COLOR_RED "\nInvalid choice.\n"<< ANSI_COLOR_RESET;
             cin.clear();
             cin.ignore();
             continue;
@@ -125,21 +127,23 @@ int main()
         {
 
             //--------Add Task Menu--------
-
-            cout << "Enter task's name: ";
+            cout << ANSI_COLOR_RW4<<"╭────────────────────────────────────────────────────────────╮\n"<<ANSI_COLOR_RESET;
+            cout << ANSI_COLOR_RW4<<"│                        Add Menu.                           │\n"<<ANSI_COLOR_RESET;
+            cout << ANSI_COLOR_RW4<<"│                                                            │\n"<<ANSI_COLOR_RESET;
+            cout <<ANSI_COLOR_RW4<< "   Enter task's name: "<<ANSI_COLOR_RESET;
             cin.ignore();
             getline(cin, name);
 
-            cout << "Enter task's description: ";
+            cout <<ANSI_COLOR_RW4<< "   Enter task's description: "<<ANSI_COLOR_RESET;
             getline(cin, desc);
 
-            cout << "[0] Uncategorized\n";
+            cout <<ANSI_COLOR_RW1<< "   [0] Uncategorized\n\n"<<ANSI_COLOR_RESET;
             for (int i = 0; i < usercollection.categoryCount; i++)
             {
                 cout << "[" << i + 1 << "] " << *usercollection.categories[i] << endl;
             }
 
-            cout << "Enter task's category: ";
+            cout <<ANSI_COLOR_RW4<< "   Enter task's category: "<<ANSI_COLOR_RESET;
             int categoryIndex;
             cin >> categoryIndex;
 
@@ -153,14 +157,14 @@ int main()
             }
             else
             {
-                cout << "Invalid category index.\n";
+                cout <<ANSI_COLOR_RED<< "Invalid category index.\n"<<ANSI_COLOR_RESET;
                 continue;
             }
 
-            cout << "Enter task's status: ";
-            cout << "[0] Not started\n"
-                 << "[1] In progress\n"
-                 << "[2] Completed\n";
+            cout <<ANSI_COLOR_RW4<< "\n   Enter task's status: "<<ANSI_COLOR_RESET;
+            cout <<ANSI_COLOR_RW1<< "\n   [0] Not started\n"<<ANSI_COLOR_RESET
+                 <<ANSI_COLOR_RW2<< "   [1] In progress\n"<<ANSI_COLOR_RESET
+                 <<ANSI_COLOR_RW3<< "   [2] Completed\n"<<ANSI_COLOR_RESET;
             int statusIndex;
             cin >> statusIndex;
             if (statusIndex == 0)
@@ -177,14 +181,14 @@ int main()
             }
             else
             {
-                cout << "Invalid status index.\n";
+                cout <<ANSI_COLOR_RED "Invalid status index.\n"<<ANSI_COLOR_RESET;
                 continue;
             }
 
-            cout << "Enter task's priority (e.g., Low, Medium, High): ";
-            cout << "[0] Low\n"
-                 << "[1] Medium\n"
-                 << "[2] High\n";
+            cout << ANSI_COLOR_RW4<<"\n   Enter task's priority (e.g., Low, Medium, High): "<<ANSI_COLOR_RESET;
+            cout << ANSI_COLOR_RW1<<"\n   [0] Low\n"<<ANSI_COLOR_RESET
+                 << ANSI_COLOR_RW2<<"   [1] Medium\n"<<ANSI_COLOR_RESET
+                 << ANSI_COLOR_RW3<<"   [2] High\n"<<ANSI_COLOR_RESET;
             int priorIndex;
             cin >> priorIndex;
             if (priorIndex == 0)
@@ -201,15 +205,15 @@ int main()
             }
             else
             {
-                cout << "Invalid priority index.\n";
+                cout <<ANSI_COLOR_RED<< "Invalid priority index.\n"<<ANSI_COLOR_RESET;
                 continue;
             }
 
-            cout << "Enter task's due date (YYYY-MM-DD): ";
+            cout << ANSI_COLOR_RW4<< "   Enter task's due date (YYYY-MM-DD): "<<ANSI_COLOR_RESET;
             getline(cin, duedate);
             // if(duedate) input check task add fail
 
-            cout << "\n***************\n";
+
             Task task(name, desc, status, prior, duedate);
 
             usercollection.AddTask(task);
@@ -220,7 +224,9 @@ int main()
             // remind task where?
 
             // Priority Testcase ONLY: LOW MEDIUM HIGH. otherwise: invalid
-            cout << "Task Add Successfully.\n";
+            cout << ANSI_COLOR_RW4<<"\n│                                                            │\n"<<ANSI_COLOR_RESET;
+            cout << ANSI_COLOR_RW4<<"╰────────────────────────────────────────────────────────────╯\n"<<ANSI_COLOR_RESET;
+            cout << ANSI_COLOR_GREEN2<< "Task Add Successfully.\n"<<ANSI_COLOR_RESET;
         }
         else if (MainChoice == 2)
         {
@@ -247,9 +253,9 @@ int main()
                     // Task Viewing First
                     cout << "\n\n";
                     usercollection.DisplayTasks();
-                    cout << "***************\n";
+                    cout <<"\n";
 
-                    cout << "Enter Task's Name To Remove: ";
+                    cout <<ANSI_COLOR_RW5<< "  Enter Task's Name To Remove: "<<ANSI_COLOR_RESET;
                     cin >> removeName;
                     usercollection.RemoveTask(removeName);
                     // What if that name doesn't exist in file?
@@ -263,12 +269,12 @@ int main()
                     // Task Viewing First
                     cout << "\n\n";
                     usercollection.DisplayTasks();
-                    cout << "***************\n";
+                    cout << "\n";
 
-                    cout << "Enter Task's ID To Remove: ";
+                    cout <<ANSI_COLOR_RW5<< "  Enter Task's ID To Remove: "<<ANSI_COLOR_RESET;
                     cin >> removeTaskID;
                     usercollection.RemoveTask(removeTaskID);
-                    break;
+
                 }
                 else if (removechoice == 3)
                 {
@@ -280,7 +286,7 @@ int main()
                 {
 
                     // Invalid Input
-                    cout << "\nInvalid choice.\n";
+                    cout <<ANSI_COLOR_RED <<"\nInvalid choice.\n"<<ANSI_COLOR_RESET;
                     cin.clear();
                     cin.ignore();
                     continue;
@@ -328,24 +334,24 @@ int main()
                             // Task Viewing First
                             cout << "\n\n";
                             usercollection.DisplayTasks();
-                            cout << "***************\n";
+                            cout << "\n";
 
-                            cout << "Enter Task's Name To Edit: ";
+                            cout <<ANSI_COLOR_RW7<<"  Enter Task's Name To Edit: "<<ANSI_COLOR_RESET;
                             cin.ignore();
                             getline(cin, modifyName);
 
-                            cout << "Enter task name: ";
+                            cout <<ANSI_COLOR_RW7<< "  Enter task name: "<<ANSI_COLOR_RESET;
                             getline(cin, newname);
 
-                            cout << "Enter task description: ";
+                            cout <<ANSI_COLOR_RW7<< "  Enter task description: "<<ANSI_COLOR_RESET;
                             getline(cin, newdesc);
 
-                            cout << "[0] Uncategorized\n";
+                            cout <<ANSI_COLOR_RW6<< "  [0] Uncategorized\n\n"<<ANSI_COLOR_RESET;
                             for (int i = 0; i < usercollection.categoryCount; i++)
                             {
                                 cout << "[" << i + 1 << "] " << *usercollection.categories[i] << endl;
                             }
-                            cout << "Enter task's category: ";
+                            cout <<ANSI_COLOR_RW7<< "  Enter task's category: "<<ANSI_COLOR_RESET;
                             int categoryIndex;
                             cin >> categoryIndex;
                             if (categoryIndex == 0)
@@ -358,14 +364,14 @@ int main()
                             }
                             else
                             {
-                                cout << "Invalid category index.\n";
+                                cout <<ANSI_COLOR_RED<< "Invalid category index.\n"<<ANSI_COLOR_RESET;
                                 continue;
                             }
 
-                            cout << "Enter task's status: ";
-                            cout << "[0] Not started\n"
-                                 << "[1] In progress\n"
-                                 << "[2] Completed\n";
+                            cout <<ANSI_COLOR_RW7<< "\n  Enter task's status: "<<ANSI_COLOR_RESET;
+                            cout <<ANSI_COLOR_BABY_BLUE <<"\n  [0] Not started\n"<<ANSI_COLOR_RESET
+                                 <<ANSI_COLOR_BABY_BLUE2 <<"  [1] In progress\n"<<ANSI_COLOR_RESET
+                                 <<ANSI_COLOR_RW6<<"  [2] Completed\n"<<ANSI_COLOR_RESET;
                             int statusIndex;
                             cin >> statusIndex;
                             if (statusIndex == 0)
@@ -382,14 +388,14 @@ int main()
                             }
                             else
                             {
-                                cout << "Invalid status index.\n";
+                                cout <<ANSI_COLOR_RED<< "Invalid status index.\n"<<ANSI_COLOR_RESET;
                                 continue;
                             }
 
-                            cout << "Enter task priority (e.g., Low, Medium, High): ";
-                            cout << "[0] Low\n"
-                                 << "[1] Medium\n"
-                                 << "[2] High\n";
+                            cout <<ANSI_COLOR_RW7<< "\n  Enter task priority (e.g., Low, Medium, High): "<<ANSI_COLOR_RESET;
+                            cout <<ANSI_COLOR_BABY_BLUE<< "\n  [0] Low\n"<<ANSI_COLOR_RESET
+                                 <<ANSI_COLOR_BABY_BLUE2<< "  [1] Medium\n"<<ANSI_COLOR_RESET
+                                 <<ANSI_COLOR_RW6<< "  [2] High\n"<<ANSI_COLOR_RESET;
                             int priorIndex;
                             cin >> priorIndex;
                             if (priorIndex == 0)
@@ -406,16 +412,16 @@ int main()
                             }
                             else
                             {
-                                cout << "Invalid priority index.\n";
+                                cout <<ANSI_COLOR_RED<< "Invalid priority index.\n"<<ANSI_COLOR_RESET;
                                 continue;
                             }
 
-                            cout << "Enter task's due date (YYYY-MM-DD): ";
+                            cout <<ANSI_COLOR_RW7<< "\n  Enter task's due date (YYYY-MM-DD): "<<ANSI_COLOR_RESET;
                             getline(cin, newduedate);
 
                             Task newtask(newname, newdesc, newstatus, newprior, newduedate);
 
-                            cout << "\n***************\n";
+                            cout << "\n\n";
                             usercollection.EditTask(modifyName, newtask);
                             break;
                         }
@@ -427,13 +433,13 @@ int main()
                             // Task Viewing First
                             cout << "\n\n";
                             usercollection.DisplayTasks();
-                            cout << "***************\n";
+                            cout << "\n";
                         }
                         else
                         {
 
                             // Invalid Input
-                            cout << "\nInvalid choice.\n";
+                            cout <<ANSI_COLOR_RED<< "\nInvalid choice.\n"<<ANSI_COLOR_RESET;
                             cin.clear();
                             cin.ignore();
                             continue;
@@ -459,30 +465,30 @@ int main()
                             // Task Viewing First
                             cout << "\n\n";
                             usercollection.DisplayTasks();
-                            cout << "***************\n";
-                            cout << "Enter Task's ID To Edit: ";
+                            cout << "\n";
+                            cout <<ANSI_COLOR_RW7<< "  Enter Task's ID To Edit: "<<ANSI_COLOR_RESET;
                             cin.ignore();
                             cin >> modifyTaskID;
 
-                            cout << "Enter task name: ";
+                            cout <<ANSI_COLOR_RW7<< "  Enter task name: "<<ANSI_COLOR_RESET;
                             cin.ignore();
                             getline(cin, newname);
 
-                            cout << "Enter task description: ";
+                            cout <<ANSI_COLOR_RW7<< "\n  Enter task description: "<<ANSI_COLOR_RESET;
                             getline(cin, newdesc);
 
-                            cout << "Enter task status (e.g., Not started,In progress, Completed): ";
+                            cout <<ANSI_COLOR_RW7<< "\n  Enter task status (e.g., Not started,In progress, Completed): "<<ANSI_COLOR_RESET;
                             getline(cin, newstatus);
 
-                            cout << "Enter task priority (e.g., Low, Medium, High): ";
+                            cout <<ANSI_COLOR_RW7<< "\n  Enter task priority (e.g., Low, Medium, High): "<<ANSI_COLOR_RESET;
                             getline(cin, newprior);
 
-                            cout << "Enter task's due date (YYYY-MM-DD): ";
+                            cout <<ANSI_COLOR_RW7<< "\n  Enter task's due date (YYYY-MM-DD): "<<ANSI_COLOR_RESET;
                             getline(cin, newduedate);
 
                             Task newtask(newname, newdesc, newstatus, newprior, newduedate);
 
-                            cout << "\n***************\n";
+                            cout << "\n\n";
                             usercollection.EditTask(modifyTaskID, newtask);
                             break;
                         }
@@ -494,13 +500,13 @@ int main()
                             // Task Viewing First
                             cout << "\n\n";
                             usercollection.DisplayTasks();
-                            cout << "***************\n";
+                            cout << "\n";
 
                             string category;
 
-                            cout << "Enter the category: ";
+                            cout <<ANSI_COLOR_RW7<< "  Enter the category: "<<ANSI_COLOR_RESET;
                             cin >> category;
-                            cout << "Enter the task ID: ";
+                            cout <<ANSI_COLOR_RW7<< "  Enter the task ID: "<<ANSI_COLOR_RESET;
                             cin >> modifyTaskID;
 
                             Task task(name, desc, status, prior, duedate);
@@ -517,7 +523,7 @@ int main()
                         {
 
                             // Invalid Input
-                            cout << "\nInvalid choice.\n";
+                            cout <<ANSI_COLOR_RED<< "\nInvalid choice.\n"<<ANSI_COLOR_RESET;
                             cin.clear();
                             cin.ignore();
                             continue;
@@ -534,7 +540,7 @@ int main()
                 {
 
                     // Invalid Input
-                    cout << "\nInvalid choice.\n";
+                    cout <<ANSI_COLOR_RED<< "\nInvalid choice.\n"<<ANSI_COLOR_RESET;
                     cin.clear();
                     cin.ignore();
                     continue;
@@ -600,7 +606,7 @@ int main()
                 {
 
                     // Invalid Input
-                    cout << "\nInvalid choice.\n";
+                    cout <<ANSI_COLOR_RED<< "\nInvalid choice.\n"<<ANSI_COLOR_RESET;
                     cin.clear();
                     cin.ignore();
                     continue;
@@ -666,14 +672,14 @@ int main()
             //--------Logout Menu--------
 
             loginSystem.LogoutUser(userID);
-            cout << "Logout Successfully.";
+            cout <<ANSI_COLOR_GREEN2<< "Logout Successfully."<<ANSI_COLOR_RESET;
             break;
         }
         else
         {
 
             // Invalid Input
-            cout << "\nInvalid choice.\n";
+            cout <<ANSI_COLOR_RED<< "\nInvalid choice.\n"<<ANSI_COLOR_RESET;
             cin.clear();
             cin.ignore();
             continue;
