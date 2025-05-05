@@ -13,7 +13,7 @@ void UserCollections::ReadTasksFromFile()
     string line;
     if (!file.is_open())
     {
-        cerr << "Error: Could not open file " << filePath << endl;
+        cerr << ANSI_COLOR_RED << "Error: Could not open file " << ANSI_COLOR_RESET << filePath << endl;
         return;
     }
     while (getline(file, line))
@@ -52,7 +52,7 @@ void UserCollections::ReadCategoriesFromFile()
     ifstream file(filePath);
     if (!file.is_open())
     {
-        cerr << "Error: Could not open file " << filePath << endl;
+        cerr << ANSI_COLOR_RED << "Error: Could not open file " << ANSI_COLOR_RESET << filePath << endl;
         return;
     }
     string line;
@@ -77,7 +77,8 @@ void UserCollections::AddTask(Task task)
         if (tasks[i]->name == task.name)
         {
             fileManager.CloseFile();
-            cout << "\nTask name already exists.\n"
+            cout << ANSI_COLOR_GREEN2 << "\nTask name already exists.\n"
+                 << ANSI_COLOR_RESET
                  << endl;
             return;
         }
@@ -137,7 +138,7 @@ void UserCollections::RemoveCategory(string category)
     }
     if (!found)
     {
-        cout << "Category not found." << endl;
+        cout << ANSI_COLOR_RED << "Category not found." << ANSI_COLOR_RESET << endl;
         return;
     }
     fileManager.WriteFile("./UserCollections/Categories/" + to_string(userId) + ".csv");
@@ -170,7 +171,8 @@ void UserCollections::RemoveTask(int taskID)
     }
     if (!found)
     {
-        cout << "\nTask not found.\n"
+        cout << ANSI_COLOR_RED << "\nTask not found.\n"
+             << ANSI_COLOR_RESET
              << endl;
         return;
     }
@@ -203,7 +205,8 @@ void UserCollections::RemoveTask(string taskName)
     }
     if (!found)
     {
-        cout << "\nTask not found.\n"
+        cout << ANSI_COLOR_RED << "\nTask not found.\n"
+             << ANSI_COLOR_RESET
              << endl;
         return;
     }
@@ -235,7 +238,8 @@ void UserCollections::EditTask(int taskID, Task newTask)
     }
     if (!found)
     {
-        cout << "\nTask not found.\n"
+        cout << ANSI_COLOR_RED << "\nTask not found.\n"
+             << ANSI_COLOR_RESET
              << endl;
         return;
     }
@@ -267,7 +271,8 @@ void UserCollections::EditTask(string taskName, Task newTask)
     }
     if (!found)
     {
-        cout << "\nTask not found.\n"
+        cout << ANSI_COLOR_RED << "\nTask not found.\n"
+             << ANSI_COLOR_RESET
              << endl;
         return;
     }
@@ -295,7 +300,8 @@ void UserCollections::EditTaskCategory(string taskName, string category)
     }
     if (!found)
     {
-        cout << "\nTask not found.\n"
+        cout << ANSI_COLOR_RED << "\nTask not found.\n"
+             << ANSI_COLOR_RESET
              << endl;
         return;
     }
@@ -335,7 +341,8 @@ void UserCollections::EditTaskCategory(int taskID, string category)
     }
     if (!found)
     {
-        cout << "\nTask not found.\n"
+        cout << ANSI_COLOR_RED << "\nTask not found.\n"
+             << ANSI_COLOR_RESET
              << endl;
         return;
     }
@@ -353,7 +360,8 @@ void UserCollections::DisplayTasks()
 {
     if (taskCount == 0)
     {
-        cout << "No task available.\n";
+        cout << ANSI_COLOR_RED << "No task available.\n"
+             << ANSI_COLOR_RESET;
     }
     cout << "==================================================================================================================================================\n";
     cout << ANSI_COLOR_YELLOW << "                                                                       Task list" << ANSI_COLOR_RESET << endl;
@@ -376,7 +384,8 @@ void UserCollections::DisplayCategories()
 {
     if (categoryCount == 0)
     {
-        cout << "No category available.\n";
+        cout << ANSI_COLOR_RED << "No category available.\n"
+             << ANSI_COLOR_RESET;
     }
     cout << "==================================================================================================================================================\n";
     cout << ANSI_COLOR_YELLOW << "                                                                       Category list" << ANSI_COLOR_RESET << endl;

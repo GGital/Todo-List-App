@@ -76,7 +76,7 @@ int main()
             // Check if there is whitespace in username and password
             if (username.find(' ') != string::npos || password.find(' ') != string::npos)
             {
-                cout << "\nUsername and Password cannot contain spaces.\n";
+                cout <<ANSI_COLOR_RED<< "\nUsername and Password cannot contain spaces.\n"<<ANSI_COLOR_RESET;
                 continue;
             }
 
@@ -165,7 +165,7 @@ int main()
         {
             cin.clear();                                         // Clear the error flag
             cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-            cout << "Invalid input. Please enter a number.\n";
+            cout <<ANSI_COLOR_RED<< "Invalid input. Please enter a number.\n"<<ANSI_COLOR_RESET;
             continue; // Ask for input again
         }
         if (MainChoice == 1)
@@ -184,12 +184,12 @@ int main()
 
             if (name.find(' ') != string::npos)
             {
-                cout << "\nTask name cannot contain spaces.\n";
+                cout <<ANSI_COLOR_RED<< "\nTask name cannot contain spaces.\n"<<ANSI_COLOR_RESET;
                 continue;
             }
             if (usercollection.CheckDuplicate(name))
             {
-                cout << "\nTask name already exists.\n";
+                cout <<ANSI_COLOR_GREEN2<< "\nTask name already exists.\n"<<ANSI_COLOR_RESET;
                 continue;
             }
 
@@ -211,7 +211,7 @@ int main()
             {
                 cin.clear();                                         // Clear the error flag
                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                cout << "Invalid input. Please enter a number.\n";
+                cout <<ANSI_COLOR_RED << "  Invalid input. Please enter a number.\n"<<ANSI_COLOR_RESET;
                 continue; // Ask for input again
             }
             if (categoryIndex == 0)
@@ -242,7 +242,7 @@ int main()
             {
                 cin.clear();                                         // Clear the error flag
                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                cout << "Invalid input. Please enter a number.\n";
+                cout <<ANSI_COLOR_RED <<"Invalid input. Please enter a number.\n"<<ANSI_COLOR_RESET;
                 continue; // Ask for input again
             }
             if (statusIndex == 0)
@@ -264,7 +264,8 @@ int main()
                 continue;
             }
 
-            cout << ANSI_COLOR_RW4 << "\n   Enter task's priority (e.g., Low, Medium, High): " << ANSI_COLOR_RESET;
+            cout << ANSI_COLOR_RW4 << "\n   Enter task's priority (e.g., Low, Medium, High): " 
+                 << ANSI_COLOR_RESET;
             cout << ANSI_COLOR_RW1 << "\n   [0] Low\n"
                  << ANSI_COLOR_RESET
                  << ANSI_COLOR_RW2 << "   [1] Medium\n"
@@ -277,7 +278,7 @@ int main()
             {
                 cin.clear();                                         // Clear the error flag
                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                cout << "Invalid input. Please enter a number.\n";
+                cout << ANSI_COLOR_RED << "Invalid input. Please enter a number.\n"<< ANSI_COLOR_RESET;
                 continue; // Ask for input again
             }
             if (priorIndex == 0)
@@ -306,11 +307,10 @@ int main()
             // if(duedate) input check task add fail
             if (!regex_match(duedate, datePattern))
             {
-                cout << "Invalid date format. Please enter the date in YYYY-MM-DD format.\n";
+                cout << ANSI_COLOR_RED << "Invalid date format. Please enter the date in YYYY-MM-DD format.\n"<< ANSI_COLOR_RED ;
                 continue; // Ask the user to re-enter the date
             }
 
-            cout << "\n***************\n";
             Task task(name, desc, category, status, prior, duedate);
 
             usercollection.AddTask(task);
@@ -348,7 +348,7 @@ int main()
                 {
                     cin.clear();                                         // Clear the error flag
                     cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                    cout << "Invalid input. Please enter a number.\n";
+                    cout << ANSI_COLOR_RED << "Invalid input. Please enter a number.\n"<< ANSI_COLOR_RESET;
                     continue; // Ask for input again
                 }
                 if (removechoice == 1)
@@ -357,9 +357,9 @@ int main()
                     // Delete by Task Name
 
                     // Task Viewing First
-                    cout << "\n\n";
+                    //cout << "\n\n";
                     usercollection.DisplayTasks();
-                    cout << "\n";
+                    //cout << "\n";
 
                     cout << ANSI_COLOR_RW5 << "  Enter Task's Name To Remove: " << ANSI_COLOR_RESET;
                     cin >> removeName;
@@ -383,7 +383,7 @@ int main()
                     {
                         cin.clear();                                         // Clear the error flag
                         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                        cout << "Invalid input. Please enter a number.\n";
+                        cout << ANSI_COLOR_RED << "Invalid input. Please enter a number.\n"ANSI_COLOR_RESET;
                         continue; // Ask for input again
                     }
                     usercollection.RemoveTask(removeTaskID);
@@ -431,7 +431,7 @@ int main()
                 {
                     cin.clear();                                         // Clear the error flag
                     cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                    cout << "Invalid input. Please enter a number.\n";
+                    cout << ANSI_COLOR_RED << "Invalid input. Please enter a number.\n"<< ANSI_COLOR_RESET;
                     continue; // Ask for input again
                 }
                 if (modifychoice == 1)
@@ -446,7 +446,7 @@ int main()
                     {
                         cin.clear();                                         // Clear the error flag
                         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                        cout << "Invalid input. Please enter a number.\n";
+                        cout << ANSI_COLOR_RED<< "Invalid input. Please enter a number.\n"<< ANSI_COLOR_RESET;
                         continue; // Ask for input again
                     }
                     while (true)
@@ -469,7 +469,7 @@ int main()
                             Task *task = usercollection.SearchTask(modifyName);
                             if (task == nullptr)
                             {
-                                cout << "Task not found.\n";
+                                cout << ANSI_COLOR_RED<< "Task not found.\n"<< ANSI_COLOR_RESET;
                                 continue;
                             }
 
@@ -478,12 +478,12 @@ int main()
 
                             if (newname.find(' ') != string::npos)
                             {
-                                cout << "\nTask name cannot contain spaces.\n";
+                                cout << ANSI_COLOR_RED<< "\nTask name cannot contain spaces.\n"<< ANSI_COLOR_RESET;
                                 continue;
                             }
                             if (usercollection.CheckDuplicate(newname))
                             {
-                                cout << "\nTask name already exists.\n";
+                                cout << ANSI_COLOR_GREEN2<< "\nTask name already exists.\n"<< ANSI_COLOR_RESET;
                                 continue;
                             }
 
@@ -503,7 +503,7 @@ int main()
                             {
                                 cin.clear();                                         // Clear the error flag
                                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                                cout << "Invalid input. Please enter a number.\n";
+                                cout << ANSI_COLOR_RED<< "Invalid input. Please enter a number.\n"<< ANSI_COLOR_RESET;
                                 continue; // Ask for input again
                             }
                             cout << categoryIndex << endl;
@@ -535,7 +535,7 @@ int main()
                             {
                                 cin.clear();                                         // Clear the error flag
                                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                                cout << "Invalid input. Please enter a number.\n";
+                                cout << ANSI_COLOR_RED<< "Invalid input. Please enter a number.\n"<< ANSI_COLOR_RESET;
                                 continue; // Ask for input again
                             }
                             if (statusIndex == 0)
@@ -570,7 +570,7 @@ int main()
                             {
                                 cin.clear();                                         // Clear the error flag
                                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                                cout << "Invalid input. Please enter a number.\n";
+                                cout << ANSI_COLOR_RED<< "Invalid input. Please enter a number.\n"<< ANSI_COLOR_RESET;
                                 continue; // Ask for input again
                             }
                             if (priorIndex == 0)
@@ -598,7 +598,7 @@ int main()
 
                             if (!regex_match(newduedate, datePattern))
                             {
-                                cout << "Invalid date format. Please enter the date in YYYY-MM-DD format.\n";
+                                cout << ANSI_COLOR_RED<< "Invalid date format. Please enter the date in YYYY-MM-DD format.\n"<< ANSI_COLOR_RESET;
                                 continue; // Ask the user to re-enter the date
                             }
 
@@ -616,23 +616,22 @@ int main()
                             // Task Viewing First
                             cout << "\n\n";
                             usercollection.DisplayTasks();
-                            cout << "***************\n";
 
                             string category;
 
-                            cout << "[0] Uncategorized\n";
+                            cout <<ANSI_COLOR_RW6<< "  [0] Uncategorized\n"<<ANSI_COLOR_RESET;
                             for (int i = 0; i < usercollection.categoryCount; i++)
                             {
-                                cout << "[" << i + 1 << "] " << *usercollection.categories[i] << endl;
+                                cout << "  [" << i + 1 << "] " << *usercollection.categories[i] << endl;
                             }
-                            cout << "Enter task's category: ";
+                            cout <<ANSI_COLOR_RW7<< "  Enter task's category: "<<ANSI_COLOR_RESET;
                             int categoryIndex;
                             cin >> categoryIndex;
                             if (cin.fail())
                             {
                                 cin.clear();                                         // Clear the error flag
                                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                                cout << "Invalid input. Please enter a number.\n";
+                                cout << ANSI_COLOR_RED << "Invalid input. Please enter a number.\n"<< ANSI_COLOR_RED;
                                 continue; // Ask for input again
                             }
                             // cout << categoryIndex << endl;
@@ -646,10 +645,10 @@ int main()
                             }
                             else
                             {
-                                cout << "Invalid category index.\n";
+                                cout <<ANSI_COLOR_RED << "Invalid category index.\n"<<ANSI_COLOR_RESET;
                                 continue;
                             }
-                            cout << "Enter the task name: ";
+                            cout <<ANSI_COLOR_RW7<< "  Enter the task name: "<<ANSI_COLOR_RESET;
                             cin.ignore();
                             getline(cin, modifyName);
 
@@ -681,7 +680,7 @@ int main()
                     {
                         cin.clear();                                         // Clear the error flag
                         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                        cout << "Invalid input. Please enter a number.\n";
+                        cout <<ANSI_COLOR_RED<< "Invalid input. Please enter a number.\n"<<ANSI_COLOR_RESET;
                         continue; // Ask for input again
                     }
                     while (true)
@@ -705,19 +704,19 @@ int main()
                             cout << ANSI_COLOR_RW7 << "\n  Enter task description: " << ANSI_COLOR_RESET;
                             getline(cin, newdesc);
 
-                            cout << "[0] Uncategorized\n";
+                            cout << "  [0] Uncategorized\n";
                             for (int i = 0; i < usercollection.categoryCount; i++)
                             {
-                                cout << "[" << i + 1 << "] " << *usercollection.categories[i] << endl;
+                                cout << "  [" << i + 1 << "] " << *usercollection.categories[i] << endl;
                             }
-                            cout << "Enter task's category: ";
+                            cout <<ANSI_COLOR_RW7<< "  Enter task's category: "<<ANSI_COLOR_RESET;
                             int categoryIndex;
                             cin >> categoryIndex;
                             if (cin.fail())
                             {
                                 cin.clear();                                         // Clear the error flag
                                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                                cout << "Invalid input. Please enter a number.\n";
+                                cout << ANSI_COLOR_RED<< "Invalid input. Please enter a number.\n"<< ANSI_COLOR_RESET;
                                 continue; // Ask for input again
                             }
                             // cout << categoryIndex << endl;
@@ -731,21 +730,21 @@ int main()
                             }
                             else
                             {
-                                cout << "Invalid category index.\n";
+                                cout << ANSI_COLOR_RED<< "Invalid category index.\n"<< ANSI_COLOR_RESET;
                                 continue;
                             }
 
-                            cout << "Enter task's status: \n";
-                            cout << "[0] Not started\n"
-                                 << "[1] In progress\n"
-                                 << "[2] Completed\n";
+                            cout <<ANSI_COLOR_RW7<< "  Enter task's status: \n"<<ANSI_COLOR_RESET;
+                            cout <<ANSI_COLOR_BABY_BLUE<< "  [0] Not started\n"<<ANSI_COLOR_RESET
+                                 <<ANSI_COLOR_BABY_BLUE2<< "  [1] In progress\n"<<ANSI_COLOR_RESET
+                                 <<ANSI_COLOR_RW6<< "  [2] Completed\n"<<ANSI_COLOR_RESET;
                             int statusIndex;
                             cin >> statusIndex;
                             if (cin.fail())
                             {
                                 cin.clear();                                         // Clear the error flag
                                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                                cout << "Invalid input. Please enter a number.\n";
+                                cout << ANSI_COLOR_RED<< "Invalid input. Please enter a number.\n"<< ANSI_COLOR_RESET;
                                 continue; // Ask for input again
                             }
                             if (statusIndex == 0)
@@ -762,21 +761,21 @@ int main()
                             }
                             else
                             {
-                                cout << "Invalid status index.\n";
+                                cout << ANSI_COLOR_RED<< "Invalid status index.\n"<< ANSI_COLOR_RESET;
                                 continue;
                             }
 
-                            cout << "Enter task priority (e.g., Low, Medium, High): \n";
-                            cout << "[0] Low\n"
-                                 << "[1] Medium\n"
-                                 << "[2] High\n";
+                            cout <<ANSI_COLOR_RW7<< "  Enter task priority (e.g., Low, Medium, High): \n"<<ANSI_COLOR_RESET;
+                            cout <<ANSI_COLOR_BABY_BLUE<< "  [0] Low\n"<<ANSI_COLOR_RESET
+                                 <<ANSI_COLOR_BABY_BLUE2<< "  [1] Medium\n"<<ANSI_COLOR_RESET
+                                 <<ANSI_COLOR_RW6<< "  [2] High\n"<<ANSI_COLOR_RESET;
                             int priorIndex;
                             cin >> priorIndex;
                             if (cin.fail())
                             {
                                 cin.clear();                                         // Clear the error flag
                                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                                cout << "Invalid input. Please enter a number.\n";
+                                cout << ANSI_COLOR_RED<< "Invalid input. Please enter a number.\n"<< ANSI_COLOR_RESET;
                                 continue; // Ask for input again
                             }
                             if (priorIndex == 0)
@@ -793,7 +792,7 @@ int main()
                             }
                             else
                             {
-                                cout << "Invalid priority index.\n";
+                                cout << ANSI_COLOR_RED<< "Invalid priority index.\n"<< ANSI_COLOR_RESET;
                                 continue;
                             }
 
@@ -803,7 +802,7 @@ int main()
 
                             if (!regex_match(newduedate, datePattern))
                             {
-                                cout << "Invalid date format. Please enter the date in YYYY-MM-DD format.\n";
+                                cout <<ANSI_COLOR_RED<< "Invalid date format. Please enter the date in YYYY-MM-DD format.\n"<<ANSI_COLOR_RESET;
                                 continue; // Ask the user to re-enter the date
                             }
 
@@ -825,19 +824,19 @@ int main()
 
                             string category;
 
-                            cout << "[0] Uncategorized\n";
+                            cout <<ANSI_COLOR_RW6<< "  [0] Uncategorized\n"<<ANSI_COLOR_RESET;
                             for (int i = 0; i < usercollection.categoryCount; i++)
                             {
-                                cout << "[" << i + 1 << "] " << *usercollection.categories[i] << endl;
+                                cout << "  [" << i + 1 << "] " << *usercollection.categories[i] << endl;
                             }
-                            cout << "Enter task's category: ";
+                            cout <<ANSI_COLOR_RW7<< "  Enter task's category: "<<ANSI_COLOR_RESET;
                             int categoryIndex;
                             cin >> categoryIndex;
                             if (cin.fail())
                             {
                                 cin.clear();                                         // Clear the error flag
                                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                                cout << "Invalid input. Please enter a number.\n";
+                                cout <<ANSI_COLOR_RED<< "Invalid input. Please enter a number.\n"<<ANSI_COLOR_RED;
                                 continue; // Ask for input again
                             }
                             // cout << categoryIndex << endl;
@@ -851,16 +850,16 @@ int main()
                             }
                             else
                             {
-                                cout << "Invalid category index.\n";
+                                cout <<ANSI_COLOR_RED<< "Invalid category index.\n"<<ANSI_COLOR_RESET;
                                 continue;
                             }
-                            cout << "Enter the task ID: ";
+                            cout <<ANSI_COLOR_RW7<< "  Enter the task ID: "<<ANSI_COLOR_RESET;
                             cin >> modifyTaskID;
                             if (cin.fail())
                             {
                                 cin.clear();                                         // Clear the error flag
                                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                                cout << "Invalid input. Please enter a number.\n";
+                                cout <<ANSI_COLOR_RED<< "Invalid input. Please enter a number.\n"<<ANSI_COLOR_RESET;
                                 continue; // Ask for input again
                             }
                             usercollection.EditTaskCategory(modifyTaskID, category);
@@ -926,7 +925,7 @@ int main()
                 {
                     cin.clear();                                         // Clear the error flag
                     cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                    cout << "Invalid input. Please enter a number.\n";
+                    cout<<ANSI_COLOR_RED << "Invalid input. Please enter a number.\n"<<ANSI_COLOR_RESET;
                     continue; // Ask for input again
                 }
                 if (searchchoice == 1)
@@ -954,7 +953,7 @@ int main()
                     {
                         cin.clear();                                         // Clear the error flag
                         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                        cout << "Invalid input. Please enter a number.\n";
+                        cout <<ANSI_COLOR_RED<< "Invalid input. Please enter a number.\n"<<ANSI_COLOR_RESET;
                         continue; // Ask for input again
                     }
                     Task *temp = usercollection.SearchTask(searchID);
@@ -968,16 +967,16 @@ int main()
 
                     // Search by Task Priority
                     searchUI.SearchPriorUI();
-                    cout << "[0] Low\n"
-                         << "[1] Medium\n"
-                         << "[2] High\n";
+                    cout <<ANSI_COLOR_GREENFAINT<< "  [0] Low\n"<<ANSI_COLOR_RESET
+                         <<ANSI_COLOR_GREENLIGHTER2<< "  [1] Medium\n"<<ANSI_COLOR_RESET
+                         <<ANSI_COLOR_GREENLIGHTER1<< "  [2] High\n"<<ANSI_COLOR_RESET;
                     int searchPriorIndex;
                     cin >> searchPriorIndex;
                     if (cin.fail())
                     {
                         cin.clear();                                         // Clear the error flag
                         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                        cout << "Invalid input. Please enter a number.\n";
+                        cout <<ANSI_COLOR_RED<< "Invalid input. Please enter a number.\n"<<ANSI_COLOR_RESET;
                         continue; // Ask for input again
                     }
                     if (searchPriorIndex == 0)
@@ -994,7 +993,7 @@ int main()
                     }
                     else
                     {
-                        cout << "Invalid priority index.\n";
+                        cout <<ANSI_COLOR_RED<< "Invalid priority index.\n"<<ANSI_COLOR_RESET;
                         continue;
                     }
                     DoublyLinkedList<Task> *temp = usercollection.SearchPriority(prior);
@@ -1004,17 +1003,17 @@ int main()
                         ui.ClearScreen();
                         cout << current->data << endl;
                         if (current->next)
-                            cout << "Press n to go next\n";
+                            cout <<ANSI_COLOR_PASTEL_ORANGE<< "Press n to go next\n"<<ANSI_COLOR_RESET;
                         if (current->prev)
-                            cout << "Press p to go previous\n";
-                        cout << "Press any other key to exit\n";
+                            cout <<ANSI_COLOR_ORANGE<< "Press p to go previous\n"<<ANSI_COLOR_RESET;
+                        cout <<ANSI_COLOR_ORANGE2<< "Press any other key to exit\n"<<ANSI_COLOR_RESET;
                         char choice;
                         cin >> choice;
                         if (cin.fail())
                         {
                             cin.clear();                                         // Clear the error flag
                             cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                            cout << "Invalid input. Please enter a character.\n";
+                            cout <<ANSI_COLOR_RED<< "Invalid input. Please enter a character.\n"<<ANSI_COLOR_RESET;
                             continue; // Ask for input again
                         }
                         if (choice == 'n' && current->next != nullptr)
@@ -1037,16 +1036,16 @@ int main()
                     searchUI.SearchCategoryUI();
                     for (int i = 0; i < usercollection.categoryCount; i++)
                     {
-                        cout << "[" << i + 1 << "] " << *usercollection.categories[i] << endl;
+                        cout << "  [" << i + 1 << "] " << *usercollection.categories[i] << endl;
                     }
-                    cout << "Enter task's category: ";
+                    cout <<ANSI_COLOR_RW9<< "  Enter task's category: "<<ANSI_COLOR_RESET;
                     int categoryIndex;
                     cin >> categoryIndex;
                     if (cin.fail())
                     {
                         cin.clear();                                         // Clear the error flag
                         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                        cout << "Invalid input. Please enter a number.\n";
+                        cout <<ANSI_COLOR_RED<< "Invalid input. Please enter a number.\n"<<ANSI_COLOR_RESET;
                         continue; // Ask for input again
                     }
                     if (categoryIndex == 0)
@@ -1059,7 +1058,7 @@ int main()
                     }
                     else
                     {
-                        cout << "Invalid category index.\n";
+                        cout <<ANSI_COLOR_RED<< "Invalid category index.\n"<<ANSI_COLOR_RESET;
                         continue;
                     }
                     DoublyLinkedList<Task> *temp = usercollection.SearchCategory(category);
@@ -1070,17 +1069,17 @@ int main()
                         ui.ClearScreen();
                         cout << current->data << endl;
                         if (current->next)
-                            cout << "Press n to go next\n";
+                            cout <<ANSI_COLOR_PASTEL_ORANGE<< "Press n to go next\n"<<ANSI_COLOR_RESET;
                         if (current->prev)
-                            cout << "Press p to go previous\n";
-                        cout << "Press any other key to exit\n";
+                            cout <<ANSI_COLOR_ORANGE<< "Press p to go previous\n"<<ANSI_COLOR_RESET;
+                        cout <<ANSI_COLOR_ORANGE2<< "Press any other key to exit\n"<<ANSI_COLOR_RESET;
                         char choice;
                         cin >> choice;
                         if (cin.fail())
                         {
                             cin.clear();                                         // Clear the error flag
                             cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                            cout << "Invalid input. Please enter a character.\n";
+                            cout <<ANSI_COLOR_RED<< "Invalid input. Please enter a character.\n"<<ANSI_COLOR_RESET;
                             continue; // Ask for input again
                         }
                         if (choice == 'n' && current->next != nullptr)
@@ -1229,7 +1228,7 @@ int main()
             getline(cin, categoryname);
             if (categoryname.find(' ') != string::npos)
             {
-                cout << "\nCategory name cannot contain spaces.\n";
+                cout <<ANSI_COLOR_RED<< "\nCategory name cannot contain spaces.\n"<<ANSI_COLOR_RESET;
                 continue;
             }
             // Check if there is whitespace in the name
@@ -1250,7 +1249,7 @@ int main()
             getline(cin, categoryname);
             if (categoryname.find(' ') != string::npos)
             {
-                cout << "\nCategory name cannot contain spaces.\n";
+                cout <<ANSI_COLOR_RED<< "\nCategory name cannot contain spaces.\n"<<ANSI_COLOR_RESET;
                 continue;
             }
             for (int i = 0; i < usercollection.taskCount; i++)
