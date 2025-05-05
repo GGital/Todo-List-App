@@ -226,6 +226,13 @@ public:
         cout << ANSI_COLOR_RW9 << "  Enter Task's Priority: " << ANSI_COLOR_RESET;
         cin.clear();
     }
+    void SearchCategoryUI()
+    {
+
+        cout << "***************\n";
+        cout << "Search By Category Menu.\n\n";
+        cout << "Enter Task's Category: ";
+    }
 };
 
 class CategoryUI
