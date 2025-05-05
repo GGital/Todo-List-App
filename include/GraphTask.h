@@ -165,8 +165,6 @@ public:
                 DoublyLinkedList<Task>::Node *current = list->head;
                 while (current != nullptr)
                 {
-                    // cout << "Check2" << endl;
-                    // cout << current->data.taskID << endl; // Print the task ID of the current node
                     inDegree[current->data.taskID]--; // Decrease in-degree of adjacent vertices
                     if (inDegree[current->data.taskID] == 0 && edgeList[current->data.taskID] != nullptr)
                     {
@@ -176,9 +174,5 @@ public:
                 }
             }
         }
-        // delete[] inDegree;                             // Clean up the in-degree array
-        // delete q;                                      // Clean up the queue
-        // cout << "Check3" << endl;
-        // cout << "Topological Sort completed." << endl; // Print completion message
     }
 };

@@ -11,13 +11,6 @@
 #include <HashMapWithDLL.h>
 using namespace std;
 
-enum Priority
-{
-    Low,
-    Medium,
-    High
-};
-
 class UserCollections
 {
 
