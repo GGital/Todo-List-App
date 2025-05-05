@@ -62,7 +62,7 @@ private:
 
 public:
     // Constructor to initialize the priority queue
-    MaxPriorityQueue(int initialCapacity = 10)
+    MaxPriorityQueue(int initialCapacity = 1005)
     {
         capacity = initialCapacity;
         size = 0;
@@ -81,8 +81,8 @@ public:
         if (size == capacity)
             resize();
         heap[size] = {val, prio};
-        heapifyUp(size);
         ++size;
+        heapifyUp(size - 1); // Fix is here
     }
 
     T pop()
@@ -110,11 +110,11 @@ public:
     // Get the array of sorted elements
     T *getSortedArray()
     {
-        T *sortedArray = new T[size];
-        int tempSize = size; // Store the original size
+        int tempSize = size; // store before modifying
+        T *sortedArray = new T[tempSize];
         for (int i = 0; i < tempSize; i++)
         {
-            sortedArray[i] = pop(); // Pop elements to get them in sorted order
+            sortedArray[i] = pop();
         }
         return sortedArray;
     }

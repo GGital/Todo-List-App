@@ -376,6 +376,7 @@ void UserCollections::DisplayTasks()
         string duedate = to_string(sortedTask[i].dueDate.tm_year + 1900) + "-" + to_string(sortedTask[i].dueDate.tm_mon + 1) + "-" + to_string(sortedTask[i].dueDate.tm_mday);
         cout << ANSI_COLOR_CYAN << setw(10) << sortedTask[i].taskID << "\t" << ANSI_COLOR_RESET << setw(20) << sortedTask[i].name << "\t" << setw(20) << sortedTask[i].category << "\t" << setw(20) << sortedTask[i].status << "\t" << setw(20) << sortedTask[i].priority << "\t" << setw(20) << duedate << endl;
     }
+
     cout << "==================================================================================================================================================\n"
          << endl;
 }
