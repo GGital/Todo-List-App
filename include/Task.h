@@ -38,9 +38,8 @@ struct Task
         dueDate = *localtime(&now); // Initialize dueDate to current date and time
     }
 
-    Task() : taskID(0), name(""), description(""), status(""), priority("")
+    Task() : taskID(0), name(""), description(""), category("Uncategorized"), status("Not started"), priority("")
     {
-        category = "General";
         time_t now = time(0);
         dueDate = *localtime(&now); // Initialize dueDate to current date and time
     }
@@ -100,5 +99,35 @@ struct Task
            << "Priority: " << task.priority << "\n"
            << "Due Date: " << asctime(&task.dueDate) << "\n";
         return os;
+    }
+
+    int priorityValue() const
+    {
+        if (priority == "High")
+            return 3;
+        else if (priority == "Medium")
+            return 2;
+        else if (priority == "Low")
+            return 1;
+        else
+            return 0; // Default value for invalid priority
+    }
+
+    // Comparator for sorting tasks by priority
+    bool operator<(const Task &other) const
+    {
+        if (priorityValue() == other.priorityValue())
+        {
+            if (dueDate.tm_year == other.dueDate.tm_year)
+            {
+                if (dueDate.tm_mon == other.dueDate.tm_mon)
+                {
+                    return dueDate.tm_mday < other.dueDate.tm_mday;
+                }
+                return dueDate.tm_mon < other.dueDate.tm_mon;
+            }
+            return dueDate.tm_year < other.dueDate.tm_year;
+        }
+        return priorityValue() < other.priorityValue();
     }
 };

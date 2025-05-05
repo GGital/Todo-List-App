@@ -1,12 +1,18 @@
 # Compiler
 CXX := g++
-CXXFLAGS := -Wall -Wextra -std=c++17 -Iinclude
+CXXFLAGS := -Wall -Wextra -std=c++17 -Iinclude -IC:\SFML-2.6.2\include -DSFML_STATIC
+
+# SFML static libraries and required dependencies
+LDFLAGS := -LC:\SFML-2.6.2\lib \
+           -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lsfml-audio-s \
+		   -lfreetype -lopengl32 -lwinmm -lgdi32
 
 # Directories
 SRC_DIR := src
 BUILD_DIR := build
 P_DIR := -p
-# Find all .cpp files using wildcard (Works in Windows)
+
+# Find all .cpp files using wildcard (Windows-compatible)
 SOURCES := $(wildcard $(SRC_DIR)/**/*.cpp) $(wildcard $(SRC_DIR)/*.cpp)
 
 # Convert .cpp filenames into corresponding .o object file paths in build/
@@ -20,7 +26,7 @@ all: $(TARGET)
 
 # Link all object files to create the final executable
 $(TARGET): $(OBJECTS)
-	$(CXX) $(OBJECTS) -o $(TARGET)
+	$(CXX) $(OBJECTS) -o $(TARGET) $(LDFLAGS)
 
 # Compile .cpp files into .o object files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_DIR)
@@ -40,5 +46,5 @@ clean:
 run: $(TARGET)
 	./$(TARGET)
 
-# Phony targets to avoid conflicts with files named 'all', 'clean', etc.
+# Phony targets
 .PHONY: all clean run

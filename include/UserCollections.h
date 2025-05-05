@@ -7,14 +7,9 @@
 #include <iomanip>
 #include <sstream>
 #include <Task.h>
+#include <Max-Priority-Queue.h>
+#include <HashMapWithDLL.h>
 using namespace std;
-
-enum Priority
-{
-    Low,
-    Medium,
-    High
-};
 
 class UserCollections
 {
@@ -28,6 +23,12 @@ public:
     int categoryCount;
     int taskCount;
     FileManagement fileManager;
+
+    HashMapDLL<string, Task> taskHashMapCategory = HashMapDLL<string, Task>(1005); // HashMap for searching tasks by category
+    HashMapDLL<string, Task> taskHashMapPriority = HashMapDLL<string, Task>(1005); // HashMap for searching tasks by priority
+
+    MaxPriorityQueue<Task> taskQueue; // Max priority queue for tasks
+
     UserCollections(int id, string u, string p) : userId(id), username(u), password(p), categoryCount(0), taskCount(0)
     {
         for (int i = 0; i < 1005; i++)
@@ -35,9 +36,13 @@ public:
             tasks[i] = nullptr;
             categories[i] = nullptr;
         }
-        cout << "User ID: " << userId << endl;
+
+        taskQueue = MaxPriorityQueue<Task>(1005);
+
+        // cout << "User ID: " << userId << endl;
         ReadTasksFromFile();
         ReadCategoriesFromFile();
+        InitializeTaskQueue();
     }
     // Destructor to clean up dynamically allocated memory
     ~UserCollections()
@@ -73,13 +78,7 @@ public:
     Parameter : None
     Description : This function displays all categories in the categories array.
     */
-    void DisplayCategories()
-    {
-        for (int i = 0; i < categoryCount; i++)
-        {
-            cout << *categories[i] << endl;
-        }
-    }
+    void DisplayCategories();
 
     /* AddTask
     Parameter : (Task task)
@@ -113,6 +112,12 @@ public:
     void EditTask(int taskID, Task newTask);
     void EditTask(string taskName, Task newTask);
 
+    /*EditTaskCategory
+    Parameter : (int taskID, string category) OR (string taskName, string category)
+    Description : This function edits the category of an existing task in the tasks array and updates it in the tasks.csv file.
+    */
+    void EditTaskCategory(int taskID, string category);
+    void EditTaskCategory(string taskName, string category);
     /*TestAddFunction
     Parameter : None
     Description : This function is used for testing mandatory functions in the UserCollections class.
@@ -126,6 +131,12 @@ public:
         AddTask(Task("Test Task 3", "Test Description 3", "In Progress", "Low", "2025-11-24"));
         AddTask(Task("Test Task 4", "Test Description 4", "Completed", "High", "2025-11-24"));
     }
+
+    /*CheckDuplicate
+    Parameter : (string taskName)
+    Description : This function checks if a task with the same name already exists in the tasks array.
+    */
+    bool CheckDuplicate(string taskName);
 
     /*TestRemoveFunction
     Parameter : None
@@ -177,4 +188,36 @@ public:
      Description : This function removes all categories from the categories array and deletes them from the categories.csv file.
      */
     void RemoveAllCategories();
+
+    /*SearchTask
+    Parameter : (string taskName) OR (int taskID)
+    Description : This function searches for a task by its name in the tasks array and returns the task if found.
+    */
+    Task *SearchTask(string taskName);
+    Task *SearchTask(int taskID);
+
+    /* InitializeHashMap
+    Parameter : None
+    Description : This function initializes the hash map for searching tasks by category and priority.
+    */
+    void InitializeHashMap();
+
+    /*SearchCategory
+    Parameter : (string categoryName)
+    Description : This function searches for tasks by their category in the tasks array using the concept of hash table chaining with doubly linked list.
+    */
+    DoublyLinkedList<Task> *SearchCategory(string categoryName);
+
+    /*SearchPriority
+    Parameter : (string priorityName)
+    Description : This function searches for tasks by their priority in the tasks array using the concept of hash table chaining with doubly linked list.
+    */
+    DoublyLinkedList<Task> *SearchPriority(string priorityName);
+
+    /*
+    InitializeTaskQueue
+    Parameter : None
+    Description : This function initializes the task queue with tasks from the tasks array.
+    */
+    void InitializeTaskQueue();
 };
