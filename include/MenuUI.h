@@ -81,6 +81,10 @@ public:
              << ANSI_COLOR_RESET;
         cout << ANSI_COLOR_RW15 << "│ " << ANSI_COLOR_RESET ANSI_COLOR_RW15 << "   8.Delete Category.   " << ANSI_COLOR_RESET ANSI_COLOR_RW15 << "                                   │\n"
              << ANSI_COLOR_RESET;
+        cout << ANSI_COLOR_RW15 << "│ " << ANSI_COLOR_RESET ANSI_COLOR_RW16 << "   9.View All Categories.   " << ANSI_COLOR_RESET ANSI_COLOR_RW16 << "                               │\n"
+             << ANSI_COLOR_RESET;
+        cout << ANSI_COLOR_RW15 << "│ " << ANSI_COLOR_RESET ANSI_COLOR_RW17 << "   0.Logout.                " << ANSI_COLOR_RESET ANSI_COLOR_RW17 << "                               │\n"
+             << ANSI_COLOR_RESET;
         cout << ANSI_COLOR_RED << "╰────────────────────────────────────────────────────────────╯\n\n"
              << ANSI_COLOR_RESET;
         cout << ANSI_COLOR_GREEN2 << "Enter your choice: " << ANSI_COLOR_RESET;
@@ -177,13 +181,13 @@ public:
              << ANSI_COLOR_RESET;
         cout << ANSI_COLOR_RW9 << "│     1.Search By Name.                                      │\n"
              << ANSI_COLOR_RESET;
-        cout << ANSI_COLOR_RW9 << "│     2.Search By Task ID.\n                                 │\n"
+        cout << ANSI_COLOR_RW9 << "│     2.Search By Task ID.                                   │\n"
              << ANSI_COLOR_RESET;
         cout << ANSI_COLOR_RW9 << "│     3.Search By Priority Level.                            │\n"
              << ANSI_COLOR_RESET;
-        cout << ANSI_COLOR_RW9 << "│  " << ANSI_COLOR_RESET ANSI_COLOR_ORANGE2 << "   4.Exit.         " << ANSI_COLOR_RESET ANSI_COLOR_RW9 << "                                       │\n"
+        cout << ANSI_COLOR_RW9 << "│     4.Search By Category.                                  │\n"
              << ANSI_COLOR_RESET;
-        cout << ANSI_COLOR_RW9 << "│                                                            │\n"
+        cout << ANSI_COLOR_RW9 << "│  " << ANSI_COLOR_RESET ANSI_COLOR_ORANGE2 << "   5.Exit         " << ANSI_COLOR_RESET ANSI_COLOR_RW9 << "                                        │\n"
              << ANSI_COLOR_RESET;
         cout << ANSI_COLOR_RW9 << "╰────────────────────────────────────────────────────────────╯\n\n"
              << ANSI_COLOR_RESET;
@@ -228,10 +232,13 @@ public:
     }
     void SearchCategoryUI()
     {
-
-        cout << "***************\n";
-        cout << "Search By Category Menu.\n\n";
-        cout << "Enter Task's Category: ";
+     cout << ANSI_COLOR_RW9 << "╭──────────────────────────╮\n"
+     << ANSI_COLOR_RESET;
+     cout << ANSI_COLOR_RW9 << "│ Search By Category Menu. │\n"
+     << ANSI_COLOR_RESET;
+     cout << ANSI_COLOR_RW9 << "╰──────────────────────────╯\n\n"
+     << ANSI_COLOR_RESET;
+     
     }
 };
 

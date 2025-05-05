@@ -47,7 +47,8 @@
 #define ANSI_COLOR_RW13 "\x1b[38;5;223m"  // ส้มอ่อน
 #define ANSI_COLOR_RW14 "\x1b[38;5;215m"  // ส้มกลาง
 #define ANSI_COLOR_RW15 "\x1b[38;5;209m"  // แสด
-
+#define ANSI_COLOR_RW16 "\x1b[38;5;203m"  // แดงพาสเทล (soft red)
+#define ANSI_COLOR_RW17 "\x1b[38;5;198m"
 //โทนเขียว
 #define ANSI_COLOR_GREENFAINT    "\x1b[38;5;152m"
 #define ANSI_COLOR_GREENLIGHTER2 "\x1b[38;5;118m"
