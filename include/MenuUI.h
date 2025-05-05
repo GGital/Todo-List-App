@@ -104,7 +104,7 @@ public:
              << ANSI_COLOR_RESET;
         cout << ANSI_COLOR_RW5 << "│   2.Remove By Task ID.                                     │\n"
              << ANSI_COLOR_RESET;
-        cout << ANSI_COLOR_RW5 << "│ " << ANSI_COLOR_RESET ANSI_COLOR_ORANGE2 << "  3.Exit.   " << ANSI_COLOR_RESET ANSI_COLOR_RW5 << "                                              │\n"
+        cout << ANSI_COLOR_RW5 << "│ " << ANSI_COLOR_RESET ANSI_COLOR_ORANGE2 << "  3.Exit.   " << ANSI_COLOR_RESET ANSI_COLOR_RW5 << "                                               │\n"
              << ANSI_COLOR_RESET;
         cout << ANSI_COLOR_RW5 << "│                                                            │\n"
              << ANSI_COLOR_RESET;

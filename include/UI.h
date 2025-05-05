@@ -48,6 +48,11 @@
 #define ANSI_COLOR_RW14 "\x1b[38;5;215m"  // ส้มกลาง
 #define ANSI_COLOR_RW15 "\x1b[38;5;209m"  // แสด
 
+//โทนเขียว
+#define ANSI_COLOR_GREENFAINT    "\x1b[38;5;152m"
+#define ANSI_COLOR_GREENLIGHTER2 "\x1b[38;5;118m"
+#define ANSI_COLOR_GREENLIGHTER1 "\x1b[38;5;119m"
+
 #define ANSI_COLOR_RESET "\x1b[0m"
 
 
