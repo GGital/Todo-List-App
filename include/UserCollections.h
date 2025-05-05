@@ -26,6 +26,8 @@ public:
 
     HashMapDLL<string, Task> taskHashMapCategory = HashMapDLL<string, Task>(1005); // HashMap for searching tasks by category
     HashMapDLL<string, Task> taskHashMapPriority = HashMapDLL<string, Task>(1005); // HashMap for searching tasks by priority
+    HashMapDLL<string, Task> taskHashMapName = HashMapDLL<string, Task>(1005);     // HashMap for searching tasks by name
+    HashMapDLL<int, Task> taskHashMapID = HashMapDLL<int, Task>(1005);             // HashMap for searching tasks by ID
 
     MaxPriorityQueue<Task> taskQueue; // Max priority queue for tasks
 

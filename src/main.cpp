@@ -158,6 +158,7 @@ int main()
     {
 
         mainmenu.showMainMenu();
+        usercollection.RemindTask();
         cin >> MainChoice;
 
         if (cin.fail())

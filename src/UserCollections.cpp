@@ -430,30 +430,14 @@ void UserCollections::RemoveAllCategories()
 
 Task *UserCollections::SearchTask(string taskName)
 {
-    for (int i = 0; i < taskCount; i++)
-    {
-        if (tasks[i]->name == taskName)
-        {
-            return tasks[i];
-        }
-    }
-    cout << "\nTask not found.\n"
-         << endl;
-    return nullptr;
+    DoublyLinkedList<Task> *result = taskHashMapName.getList(taskName);
+    return &result->head->data;
 }
 
 Task *UserCollections::SearchTask(int taskID)
 {
-    for (int i = 0; i < taskCount; i++)
-    {
-        if (tasks[i]->taskID == taskID)
-        {
-            return tasks[i];
-        }
-    }
-    cout << "\nTask not found.\n"
-         << endl;
-    return nullptr;
+    DoublyLinkedList<Task> *result = taskHashMapID.getList(taskID);
+    return &result->head->data;
 }
 
 void UserCollections::InitializeHashMap()
@@ -461,11 +445,14 @@ void UserCollections::InitializeHashMap()
     // Clear the hash maps first
     taskHashMapCategory.clear();
     taskHashMapPriority.clear();
-
+    taskHashMapName.clear();
+    taskHashMapID.clear();
     for (int i = 0; i < taskCount; i++)
     {
         taskHashMapCategory.insert(tasks[i]->category, *tasks[i]);
         taskHashMapPriority.insert(tasks[i]->priority, *tasks[i]);
+        taskHashMapName.insert(tasks[i]->name, *tasks[i]);
+        taskHashMapID.insert(tasks[i]->taskID, *tasks[i]);
     }
 }
 
