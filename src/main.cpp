@@ -189,18 +189,18 @@ int main()
             }
             if (usercollection.CheckDuplicate(name))
             {
-                cout <<ANSI_COLOR_GREEN2<< "\nTask name already exists.\n"<<ANSI_COLOR_RESET;
+                cout << ANSI_COLOR_RED << "\nTask name already exists.\n"<<ANSI_COLOR_RESET;
                 continue;
             }
 
             cout << ANSI_COLOR_RW4 << "   Enter task's description: " << ANSI_COLOR_RESET;
             getline(cin, desc);
 
-            cout << ANSI_COLOR_RW1 << "   [0] Uncategorized\n\n"
+            cout << ANSI_COLOR_RW1 << "   [0] Uncategorized\n"
                  << ANSI_COLOR_RESET;
             for (int i = 0; i < usercollection.categoryCount; i++)
             {
-                cout << "[" << i + 1 << "] " << *usercollection.categories[i] << endl;
+                cout  << ANSI_COLOR_RW1<< "   [" << i + 1 << "] " << *usercollection.categories[i] <<ANSI_COLOR_RESET<< endl;
             }
 
             cout << ANSI_COLOR_RW4 << "   Enter task's category: " << ANSI_COLOR_RESET;
@@ -483,7 +483,7 @@ int main()
                             }
                             if (usercollection.CheckDuplicate(newname))
                             {
-                                cout << ANSI_COLOR_GREEN2<< "\nTask name already exists.\n"<< ANSI_COLOR_RESET;
+                                cout << ANSI_COLOR_RED<< "\nTask name already exists.\n"<< ANSI_COLOR_RESET;
                                 continue;
                             }
 
@@ -494,7 +494,7 @@ int main()
                                  << ANSI_COLOR_RESET;
                             for (int i = 0; i < usercollection.categoryCount; i++)
                             {
-                                cout << "[" << i + 1 << "] " << *usercollection.categories[i] << endl;
+                                cout << ANSI_COLOR_RW6<< "  [" << i + 1 << "] " << ANSI_COLOR_RESET<< *usercollection.categories[i] << endl;
                             }
                             cout << ANSI_COLOR_RW7 << "  Enter task's category: " << ANSI_COLOR_RESET;
                             int categoryIndex;
@@ -622,7 +622,7 @@ int main()
                             cout <<ANSI_COLOR_RW6<< "  [0] Uncategorized\n"<<ANSI_COLOR_RESET;
                             for (int i = 0; i < usercollection.categoryCount; i++)
                             {
-                                cout << "  [" << i + 1 << "] " << *usercollection.categories[i] << endl;
+                                cout <<ANSI_COLOR_RW6<< "  [" << i + 1 << "] " << *usercollection.categories[i] <<ANSI_COLOR_RESET<< endl;
                             }
                             cout <<ANSI_COLOR_RW7<< "  Enter task's category: "<<ANSI_COLOR_RESET;
                             int categoryIndex;
@@ -631,7 +631,7 @@ int main()
                             {
                                 cin.clear();                                         // Clear the error flag
                                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                                cout << ANSI_COLOR_RED << "Invalid input. Please enter a number.\n"<< ANSI_COLOR_RED;
+                                cout << ANSI_COLOR_RED << "Invalid input. Please enter a number.\n"<< ANSI_COLOR_RESET;
                                 continue; // Ask for input again
                             }
                             // cout << categoryIndex << endl;
@@ -704,10 +704,10 @@ int main()
                             cout << ANSI_COLOR_RW7 << "\n  Enter task description: " << ANSI_COLOR_RESET;
                             getline(cin, newdesc);
 
-                            cout << "  [0] Uncategorized\n";
+                            cout <<ANSI_COLOR_RW6<< "  [0] Uncategorized\n"<<ANSI_COLOR_RESET;
                             for (int i = 0; i < usercollection.categoryCount; i++)
                             {
-                                cout << "  [" << i + 1 << "] " << *usercollection.categories[i] << endl;
+                                cout <<ANSI_COLOR_RW6<< "  [" << i + 1 << "] " << *usercollection.categories[i]<<ANSI_COLOR_RESET << endl;
                             }
                             cout <<ANSI_COLOR_RW7<< "  Enter task's category: "<<ANSI_COLOR_RESET;
                             int categoryIndex;
@@ -827,7 +827,7 @@ int main()
                             cout <<ANSI_COLOR_RW6<< "  [0] Uncategorized\n"<<ANSI_COLOR_RESET;
                             for (int i = 0; i < usercollection.categoryCount; i++)
                             {
-                                cout << "  [" << i + 1 << "] " << *usercollection.categories[i] << endl;
+                                cout <<ANSI_COLOR_RW6<< "  [" << i + 1 << "] " << *usercollection.categories[i] <<ANSI_COLOR_RESET<< endl;
                             }
                             cout <<ANSI_COLOR_RW7<< "  Enter task's category: "<<ANSI_COLOR_RESET;
                             int categoryIndex;
@@ -1036,7 +1036,7 @@ int main()
                     searchUI.SearchCategoryUI();
                     for (int i = 0; i < usercollection.categoryCount; i++)
                     {
-                        cout << "  [" << i + 1 << "] " << *usercollection.categories[i] << endl;
+                        cout <<ANSI_COLOR_GREENLIGHTER1<< "  [" << i + 1 << "] " << *usercollection.categories[i] <<ANSI_COLOR_RESET<< endl;
                     }
                     cout <<ANSI_COLOR_RW9<< "  Enter task's category: "<<ANSI_COLOR_RESET;
                     int categoryIndex;
