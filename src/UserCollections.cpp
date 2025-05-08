@@ -388,16 +388,16 @@ void UserCollections::DisplayCategories()
         cout << ANSI_COLOR_RED << "No category available.\n"
              << ANSI_COLOR_RESET;
     }
-    cout << "==================================================================================================================================================\n";
-    cout << ANSI_COLOR_YELLOW << "                                                                       Category list" << ANSI_COLOR_RESET << endl;
-    cout << "==================================================================================================================================================\n"
+    cout << "===================================\n";
+    cout << ANSI_COLOR_YELLOW << "        Category list" << ANSI_COLOR_RESET << endl;
+    cout << "===================================\n"
          << endl;
     cout << setw(20) << "Category Name" << endl;
     for (int i = 0; i < categoryCount; i++)
     {
         cout << ANSI_COLOR_CYAN << setw(20) << *categories[i] << ANSI_COLOR_RESET << endl;
     }
-    cout << "==================================================================================================================================================\n"
+    cout << "===================================\n"
          << endl;
 }
 

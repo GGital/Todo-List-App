@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <Task.h>
+#include <ctime>
 #include <UserCollections.h>
 #include <Doubly-Linked-List.h>
 #include <Queue.h>
@@ -73,22 +74,55 @@ public:
     void BuildGraph(UserCollections &userCollections)
     {
         SyncwithUserCollections(userCollections); // Sync tasks with UserCollections
+
+        // Get the current date
+        time_t now = time(0);
+        tm *currentDate = localtime(&now);
+
         for (int i = 0; i < 1005; i++)
         {
             for (int j = 0; j < 1005; j++)
             {
-                // cout << "Task i : " << i << " Task j: " << j << endl;
                 if (i == j)
-                    continue;     // Skip self-loops
+                    continue; // Skip self-loops
+
                 Task a = task[i]; // Get the task at index i
                 Task b = task[j];
+
+                if (a.status == "Completed" || b.status == "Completed")
+                    continue; // Skip if either task is completed
+
                 if (a.taskID == -1 || b.taskID == -1)
                     continue; // Skip if task ID is -1 (not assigned)
-                if (priorityToInt(a.priority) > priorityToInt(b.priority))
+
+                // Calculate days until due date for task a and task b
+                int daysUntilDueA = (a.dueDate.tm_year - currentDate->tm_year) * 365 +
+                                    (a.dueDate.tm_mon - currentDate->tm_mon) * 30 +
+                                    (a.dueDate.tm_mday - currentDate->tm_mday);
+
+                int daysUntilDueB = (b.dueDate.tm_year - currentDate->tm_year) * 365 +
+                                    (b.dueDate.tm_mon - currentDate->tm_mon) * 30 +
+                                    (b.dueDate.tm_mday - currentDate->tm_mday);
+
+                // Adjust priority dynamically based on due date proximity
+                int adjustedPriorityA = priorityToInt(a.priority);
+                int adjustedPriorityB = priorityToInt(b.priority);
+
+                if (daysUntilDueA <= 2) // Very close to the deadline
+                    adjustedPriorityA += 2;
+                if (daysUntilDueB <= 2) // Very close to the deadline
+                    adjustedPriorityB += 2;
+
+                if (daysUntilDueA <= 1)
+                    adjustedPriorityA += 3;
+                if (daysUntilDueB <= 1)
+                    adjustedPriorityB += 3;
+
+                if (adjustedPriorityA > adjustedPriorityB)
                 {
                     AddEdge(a.taskID, b.taskID);
                 }
-                else if (priorityToInt(a.priority) == priorityToInt(b.priority))
+                else if (adjustedPriorityA == adjustedPriorityB)
                 {
                     if (earlierDueDate(a, b))
                     {
