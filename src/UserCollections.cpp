@@ -96,7 +96,7 @@ void UserCollections::AddTask(Task task)
     cout << task.taskID << "," << task.name << "," << task.description << "," << task.category << "," << task.status << "," << task.priority << ",";
     cout << put_time(&task.dueDate, "%Y-%m-%d") << endl;
     fileManager.CloseFile();
-    taskQueue.insert(task, task.priorityValue());
+    taskQueue.insert(task);
 }
 
 void UserCollections::AddCategory(string category)
@@ -403,13 +403,15 @@ void UserCollections::DisplayCategories()
 
 void UserCollections::RemindTask()
 {
-    time_t now = time(0);
-    struct tm t = *localtime(&now);
     for (int i = 0; i < taskCount; i++)
     {
-        if (tasks[i]->dueDate.tm_year == t.tm_year && tasks[i]->dueDate.tm_mon == t.tm_mon && tasks[i]->dueDate.tm_mday == t.tm_mday)
+        if (tasks[i]->daysUntilDue() <= 2 && tasks[i]->daysUntilDue() > 0 && tasks[i]->status != "Completed")
         {
-            cout << ANSI_COLOR_RED << "Task Name: " << tasks[i]->name << " is due today!" << ANSI_COLOR_RESET << endl;
+            cout << ANSI_COLOR_RED << "Reminder: Task " << tasks[i]->name << " is due in " << tasks[i]->daysUntilDue() << " days." << ANSI_COLOR_RESET << endl;
+        }
+        else if (tasks[i]->daysUntilDue() <= 7 && tasks[i]->daysUntilDue() > 0 && tasks[i]->status != "Completed")
+        {
+            cout << ANSI_COLOR_YELLOW << "Reminder: Task " << tasks[i]->name << " is due in " << tasks[i]->daysUntilDue() << " days." << ANSI_COLOR_RESET << endl;
         }
     }
 }
@@ -484,6 +486,6 @@ void UserCollections::InitializeTaskQueue()
     taskQueue.clear();
     for (int i = 0; i < taskCount; i++)
     {
-        taskQueue.insert(*tasks[i], tasks[i]->priorityValue());
+        taskQueue.insert(*tasks[i]);
     }
 }

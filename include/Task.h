@@ -118,21 +118,50 @@ struct Task
             return 0; // Default value for invalid priority
     }
 
+    int daysUntilDue() const
+    {
+        time_t now = time(0);
+        tm *currentDate = localtime(&now);
+        int days = (dueDate.tm_year - currentDate->tm_year) * 365 +
+                   (dueDate.tm_mon - currentDate->tm_mon) * 30 +
+                   (dueDate.tm_mday - currentDate->tm_mday);
+        return days;
+    }
+
+    int sumPriortyValue() const
+    {
+        int sum = priorityValue();
+        if (daysUntilDue() <= 2) // Very close to the deadline
+            sum += 2;
+        if (daysUntilDue() <= 1) // Very close to the deadline
+            sum += 3;
+        if (status == "Completed")
+            sum -= 10;
+        return sum;
+    }
+
     // Comparator for sorting tasks by priority
     bool operator<(const Task &other) const
     {
-        if (priorityValue() != other.priorityValue())
-            return priorityValue() < other.priorityValue();
+        if (sumPriortyValue() != other.sumPriortyValue())
+            return sumPriortyValue() < other.sumPriortyValue();
 
-        // Earlier due date first
-        if (dueDate.tm_year != other.dueDate.tm_year)
-            return dueDate.tm_year > other.dueDate.tm_year; // Earlier year first
-        if (dueDate.tm_mon != other.dueDate.tm_mon)
-            return dueDate.tm_mon > other.dueDate.tm_mon; // Earlier month first
-        if (dueDate.tm_mday != other.dueDate.tm_mday)
-            return dueDate.tm_mday > other.dueDate.tm_mday; // Earlier day first
+        if (daysUntilDue() != other.daysUntilDue())
+            return daysUntilDue() > other.daysUntilDue();
 
         // Tie-breaking: Compare by task name (alphabetical order)
         return name < other.name;
+    }
+
+    bool operator>(const Task &other) const
+    {
+        if (sumPriortyValue() != other.sumPriortyValue())
+            return sumPriortyValue() > other.sumPriortyValue();
+
+        if (daysUntilDue() != other.daysUntilDue())
+            return daysUntilDue() < other.daysUntilDue();
+
+        // Tie-breaking: Compare by task name (alphabetical order)
+        return name > other.name;
     }
 };
